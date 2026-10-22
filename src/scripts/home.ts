@@ -214,7 +214,7 @@ function skillsScene(mobile: boolean) {
 function credScene(mobile: boolean) {
   // Field-notes recipe per item, timed to the section slot so the list is settled when it lands.
   document.querySelectorAll<HTMLElement>('.cred-section').forEach(section => {
-    section.querySelectorAll<HTMLElement>('.cred-item').forEach((item, i) => gsap.from(item, { x: (i % 2 ? 1 : -1) * innerWidth * (mobile ? .4 : .8), rotation: i % 2 ? 12 : -12, opacity: 0, force3D: true, ease: 'none', scrollTrigger: { trigger: section, start: `top ${95 - i * 8}%`, end: `top ${30 - i * 6}%`, scrub: .6 } }));
+    section.querySelectorAll<HTMLElement>('.cred-item').forEach((item, i) => gsap.from(item, { x: (i % 2 ? 1 : -1) * innerWidth * (mobile ? .4 : .8), rotation: i % 2 ? 20 : -20, opacity: 0, force3D: true, ease: 'none', scrollTrigger: { trigger: section, start: `top ${95 - i * 8}%`, end: `top ${30 - i * 6}%`, scrub: .6 } }));
   });
 }
 
