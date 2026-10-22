@@ -3,13 +3,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const clock = document.getElementById('local-clock');
-function updateClock() {
-  if (clock) clock.textContent = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit', hour12: true }).format(new Date());
-}
-updateClock();
-setInterval(updateClock, 30_000);
-
 function splitText(el: HTMLElement, byWord = false) {
   const nodes: Text[] = [];
   const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
@@ -163,7 +156,6 @@ function heroScene() {
   const letters = [...splitText(title.querySelector<HTMLElement>('.name-tim')!), ...splitText(title.querySelector<HTMLElement>('.name-otholt')!)];
   gsap.from(letters, { x: i => (i%2 ? 1 : -1)*Math.min(innerWidth*.65,600), opacity:0, duration:.9, stagger:.045, ease:'power3.out', clearProps:'transform,opacity' });
   gsap.fromTo(portrait, { '--scan': '0%' }, { '--scan': '50%', ease:'none', scrollTrigger:{ trigger:'.hero', start:'top top', end:'40% top', scrub:.6 } });
-  gsap.to('.hero .portrait-caption', { y:-45, opacity:.55, ease:'none', scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:true } });
 }
 function chipScene() {
   gsap.fromTo('.chip-section .bios-chip', { scale:.6, rotationY:-16, rotationZ:-7 }, { scale:2.5, rotationY:9, rotationZ:4, ease:'none', scrollTrigger:{trigger:'.chip-section',start:'top bottom',end:'bottom top',scrub:.6} });
@@ -219,22 +211,12 @@ function experienceScene(mobile: boolean) {
   rows.forEach((row, i) => gsap.from(row, { x: (i % 2 ? 1 : -1) * innerWidth * (mobile ? .4 : .8), rotation: i % 2 ? 12 : -12, opacity: 0, force3D: true, ease: 'none', scrollTrigger: { trigger: row, start: 'top 95%', end: 'top 35%', scrub: .6 } }));
 }
 
-function contactScene() {
-  const section = document.querySelector<HTMLElement>('#contact');
-  const mail = section?.querySelector<HTMLElement>('.contact-mail');
-  if (!section || !mail) return;
-  // Preserve the arrow and link semantics; split only the text node.
-  let label = mail.querySelector<HTMLElement>('.mail-label');
-  if (!label) { label = document.createElement('span'); label.className = 'mail-label'; label.textContent = 'tim@timotholt.com'; mail.replaceChild(label, mail.firstChild!); }
-  const letters = splitText(label);
-  gsap.from(letters, { x: i => Math.sin((i + 1) * 13.2) * innerWidth * .8, y: i => Math.cos((i + 1) * 9.1) * innerHeight * .7, z: i => Math.sin(i * 7.1) * 700, rotationY: i => Math.sin(i * 4.7) * 130, opacity: 0, stagger: .018, force3D: true, ease: 'none', scrollTrigger: { trigger: section, start: 'top 75%', end: 'top 15%', scrub: .6 } });
-}
 
 
 mm.add('(prefers-reduced-motion: reduce)', () => { gsap.set('.portrait', {'--scan':'50%'}); updateRail(); });
 mm.add({desktop:'(min-width: 768px) and (prefers-reduced-motion: no-preference)',mobile:'(max-width: 767px) and (prefers-reduced-motion: no-preference)'}, context => {
   const mobile=!!context.conditions?.mobile;
-  heroScene(); chipScene(); profileScene(mobile); projectScene(mobile); skillsScene(mobile); postScene(); experienceScene(mobile); contactScene();
+  heroScene(); chipScene(); profileScene(mobile); projectScene(mobile); skillsScene(mobile); postScene(); experienceScene(mobile);
   gsap.to('body',{backgroundPositionY:'200px',ease:'none',scrollTrigger:{start:0,end:'max',scrub:true}});
   requestAnimationFrame(()=>ScrollTrigger.refresh());
 });

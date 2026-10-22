@@ -17,11 +17,7 @@ Each featured project is one Markdown file in `src/content/projects/`. Frontmatt
 
 ## Tim review checklist
 
-- TODO(tim): Add an approved `public/headshot.jpg` to enable the optional hero portrait. The waveform is the hero art when no photo exists.
-- TODO(tim): Confirm the hero title line, public location (`Los Angeles, CA`), and `America/Los_Angeles` clock timezone.
 - TODO(tim): Approve the six featured projects and all draft copy, especially the Galaxy Demo description and outcome. Confirm a public year for each project; the datasheets currently direct readers to the repository.
-- TODO(tim): Supply a LinkedIn URL; the site currently shows a placeholder.
-- TODO(tim): Supply an approved resume PDF as `public/resume.pdf`, then replace the Contact placeholder with a download link.
 - TODO(tim): Add approved project media as `public/projects/<slug>.png`, `.jpg`, `.webp`, or `.mp4`. Until then, project-specific schematics appear on cards and case studies.
 - TODO(tim): Publish and verify live demo URLs for Firmware CalGen, MCP Logger, and Galaxy Demo. Their case studies currently link to repositories only.
 

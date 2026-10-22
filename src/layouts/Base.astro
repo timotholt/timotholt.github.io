@@ -1,9 +1,16 @@
 ---
 import '../styles/global.css';
+import { contact } from '../data/contact';
 interface Props { title: string; description: string; image?: string }
 const { title, description, image = '/og-image.svg' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
+const person = {
+  '@context': 'https://schema.org', '@type': 'Person', name: contact.name,
+  jobTitle: contact.title, email: contact.emailHref, telephone: '+14084061832',
+  url: Astro.site?.toString(), sameAs: [contact.linkedinHref, contact.githubHref],
+  address: { '@type': 'PostalAddress', addressLocality: 'La Habra', addressRegion: 'CA' },
+};
 ---
 <!doctype html>
 <html lang="en" data-theme="light">
@@ -24,6 +31,7 @@ const ogImage = new URL(image, Astro.site);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(person)} />
     <script is:inline>
       let saved; try { saved = localStorage.getItem('theme'); } catch {}
       const theme = saved || 'light';
@@ -38,7 +46,7 @@ const ogImage = new URL(image, Astro.site);
       <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to light theme"><span class="theme-icon" aria-hidden="true">◐</span> <span>Theme</span></button>
     </header>
     <main id="main"><slot /></main>
-    <footer class="site-footer wrap"><span>© {new Date().getFullYear()} Tim Otholt</span><a href="#main">Back to top ↑</a></footer>
+    <footer class="site-footer wrap"><span>© {new Date().getFullYear()} {contact.name}</span><a href={contact.emailHref}>{contact.email}</a><a href={contact.phoneHref}>{contact.phone}</a></footer>
     <script>
       const toggle = document.getElementById('theme-toggle');
       function syncLabel() { toggle?.setAttribute('aria-label', document.documentElement.dataset.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'); }
