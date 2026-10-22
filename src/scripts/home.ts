@@ -87,6 +87,7 @@ function measureRail() {
   targets = anchors.map(anchor => Math.round(anchor.getBoundingClientRect().top + scrollY - LANDING_OFFSET));
   updateRail();
 }
+const themeMeta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
 function updateRail() {
   if (!targets.length) return;
   const first = targets[0], last = targets[targets.length - 1];
@@ -99,6 +100,9 @@ function updateRail() {
   dots.forEach((dot, i) => dot.classList.toggle('current', i === current));
   bands.forEach(band => band.classList.toggle('current', current >= Number(band.dataset.first) && current <= Number(band.dataset.last)));
   if (railLabel) railLabel.textContent = slotSections[current]?.getAttribute('data-section-label') || 'Contact';
+  // Browser chrome (mobile address bar, app panes) follows the current section's color.
+  const key = slotSections[current]?.getAttribute('data-section-key') as SectionKey | null;
+  if (themeMeta && key && sectionByKey[key] && themeMeta.content !== sectionByKey[key].bg) themeMeta.content = sectionByKey[key].bg;
   const headerBottom = document.querySelector('.site-header')?.getBoundingClientRect().bottom ?? 0;
   if (readout) readout.style.top = `${Math.max(24, headerBottom + 18, Math.min(innerHeight - 35, progress * innerHeight))}px`;
 }

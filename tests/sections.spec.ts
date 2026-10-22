@@ -67,3 +67,20 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 
     }
   });
 }
+
+for (const viewport of [{ width: 375, height: 812 }, { width: 660, height: 780 }, { width: 1440, height: 900 }]) {
+  test(`sections are full-width rows with no gaps at ${viewport.width}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    const rows = await page.$$eval('main > section, main > *:not(section) section', sections => sections.map(s => {
+      const r = s.getBoundingClientRect();
+      return { id: s.id, left: r.left, right: r.right, top: r.top + scrollY, bottom: r.bottom + scrollY };
+    }));
+    const width = await page.evaluate(() => document.documentElement.clientWidth);
+    for (const row of rows) {
+      expect(Math.abs(row.left), row.id).toBeLessThanOrEqual(1);
+      expect(Math.abs(row.right - width), row.id).toBeLessThanOrEqual(1);
+    }
+    for (let i = 1; i < rows.length; i++) expect(Math.abs(rows[i].top - rows[i - 1].bottom), `${rows[i - 1].id} → ${rows[i].id}`).toBeLessThanOrEqual(1);
+  });
+}
