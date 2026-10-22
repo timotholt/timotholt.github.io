@@ -72,10 +72,10 @@ body{overflow-x:clip}.wrap{width:min(1000px,calc(100% - 100px));margin-inline:au
 html{scroll-padding-top:0}
 .feature-slot{position:relative;height:var(--slot-h);min-height:var(--slot-h);max-height:var(--slot-h);overflow:clip}
 .milestone-anchor{position:absolute;top:0;left:0;width:0;height:0;pointer-events:none}
-.progress-rail{left:auto;right:1rem;top:12px;height:calc(100svh - 24px);width:4px;pointer-events:none}
+.progress-rail{left:auto;right:1rem;top:12px;height:calc(100svh - 24px);width:2px;pointer-events:none}
 .rail-dots{overflow:visible}
-.rail-dot{position:absolute;left:2px;width:24px;height:24px;padding:0;border:0;background:transparent;transform:translate(-50%,-50%);pointer-events:auto;cursor:pointer;color:var(--ink)}
-.rail-dot:before{content:'';position:absolute;top:7px;left:7px;width:10px;height:10px;border:1.5px solid var(--ink);border-radius:50%;background:var(--paper)}
+.rail-dot{position:absolute;left:50%;width:24px;height:24px;padding:0;border:0;background:transparent;transform:translate(-50%,-50%);pointer-events:auto;cursor:pointer;color:var(--ink)}
+.rail-dot:before{content:'';position:absolute;top:50%;left:50%;box-sizing:border-box;width:11px;height:11px;transform:translate(-50%,-50%);border:1.5px solid var(--ink);border-radius:50%;background:var(--paper)}
 .rail-dot.current:before{background:var(--accent);border-color:var(--accent)}
 .rail-dot:after{content:attr(data-title);position:absolute;right:29px;top:50%;transform:translateY(-50%);white-space:nowrap;padding:3px 6px;background:var(--paper);border:1px solid var(--rule);color:var(--ink);font:500 10px 'JetBrains Mono',monospace;opacity:0;pointer-events:none}
 .rail-dot:hover:after,.rail-dot:focus-visible:after{opacity:1}
