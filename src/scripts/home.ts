@@ -78,6 +78,9 @@ slotSections.forEach((section, i) => {
   bands.push(band);
 });
 let targets: number[] = [];
+let railCurrent = 0;      // milestone under the reader, from the latest updateRail
+let readerIndex = 0;      // last milestone settled by user scrolling (not by a resize)
+let restoreIndex = -1;    // milestone to return to after a breakpoint rebuild
 let chosen = -1;
 let scrollTimer = 0;
 function measureRail() {
@@ -85,6 +88,8 @@ function measureRail() {
   const slotHeight = getComputedStyle(document.documentElement).getPropertyValue('--slot-h').trim();
   if (!slotHeight) return;
   targets = anchors.map(anchor => Math.round(anchor.getBoundingClientRect().top + scrollY - LANDING_OFFSET));
+  // After a layout rebuild (breakpoint change), return to the milestone the reader was on.
+  if (restoreIndex >= 0 && targets[restoreIndex] !== undefined) { scrollTo({ top: targets[restoreIndex], behavior: 'instant' }); restoreIndex = -1; }
   updateRail();
 }
 const themeMeta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
@@ -101,6 +106,7 @@ function updateRail() {
   let current = 0;
   targets.forEach((target, i) => { if (scrollY >= target - 2) current = i; });
   if (chosen >= 0 && Math.abs(scrollY - targets[chosen]) <= 2) current = chosen;
+  railCurrent = current;
   dots.forEach((dot, i) => dot.classList.toggle('current', i === current));
   bands.forEach(band => band.classList.toggle('current', current >= Number(band.dataset.first) && current <= Number(band.dataset.last)));
   if (railLabel) railLabel.textContent = slotSections[current]?.getAttribute('data-section-label') || 'Contact';
@@ -136,6 +142,7 @@ const rail = document.querySelector<HTMLElement>('.progress-rail');
 let idleTimer = 0;
 addEventListener('scroll', () => {
   updateRail();
+  if (restoreIndex < 0) readerIndex = railCurrent;
   rail?.classList.add('is-scrolling');
   clearTimeout(idleTimer);
   idleTimer = window.setTimeout(() => rail?.classList.remove('is-scrolling'), 900);
@@ -245,6 +252,8 @@ mm.add({desktop:'(min-width: 768px) and (prefers-reduced-motion: no-preference)'
   heroScene(); chipScene(); profileScene(mobile); projectScene(mobile); skillsScene(mobile); credScene(mobile); experienceScene(mobile);
   gsap.to('body',{backgroundPositionY:'200px',ease:'none',scrollTrigger:{start:0,end:'max',scrub:true}});
   requestAnimationFrame(()=>ScrollTrigger.refresh());
+  // Leaving this breakpoint rebuilds every scene; remember where the reader was.
+  return () => { restoreIndex = readerIndex; };
 });
 addEventListener('load',()=>ScrollTrigger.refresh(),{once:true});
 document.fonts.ready.then(()=>ScrollTrigger.refresh());

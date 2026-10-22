@@ -45,3 +45,23 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 
     await expect.poll(() => page.evaluate(() => Math.abs(document.querySelector('.milestone-anchor')!.getBoundingClientRect().top)), { timeout: 10_000 }).toBeLessThanOrEqual(1);
   });
 }
+
+test('crossing the phone/laptop breakpoint keeps the reader on the same milestone', async ({ page }) => {
+  await page.setViewportSize({ width: 700, height: 1100 });
+  await page.goto('/');
+  const dots = page.locator('.rail-dot');
+  const labels = await dots.evaluateAll(d => d.map(x => x.getAttribute('aria-label')));
+  const index = labels.indexOf('solid-tree');
+  await dots.nth(index).click();
+  await expect(dots.nth(index)).toHaveClass(/current/);
+  await page.waitForTimeout(800);
+  for (const width of [900, 700]) {
+    await page.setViewportSize({ width, height: 1100 });
+    await page.waitForTimeout(1500);
+    await expect(dots.nth(index)).toHaveClass(/current/);
+    const card = await page.locator('.project-slot').nth(0).locator('.project-card').evaluate(c => ({ top: c.getBoundingClientRect().top, opacity: getComputedStyle(c).opacity }));
+    expect(card.top).toBeGreaterThanOrEqual(0);
+    expect(card.top).toBeLessThan(1100);
+    expect(Number(card.opacity)).toBeGreaterThan(.98);
+  }
+});
