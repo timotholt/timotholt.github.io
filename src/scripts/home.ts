@@ -49,6 +49,8 @@ const dots = slots.map((slot, i) => {
   dot.setAttribute('aria-label', slot.dataset.milestone || `Milestone ${i + 1}`);
   dot.dataset.title = slot.dataset.milestone || '';
   dot.dataset.index = String(i);
+  const key = slot.closest('section')?.getAttribute('data-section-key') as SectionKey | null;
+  if (key && sectionByKey[key]) dot.style.setProperty('--dot-fg', sectionByKey[key].fg);
   railDots?.append(dot);
   return dot;
 });
@@ -64,10 +66,8 @@ slotSections.forEach((section, i) => {
   band.className = 'rail-band';
   const key = section?.getAttribute('data-section-key') as SectionKey | null;
   if (key && sectionByKey[key]) {
-    band.style.setProperty('--band', `var(--sec)`);
-    band.style.setProperty('--band-dark', `var(--sec-dark)`);
-    band.style.setProperty('--sec', sectionByKey[key].color);
-    band.style.setProperty('--sec-dark', sectionByKey[key].darkColor);
+    band.style.setProperty('--band', sectionByKey[key].bg);
+    band.style.setProperty('--band-fg', sectionByKey[key].fg);
     band.dataset.sectionKey = key;
   }
   band.setAttribute('aria-hidden', 'true');
@@ -140,21 +140,20 @@ function drawFace() {
   ctx.drawImage(img, sx, sy, crop, crop, 0, 0, size, size);
   const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
   ctx.clearRect(0, 0, size, size);
-  ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--paper'); ctx.fillRect(0, 0, size, size);
+  ctx.fillStyle = sectionByKey.contact.bg; ctx.fillRect(0, 0, size, size);
   const step = 7;
   for (let y=0; y<size; y+=step) for (let x=0; x<size; x+=step) {
     const k = (Math.floor(y*ratio)*canvas.width + Math.floor(x*ratio))*4;
     const lum = (pixels.data[k]*.2126 + pixels.data[k+1]*.7152 + pixels.data[k+2]*.0722)/255;
-    ctx.fillStyle = lum < .48 ? '#191917' : '#ff4f00';
+    ctx.fillStyle = sectionByKey.contact.fg;
     ctx.beginPath(); ctx.arc(x+step/2,y+step/2,Math.max(.35,(1-lum)*step*.46),0,Math.PI*2); ctx.fill();
   }
-  ctx.strokeStyle = 'rgba(255,79,0,.24)'; ctx.lineWidth=.5;
+  ctx.strokeStyle = 'rgba(20,17,15,.24)'; ctx.lineWidth=.5;
   for(let n=0;n<size;n+=28){ctx.beginPath();ctx.moveTo(n,0);ctx.lineTo(n,size);ctx.moveTo(0,n);ctx.lineTo(size,n);ctx.stroke();}
 }
 const img = document.querySelector<HTMLImageElement>('.portrait img');
 img?.addEventListener('load', drawFace); if (img?.complete) drawFace();
 let resizeTimer: number; addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = window.setTimeout(drawFace, 150); });
-document.getElementById('theme-toggle')?.addEventListener('click', () => requestAnimationFrame(drawFace));
 
 function heroScene() {
   const title = document.querySelector<HTMLElement>('#hero-title');
@@ -184,8 +183,10 @@ function profileScene(mobile: boolean) {
 function projectScene(mobile: boolean) {
   document.querySelectorAll<HTMLElement>('.project-card').forEach((card,i)=>{
     const sign=i%2?1:-1;
-    gsap.from(card,{x:sign*innerWidth*(mobile?.4:.4),rotationY:sign*(mobile?35:70),rotationZ:sign*6,z:-400,opacity:0,ease:'none',scrollTrigger:{trigger:card,start:'top bottom',end:'center center',scrub:.6}});
-    gsap.to(card,{y:-55,z:-90,opacity:.72,ease:'none',scrollTrigger:{trigger:card,start:'center center',end:'bottom top',scrub:.6}});
+    // Time to the slot: on phones the section heading shares the first slot and pushes the card down.
+    const slot=card.closest<HTMLElement>('.feature-slot')||card;
+    gsap.from(card,{x:sign*innerWidth*(mobile?.4:.4),rotationY:sign*(mobile?35:70),rotationZ:sign*6,z:-400,opacity:0,ease:'none',scrollTrigger:{trigger:slot,start:'top bottom',end:'top 20%',scrub:.6}});
+    gsap.to(card,{y:-55,z:-90,opacity:.72,ease:'none',scrollTrigger:{trigger:slot,start:'top top',end:'bottom top',scrub:.6}});
   });
 }
 function skillsScene(mobile: boolean) {

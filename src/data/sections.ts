@@ -1,14 +1,17 @@
 export const sections = [
-  { id: 'contact', key: 'contact', label: 'Contact', color: '#b83800', darkColor: '#ff7540' },
-  { id: 'highlights', key: 'highlights', label: 'Highlights', color: '#1553ad', darkColor: '#78afff' },
-  { id: 'projects', key: 'projects', label: 'Projects', color: '#7130a5', darkColor: '#ce96ff' },
-  { id: 'skills', key: 'skills', label: 'Skills', color: '#006d69', darkColor: '#55d2cb' },
-  { id: 'jobs-since', key: 'jobs-since', label: 'Job history · Since 2002', color: '#267039', darkColor: '#82d991' },
-  { id: 'jobs-eng', key: 'jobs-eng', label: 'Job history · Engineering', color: '#566b18', darkColor: '#bdd870' },
-  { id: 'education', key: 'education', label: 'Education', color: '#806000', darkColor: '#f0cc54' },
-  { id: 'awards', key: 'awards', label: 'Awards', color: '#ae2d69', darkColor: '#ff91bc' },
+  { key: 'contact', label: 'Contact', bg: '#E8541C', fg: '#14110F', accent: '#381006' },
+  { key: 'highlights', label: 'Highlights', bg: '#1C1C1C', fg: '#F4F1EA', accent: '#DAA47D' },
+  { key: 'projects', label: 'Projects', bg: '#1E5E3B', fg: '#F4F1EA', accent: '#C6E4CA' },
+  { key: 'skills', label: 'Skills', bg: '#5B2A6E', fg: '#F4F1EA', accent: '#DEC5EB' },
+  { key: 'jobs-since', label: 'Job history · Since 2002', bg: '#1F4E8C', fg: '#F4F1EA', accent: '#BDD9F5' },
+  { key: 'jobs-eng', label: 'Job history · Engineering', bg: '#14213D', fg: '#F4F1EA', accent: '#AFCAE8' },
+  { key: 'awards', label: 'Awards', bg: '#C99A2E', fg: '#14110F', accent: '#493008' },
+  { key: 'education', label: 'Education', bg: '#4F6B67', fg: '#F4F1EA', accent: '#D5ECE7' },
 ] as const;
 
 export type SectionKey = typeof sections[number]['key'];
 export const sectionByKey = Object.fromEntries(sections.map(section => [section.key, section])) as Record<SectionKey, typeof sections[number]>;
-export const sectionStyle = (key: SectionKey) => `--sec:${sectionByKey[key].color};--sec-dark:${sectionByKey[key].darkColor}`;
+export const sectionStyle = (key: SectionKey) => {
+  const { bg, fg, accent } = sectionByKey[key];
+  return `--sec-bg:${bg};--sec-fg:${fg};--section-accent:${accent}`;
+};

@@ -1,46 +1,53 @@
 import { test, expect } from '@playwright/test';
 import { sections } from '../src/data/sections';
 
-const order = ['contact', 'highlights', 'projects', 'skills', 'jobs-since', 'jobs-eng', 'education', 'awards', 'contact'];
+const order = ['contact', 'highlights', 'projects', 'skills', 'jobs-since', 'jobs-eng', 'awards', 'education', 'contact'];
 
-for (const theme of ['light', 'dark'] as const) {
-  test(`section color and rail bands match in ${theme} theme`, async ({ page }) => {
-    await page.goto('/');
-    if (theme === 'dark') await page.getByRole('button', { name: 'Switch to dark theme' }).click();
-    await expect(page.locator('.rail-band')).toHaveCount(order.length);
-    // Band colors fade when the current section changes; measure settled values.
-    await page.addStyleTag({ content: '.rail-band{transition:none!important}' });
-    const actual = await page.evaluate(() => {
-      const nodes = [...document.querySelectorAll<HTMLElement>('main section[data-section-key]')];
-      const bands = [...document.querySelectorAll<HTMLElement>('.rail-band')].sort((a, b) => Number(a.dataset.first) - Number(b.dataset.first));
-      // Parse the computed background ("rgb(...)", "rgba(...)" or "color(srgb r g b / a)") and composite over white.
-      const rgb = (css: string) => {
-        const nums = (css.match(/[\d.]+/g) || []).map(Number);
-        const srgb = css.startsWith('color(');
-        const [r, g, b] = nums.slice(0, 3).map(v => srgb ? v * 255 : v);
-        const a = nums.length > 3 ? nums[3] : 1;
-        return [r, g, b].map(v => Math.round(v * a + 255 * (1 - a)));
-      };
-      return nodes.map((node, i) => {
-        const style = getComputedStyle(node);
-        const color = style.getPropertyValue(document.documentElement.dataset.theme === 'dark' ? '--sec-dark' : '--sec').trim();
-        const alpha = bands[i].classList.contains('current') ? 1 : .8;
-        const expected = [1, 3, 5].map(offset => Math.round(parseInt(color.slice(offset, offset + 2), 16) * alpha + 255 * (1 - alpha)));
-        const observed = rgb(getComputedStyle(bands[i]).backgroundColor);
-        return { key: node.dataset.sectionKey, color, expected, observed, bandKey: bands[i].dataset.sectionKey };
-      });
-    });
-    expect(actual.map(item => item.key)).toEqual(order);
-    expect(new Set(actual.map(item => item.key))).toEqual(new Set(sections.map(item => item.key)));
-    expect(actual[0].color).toBe(actual.at(-1)?.color);
-    for (let i = 0; i < actual.length; i++) {
-      expect(actual[i].bandKey).toBe(actual[i].key);
-      expect(actual[i].color).toMatch(/^#[0-9a-f]{6}$/i);
-      expect(actual[i].observed.map((value, channel) => Math.abs(value - actual[i].expected[channel]) <= 2)).toEqual([true, true, true]);
-      if (i) expect(actual[i].color).not.toBe(actual[i - 1].color);
-    }
+const rgb = (css: string) => (css.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
+const hexRgb = (hex: string) => [1, 3, 5].map(offset => parseInt(hex.slice(offset, offset + 2), 16));
+const luminance = (channels: number[]) => channels
+  .map(v => v / 255)
+  .map(v => v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)
+  .reduce((sum, v, i) => sum + v * [0.2126, 0.7152, 0.0722][i], 0);
+const contrast = (a: number[], b: number[]) => {
+  const [lo, hi] = [luminance(a), luminance(b)].sort((x, y) => x - y);
+  return (hi + 0.05) / (lo + 0.05);
+};
+
+test('section backgrounds, rail bands, and text contrast follow one palette', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.rail-band')).toHaveCount(order.length);
+  await expect(page.locator('#theme-toggle')).toHaveCount(0);
+  const actual = await page.evaluate(() => {
+    const nodes = [...document.querySelectorAll<HTMLElement>('main section[data-section-key]')];
+    const bands = [...document.querySelectorAll<HTMLElement>('.rail-band')].sort((a, b) => Number(a.dataset.first) - Number(b.dataset.first));
+    return nodes.map((node, i) => ({
+      key: node.dataset.sectionKey,
+      bg: getComputedStyle(node).backgroundColor,
+      fg: getComputedStyle(node).color,
+      accent: getComputedStyle(node).getPropertyValue('--section-accent').trim(),
+      bandBg: getComputedStyle(bands[i]).backgroundColor,
+      bandKey: bands[i].dataset.sectionKey,
+    }));
   });
-}
+  expect(actual.map(item => item.key)).toEqual(order);
+  expect(new Set(actual.map(item => item.key))).toEqual(new Set(sections.map(item => item.key)));
+  expect(actual[0].bg).toBe(actual.at(-1)?.bg);
+  for (let i = 0; i < actual.length; i++) {
+    const item = actual[i];
+    expect(item.bandKey).toBe(item.key);
+    expect(item.bg).toBe(item.bandBg);
+    expect(item.bandBg).toMatch(/^rgb\(\d+, \d+, \d+\)$/);
+    const palette = sections.find(section => section.key === item.key)!;
+    expect(rgb(item.bg)).toEqual(hexRgb(palette.bg));
+    expect(rgb(item.fg)).toEqual(hexRgb(palette.fg));
+    expect(item.accent.toLowerCase()).toBe(palette.accent.toLowerCase());
+    expect(contrast(rgb(item.fg), rgb(item.bg))).toBeGreaterThanOrEqual(4.5);
+    const accent = hexRgb(item.accent);
+    expect(contrast(accent, rgb(item.bg))).toBeGreaterThanOrEqual(4.5);
+    if (i) expect(item.bg).not.toBe(actual[i - 1].bg);
+  }
+});
 
 for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 }]) {
   test(`POST sections fit one slot at ${viewport.width}`, async ({ page }) => {

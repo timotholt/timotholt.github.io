@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { contact } from '../data/contact';
+import { sectionByKey } from '../data/sections';
 interface Props { title: string; description: string; image?: string }
 const { title, description, image = '/og-image.svg' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -13,11 +14,11 @@ const person = {
 };
 ---
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f2f0eb" />
+    <meta name="theme-color" content="#E8541C" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -32,26 +33,14 @@ const person = {
     <meta name="twitter:image" content={ogImage} />
     <title>{title}</title>
     <script type="application/ld+json" set:html={JSON.stringify(person)} />
-    <script is:inline>
-      let saved; try { saved = localStorage.getItem('theme'); } catch {}
-      const theme = saved || 'light';
-      document.documentElement.dataset.theme = theme;
-    </script>
   </head>
-  <body>
+  <body style={`--home-bg:${sectionByKey.contact.bg};--home-fg:${sectionByKey.contact.fg};--home-accent:${sectionByKey.contact.accent}`}>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header wrap">
       <a class="brand" href="/" aria-label="Tim Otholt home"><span class="brand-mark">TO<span>.</span></span><span class="brand-caption">TIM OTHOLT / ENGINEERING</span></a>
       <nav aria-label="Main navigation"><a href="/#projects">Projects</a><a href="/#skills">Skills</a><a href="/#experience">Experience</a><a href="/#contact">Contact</a></nav>
-      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to light theme"><span class="theme-icon" aria-hidden="true">◐</span> <span>Theme</span></button>
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer wrap"><span>© {new Date().getFullYear()} {contact.name}</span><a href={contact.emailHref}>{contact.email}</a><a href={contact.phoneHref}>{contact.phone}</a></footer>
-    <script>
-      const toggle = document.getElementById('theme-toggle');
-      function syncLabel() { toggle?.setAttribute('aria-label', document.documentElement.dataset.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'); }
-      syncLabel();
-      toggle?.addEventListener('click', () => { const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; document.documentElement.dataset.theme = next; try { localStorage.setItem('theme', next); } catch {} syncLabel(); });
-    </script>
   </body>
 </html>
