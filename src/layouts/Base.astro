@@ -6,11 +6,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
 ---
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#10151d" />
+    <meta name="theme-color" content="#f2f0eb" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -25,17 +25,17 @@ const ogImage = new URL(image, Astro.site);
     <meta name="twitter:image" content={ogImage} />
     <title>{title}</title>
     <script is:inline>
-      const saved = localStorage.getItem('theme');
-      const theme = saved || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      let saved; try { saved = localStorage.getItem('theme'); } catch {}
+      const theme = saved || 'light';
       document.documentElement.dataset.theme = theme;
     </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header wrap">
-      <a class="brand" href="/" aria-label="Tim Otholt home"><span class="brand-mark">TO<span>.</span></span></a>
+      <a class="brand" href="/" aria-label="Tim Otholt home"><span class="brand-mark">TO<span>.</span></span><span class="brand-caption">TIM OTHOLT / ENGINEERING</span></a>
       <nav aria-label="Main navigation"><a href="/#projects">Projects</a><a href="/#skills">Skills</a><a href="/#experience">Experience</a><a href="/#contact">Contact</a></nav>
-      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to light theme">◐ <span>Theme</span></button>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to light theme"><span class="theme-icon" aria-hidden="true">◐</span> <span>Theme</span></button>
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer wrap"><span>© {new Date().getFullYear()} Tim Otholt</span><a href="#main">Back to top ↑</a></footer>
@@ -43,7 +43,7 @@ const ogImage = new URL(image, Astro.site);
       const toggle = document.getElementById('theme-toggle');
       function syncLabel() { toggle?.setAttribute('aria-label', document.documentElement.dataset.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'); }
       syncLabel();
-      toggle?.addEventListener('click', () => { const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; document.documentElement.dataset.theme = next; localStorage.setItem('theme', next); syncLabel(); });
+      toggle?.addEventListener('click', () => { const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; document.documentElement.dataset.theme = next; try { localStorage.setItem('theme', next); } catch {} syncLabel(); });
     </script>
   </body>
 </html>
