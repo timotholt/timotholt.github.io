@@ -6,7 +6,7 @@ export const sections = [
   { key: 'jobs-since', label: 'Job history · Since 2002', bg: '#1F4E8C', fg: '#F4F1EA', accent: '#BDD9F5' },
   { key: 'jobs-eng', label: 'Job history · Engineering', bg: '#14213D', fg: '#F4F1EA', accent: '#AFCAE8' },
   { key: 'awards', label: 'Awards', bg: '#C99A2E', fg: '#14110F', accent: '#493008' },
-  { key: 'education', label: 'Education', bg: '#1E5E3B', fg: '#F4F1EA', accent: '#C6E4CA' },
+  { key: 'education', label: 'Education', bg: '#194F32', fg: '#F4F1EA', accent: '#C6E4CA' },
 ] as const;
 
 export type SectionKey = typeof sections[number]['key'];
