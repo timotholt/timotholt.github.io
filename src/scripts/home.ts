@@ -214,7 +214,8 @@ function projectScene(mobile: boolean) {
     // Time to the slot: on phones the section heading shares the first slot and pushes the card down.
     const slot=card.closest<HTMLElement>('.feature-slot')||card;
     gsap.from(card,{x:sign*innerWidth*(mobile?.4:.4),rotationY:sign*(mobile?35:70),rotationZ:sign*6,z:-400,opacity:0,ease:'none',scrollTrigger:{trigger:slot,start:'top bottom',end:'top 20%',scrub:.6}});
-    gsap.to(card,{y:-55,z:-90,opacity:.72,ease:'none',scrollTrigger:{trigger:slot,start:'top top',end:'bottom top',scrub:.6}});
+    // Explicit start values: a plain .to() would capture the entrance's opacity:0 start state and hide the card just past landing.
+    gsap.fromTo(card,{y:0,z:0,opacity:1},{y:-55,z:-90,opacity:.72,ease:'none',immediateRender:false,scrollTrigger:{trigger:slot,start:'top top',end:'bottom top',scrub:.6}});
   });
 }
 function skillsScene(mobile: boolean) {

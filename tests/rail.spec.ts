@@ -65,3 +65,18 @@ test('crossing the phone/laptop breakpoint keeps the reader on the same mileston
     expect(Number(card.opacity)).toBeGreaterThan(.98);
   }
 });
+
+for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 }]) {
+  test(`project cards stay visible just past their landing at ${viewport.width}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    const count = await page.locator('.project-slot').count();
+    for (let i = 0; i < count; i++) {
+      // Stop a little past the slot's top, where the exit drift has just begun.
+      await page.evaluate(index => { const s = document.querySelectorAll<HTMLElement>('.project-slot')[index]; window.scrollTo(0, s.getBoundingClientRect().top + scrollY + 20); }, i);
+      await page.waitForTimeout(1200);
+      const opacity = await page.locator('.project-slot').nth(i).locator('.project-card').evaluate(c => Number(getComputedStyle(c).opacity));
+      expect(opacity, `project ${i}`).toBeGreaterThan(.9);
+    }
+  });
+}
