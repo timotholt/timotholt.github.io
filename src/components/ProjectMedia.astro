@@ -3,7 +3,7 @@ import { projectMedia } from '../lib/projectMedia';
 interface Props { slug: string; title: string; eager?: boolean }
 const { slug, title, eager = false } = Astro.props;
 const media = projectMedia(slug);
-const variant = ['timotholt-com','solid-tree','firmware-calgen','bookstore','mcp-logger'].indexOf(slug);
+const variant = ['solid-tree','firmware-calgen','bookstore','mcp-logger'].indexOf(slug);
 const code = String(Math.max(0, variant)).padStart(3, '0');
 ---
 <div class={`project-media${media && !media.video ? ' has-shot' : ''}`} data-reveal>

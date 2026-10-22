@@ -195,3 +195,8 @@ body:has(.color-section) .site-header nav a:hover{color:var(--home-accent)}
 @media(max-width:767px){#projects .project-card .project-media.has-shot{aspect-ratio:auto;height:min(52svh,440px)}#projects .project-card:has(.has-shot) .spec-table{display:none}}
 @media(min-width:768px){#projects>.wrap{width:min(1240px,calc(100% - 140px))}}
 #projects .project-grid{max-width:none}
+/* Credential and job dividers: section text color at one shared strength, so every list reads the same. */
+.cred-list .cred-item,.cred-list .cred-item:last-child,.job-list>.job-slot:last-child .cred-item{border-color:color-mix(in srgb,var(--sec-fg) 35%,transparent)}
+/* Phones: symmetric content margins that clear the rail, readout only while scrolling. */
+@media(max-width:767px){.wrap,.hero.wrap{margin-left:42px;margin-right:42px}.hero.color-section{padding-inline:42px}.progress-rail .rail-readout{opacity:0;transition:opacity .25s}.progress-rail.is-scrolling .rail-readout{opacity:1}}
+@media(max-width:767px){.wrap.hero{margin:0}}

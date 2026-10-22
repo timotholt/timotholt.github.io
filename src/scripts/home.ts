@@ -131,7 +131,15 @@ dots.forEach((dot, i) => dot.addEventListener('click', () => {
   }
   updateRail();
 }));
-addEventListener('scroll', updateRail, { passive: true });
+// Phones: the readout overlaps text, so it shows only while scrolling.
+const rail = document.querySelector<HTMLElement>('.progress-rail');
+let idleTimer = 0;
+addEventListener('scroll', () => {
+  updateRail();
+  rail?.classList.add('is-scrolling');
+  clearTimeout(idleTimer);
+  idleTimer = window.setTimeout(() => rail?.classList.remove('is-scrolling'), 900);
+}, { passive: true });
 addEventListener('resize', () => requestAnimationFrame(measureRail));
 ScrollTrigger.addEventListener('refresh', measureRail);
 addEventListener('load', measureRail);
