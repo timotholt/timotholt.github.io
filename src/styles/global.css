@@ -101,4 +101,4 @@ html{scroll-padding-top:0}
 .project-intro{position:absolute;top:4svh;left:0;right:0}
 .project-slot{display:grid;place-items:center}
 .project-slot .project-card{position:relative;top:auto;left:auto;width:100%;translate:none}
-.rail-band{position:absolute;left:50%;width:22px;transform:translateX(-50%);background:color-mix(in srgb,var(--ink) 9%,transparent);pointer-events:none}.rail-band.alt{background:color-mix(in srgb,var(--ink) 17%,transparent)}.rail-band.current{background:color-mix(in srgb,var(--accent) 22%,transparent)}
+:root{--band-0:#3f6e9a;--band-1:#2f8a7e;--band-2:#7a8a2e;--band-3:#b08a1e;--band-4:#8a4f9a;--band-5:#4f7a4a;--band-6:#a0485a;--band-7:#5a6378}.rail-band{position:absolute;left:50%;width:22px;transform:translateX(-50%);background:color-mix(in srgb,var(--band) 38%,transparent);pointer-events:none;transition:background .25s}.rail-band.current{background:color-mix(in srgb,var(--band) 75%,transparent)}

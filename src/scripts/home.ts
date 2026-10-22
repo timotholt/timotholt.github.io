@@ -67,7 +67,8 @@ slotSections.forEach((section, i) => {
   while (last + 1 < slots.length && slotSections[last + 1] === section) last++;
   const step = 100 / Math.max(1, slots.length - 1);
   const band = document.createElement('span');
-  band.className = `rail-band${bands.length % 2 ? ' alt' : ''}`;
+  band.className = 'rail-band';
+  band.style.setProperty('--band', `var(--band-${bands.length % 8})`);
   band.setAttribute('aria-hidden', 'true');
   band.dataset.first = String(i); band.dataset.last = String(last);
   band.style.top = `calc(${(i - .5) * step}% + 2px)`;
