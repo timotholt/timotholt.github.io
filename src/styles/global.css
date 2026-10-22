@@ -200,3 +200,18 @@ body:has(.color-section) .site-header nav a:hover{color:var(--home-accent)}
 /* Phones: symmetric content margins that clear the rail, readout only while scrolling. */
 @media(max-width:767px){.wrap,.hero.wrap{margin-left:42px;margin-right:42px}.hero.color-section{padding-inline:42px}.progress-rail .rail-readout{opacity:0;transition:opacity .25s}.progress-rail.is-scrolling .rail-readout{opacity:1}}
 @media(max-width:767px){.wrap.hero{margin:0}}
+/* Project card, one column everywhere: title, screenshot, description, stack, links. */
+#projects .project-card,#projects .project-card:has(.has-shot){display:flex;flex-direction:column;max-width:960px;max-height:none}
+#projects .project-card .card-title{margin:0;padding:16px 22px 12px;font-size:clamp(26px,3vw,40px)}
+#projects .project-card .card-title a{display:flex;justify-content:space-between;gap:12px}
+#projects .project-card .project-media,#projects .project-card .project-media.has-shot{aspect-ratio:16/9;height:auto;border-right:0;border-top:1px solid var(--section-accent);border-bottom:1px solid var(--section-accent)}
+#projects .project-card .card-content,#projects .project-card:has(.has-shot) .card-content{padding:14px 22px 16px;display:block}
+#projects .project-function{min-height:0;margin:0 0 8px;font-size:clamp(14px,1.25vw,17px);line-height:1.45}
+#projects .card-stack{margin:0 0 4px;font:500 12px/1.5 'JetBrains Mono',monospace;color:var(--section-accent)}
+@media(min-width:768px){#projects .project-card .project-media,#projects .project-card .project-media.has-shot{max-height:min(46svh,460px)}}
+@media(max-width:767px){#projects .project-card .card-title{padding:10px 14px 8px;font-size:24px}#projects .project-card .project-media.has-shot{aspect-ratio:auto;height:min(40svh,330px)}#projects .project-card .card-content{padding:10px 14px 12px}#projects .project-function{font-size:13px}#projects .card-stack{display:none}}
+/* Project slots stack the (first-slot) heading above the card instead of overlapping it. */
+#projects .project-slot{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:14px}
+#projects .project-slot>.project-intro{align-self:stretch;position:static;margin:0}
+#projects .project-slot:first-child .project-card .project-media{max-height:min(34svh,400px)}
+@media(max-width:767px){#projects .project-slot:first-child .project-card .project-media.has-shot{height:min(30svh,260px)}}

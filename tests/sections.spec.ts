@@ -105,3 +105,21 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 
     }
   });
 }
+
+for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 }]) {
+  test(`project cards fit their slot below the heading at ${viewport.width}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    await page.evaluate(() => document.fonts.ready);
+    // Layout offsets ignore entrance transforms, so this checks the settled layout.
+    const slots = await page.$$eval('.project-slot', list => list.map(s => {
+      const card = s.querySelector<HTMLElement>('.project-card')!;
+      const intro = s.querySelector<HTMLElement>('.project-intro');
+      return { top: card.offsetTop, bottom: card.offsetTop + card.offsetHeight, introBottom: intro ? intro.offsetTop + intro.offsetHeight : 0, height: s.clientHeight };
+    }));
+    for (const s of slots) {
+      expect(s.top).toBeGreaterThanOrEqual(s.introBottom);
+      expect(s.bottom).toBeLessThanOrEqual(s.height);
+    }
+  });
+}
