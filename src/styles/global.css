@@ -101,3 +101,4 @@ html{scroll-padding-top:0}
 .project-intro{position:absolute;top:4svh;left:0;right:0}
 .project-slot{display:grid;place-items:center}
 .project-slot .project-card{position:relative;top:auto;left:auto;width:100%;translate:none}
+.rail-band{position:absolute;left:50%;width:22px;transform:translateX(-50%);background:color-mix(in srgb,var(--ink) 9%,transparent);pointer-events:none}.rail-band.alt{background:color-mix(in srgb,var(--ink) 17%,transparent)}.rail-band.current{background:color-mix(in srgb,var(--accent) 22%,transparent)}

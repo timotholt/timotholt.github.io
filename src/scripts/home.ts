@@ -58,6 +58,23 @@ const dots = slots.map((slot, i) => {
   railDots?.append(dot);
   return dot;
 });
+// One solid band per page section behind its dots, so groups read at a glance.
+const slotSections = slots.map(slot => slot.closest('section'));
+const bands: HTMLElement[] = [];
+slotSections.forEach((section, i) => {
+  if (i > 0 && section === slotSections[i - 1]) return;
+  let last = i;
+  while (last + 1 < slots.length && slotSections[last + 1] === section) last++;
+  const step = 100 / Math.max(1, slots.length - 1);
+  const band = document.createElement('span');
+  band.className = `rail-band${bands.length % 2 ? ' alt' : ''}`;
+  band.setAttribute('aria-hidden', 'true');
+  band.dataset.first = String(i); band.dataset.last = String(last);
+  band.style.top = `calc(${(i - .5) * step}% + 2px)`;
+  band.style.height = `calc(${(last - i + 1) * step}% - 4px)`;
+  railDots?.prepend(band);
+  bands.push(band);
+});
 let targets: number[] = [];
 let chosen = -1;
 let scrollTimer = 0;
@@ -78,6 +95,7 @@ function updateRail() {
   targets.forEach((target, i) => { if (scrollY >= target - 2) current = i; });
   if (chosen >= 0 && Math.abs(scrollY - targets[chosen]) <= 2) current = chosen;
   dots.forEach((dot, i) => dot.classList.toggle('current', i === current));
+  bands.forEach(band => band.classList.toggle('current', current >= Number(band.dataset.first) && current <= Number(band.dataset.last)));
   if (railLabel) railLabel.textContent = slots[current]?.dataset.milestone || 'HOME';
   const headerBottom = document.querySelector('.site-header')?.getBoundingClientRect().bottom ?? 0;
   if (readout) readout.style.top = `${Math.max(24, headerBottom + 18, Math.min(innerHeight - 35, progress * innerHeight))}px`;
