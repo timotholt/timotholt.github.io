@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const projects = (await getCollection('projects')).filter(p => p.data.featured).sort((a,b) => a.data.order - b.data.order);
+const skills = [
+  { name: 'AI / LLM', items: ['AI-assisted software development', 'Spec-driven workflows', 'Agent instructions', 'Code review of agent output'] },
+  { name: 'Languages', items: ['TypeScript', 'JavaScript', 'Python', 'SQL / PostgreSQL', 'C', 'x86 assembly', 'Rust'] },
+  { name: 'Infrastructure', items: ['PostgreSQL', 'Node.js', 'Axum', 'GitHub Actions', 'Google Compute Engine (basic)'] },
+  { name: 'Tools & interfaces', items: ['React', 'HTMX', 'Git', 'Claude Code', 'OpenAI Codex', 'ChatGPT', 'Gemini'] }
+];
+const experience = [
+  { role: 'IT Support Specialist & Software Engineer', company: 'Egghead Rodeo', date: '2022 — present', detail: 'Part-time software engineering and IT support across practical business needs.' },
+  { role: 'Cell Site Contractor', company: 'Ventel Telephone LLC', date: '2023 — 2025', detail: 'Upgraded fiber-optic network routers at 22 Southern California cell sites without interrupting service.' },
+  { role: 'Owner, Production & AV', company: 'Light Hollywood LLC', date: '2003 — 2026', detail: 'Led film, production, and live-event AV projects, coordinating crews and technical delivery.' },
+  { role: 'Firmware & Software Engineer', company: 'Phoenix Technologies · Quantum · AMD · Metalithic · Spruce · VM Labs', date: '1988 — 2001', detail: 'Worked on BIOS, firmware, drivers, and software. At Phoenix, wrote BIOS code from CPU reset through the Windows boot loader.' }
+];
+---
+<Base title="Tim Otholt — AI Engineer & Software Builder" description="Tim Otholt builds AI-assisted tools, full-stack products, and interactive software, drawing on a background in firmware and production.">
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow">AVAILABLE FOR ENGINEERING OPPORTUNITIES <span class="signal" aria-hidden="true"></span></p>
+      <h1 id="hero-title">Tim Otholt<span class="accent">.</span></h1>
+      <!-- TODO(tim): Confirm exact title line. -->
+      <p class="hero-title">AI Engineer <span>/</span> Forward Deployed Engineer</p>
+      <p class="hero-pitch">I build useful software where people, systems, and new technology meet. My work spans AI-assisted tools, full-stack products, and firmware—and I care about making each one clear, testable, and practical.</p>
+      <!-- TODO(tim): Confirm Los Angeles, CA as the public location and America/Los_Angeles as the clock timezone. -->
+      <div class="location-chip"><span aria-hidden="true">◎</span> Los Angeles, CA <span class="chip-divider">/</span> <time id="local-clock" aria-label="Local time in Los Angeles">--:--</time> PT</div>
+      <div class="hero-actions"><a class="button button-primary" href="#projects">View My Work <span aria-hidden="true">↗</span></a><button class="button button-muted" type="button" disabled title="Ask My AI is coming soon">Ask My AI <span class="soon">Coming soon</span></button><a class="button button-text" href="#contact">Get In Touch <span aria-hidden="true">↗</span></a></div>
+      <div class="socials" aria-label="Social links"><a href="https://github.com/timotholt" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GitHub ↗</a><span class="social-placeholder" title="LinkedIn link coming soon">LinkedIn · TODO(tim)</span><a href="mailto:tim@timotholt.com" aria-label="Email Tim">Email ↗</a></div>
+    </div>
+    <!-- TODO(tim): Replace the TO placeholder with an approved headshot. -->
+    <div class="hero-art"><div class="portrait-frame"><img src="/headshot-placeholder.svg" width="600" height="700" alt="Headshot placeholder with TO initials" fetchpriority="high" /><span class="portrait-label">ENGINEER / BUILDER / MAKER</span></div><span class="hero-index">01 / HUMAN FIRST</span></div>
+  </section>
+  <section id="about" class="section about-section wrap"><div class="section-label">01 / ABOUT</div><div class="about-grid"><h2>From firmware to<br /><em>what's next.</em></h2><div><p>I started in low-level engineering, then spent two decades leading production and AV work. Today I bring that mix of technical depth and real-world delivery to AI-assisted software and full-stack products.</p><p>I'm studying AI Software Engineering at Maestro College and building public projects that turn ideas into working systems.</p></div></div></section>
+  <!-- TODO(tim): Review and approve the six featured projects and all draft copy. -->
+  <section id="projects" class="section wrap"><div class="section-label">02 / SELECTED WORK</div><div class="section-heading"><h2>Things I've built<span class="accent">.</span></h2><p>Six projects across AI tooling, product engineering, and games. Each has a closer look inside.</p></div><div class="project-grid">{projects.map((project, i) => <article class="project-card"><div class="card-top"><span class="project-number">0{i+1}</span><span class="category">{project.data.category}</span></div><h3><a href={`/projects/${project.id}/`}>{project.data.title}<span aria-hidden="true">↗</span></a></h3><p>{project.data.summary}</p><div class="tags">{project.data.stack.map(tag => <span>{tag}</span>)}</div><div class="card-links"><a href={`/projects/${project.id}/`}>Case study <span aria-hidden="true">→</span></a><a href={project.data.repo} target="_blank" rel="noopener noreferrer">Repo ↗</a>{project.data.demo && <a href={project.data.demo} target="_blank" rel="noopener noreferrer">Live demo ↗</a>}</div></article>)}</div><p class="project-note">Live demo links will appear after Tim confirms public URLs. Every project has a repository and a case study.</p></section>
+  <section id="skills" class="section band"><div class="wrap"><div class="section-label">03 / CAPABILITIES</div><div class="section-heading"><h2>Tools for the job<span class="accent">.</span></h2><p>Focused on making technology useful, from low-level systems to modern interfaces.</p></div><div class="skills-grid">{skills.map(group => <div class="skill-group"><h3>{group.name}</h3><ul>{group.items.map(item => <li>{item}</li>)}</ul></div>)}</div></div></section>
+  <section id="experience" class="section wrap"><div class="section-label">04 / EXPERIENCE</div><div class="section-heading"><h2>Work that shaped me<span class="accent">.</span></h2><p>A path through engineering, production, and hands-on technical delivery.</p></div><div class="timeline">{experience.map(job => <article class="timeline-item"><div class="timeline-date">{job.date}</div><div><h3>{job.role}</h3><p class="company">{job.company}</p><p>{job.detail}</p></div></article>)}</div></section>
+  <section id="education" class="section band"><div class="wrap"><div class="section-label">05 / LEARNING & RECOGNITION</div><div class="section-heading"><h2>Always learning<span class="accent">.</span></h2></div><div class="credential-grid"><div class="credential"><span>IN PROGRESS · EXPECTED 2027</span><h3>A.A.S. AI Software Engineering</h3><p>Maestro College · 4.0 GPA</p></div><div class="credential"><span>2024</span><h3>Software Engineering Certificate</h3><p>Per Scholas · 3.8 GPA</p></div><div class="credential"><span>2014–2016</span><h3>Electronic Music Production</h3><p>Dubspot · Ableton Live</p></div><div class="credential"><span>COURSEWORK</span><h3>Information & Computer Science</h3><p>University of Hawaiʻi at Mānoa · no degree</p></div></div><div class="award-line"><span>Selected recognition</span><p>IGN PSXPower Contest winner (1997) · Best Cinematography, 168 Hour Film Festival (2006) · Per Scholas Core Values Award (2024)</p></div></div></section>
+  <section id="contact" class="section contact-section wrap"><div class="section-label">06 / CONTACT</div><h2>Let's make something<br /><em>work.</em></h2><p>Interested in an engineering role, a product problem, or a project? Send me a note.</p><a class="contact-mail" href="mailto:tim@timotholt.com">tim@timotholt.com <span aria-hidden="true">↗</span></a><div class="contact-links"><a href="https://github.com/timotholt" target="_blank" rel="noopener noreferrer">GitHub ↗</a><span>LinkedIn · TODO(tim): add URL</span><span>Resume PDF · TODO(tim): provide approved file</span></div></section>
+  <script>
+    const clock = document.getElementById('local-clock');
+    function updateClock() { if (clock) clock.textContent = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit', hour12: true }).format(new Date()); }
+    updateClock(); setInterval(updateClock, 30_000);
+  </script>
+</Base>

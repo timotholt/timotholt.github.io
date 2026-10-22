@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(project => ({ params: { slug: project.id }, props: { project } }));
+}
+interface Props { project: CollectionEntry<'projects'> }
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+<Base title={`${project.data.title} — Tim Otholt`} description={project.data.summary}>
+  <article class="case-study wrap">
+    <a class="back-link" href="/#projects">← All projects</a>
+    <p class="eyebrow">PROJECT / {project.data.category.toUpperCase()}</p>
+    <h1>{project.data.title}<span class="accent">.</span></h1>
+    <p class="case-lede">{project.data.summary}</p>
+    <div class="case-links"><a class="button button-primary" href={project.data.repo} target="_blank" rel="noopener noreferrer">View repository ↗</a>{project.data.demo && <a class="button button-muted" href={project.data.demo} target="_blank" rel="noopener noreferrer">Live demo ↗</a>}</div>
+    <div class="case-meta"><span>STACK</span><div class="tags">{project.data.stack.map(tag => <span>{tag}</span>)}</div></div>
+    <div class="case-grid"><section><span class="section-label">01 / THE PROBLEM</span><h2>What needed solving</h2><p>{project.data.problem}</p></section><section><span class="section-label">02 / THE APPROACH</span><h2>How I approached it</h2><p>{project.data.approach}</p></section><section><span class="section-label">03 / THE OUTCOME</span><h2>Where it stands</h2><p>{project.data.outcome}</p></section></div>
+    <div class="case-body"><Content /></div>
+    <!-- TODO(tim): Replace screenshot placeholders with approved project captures. -->
+    <section class="screenshot-placeholder" aria-label="Project screenshots pending"><span>VISUALS / PENDING</span><strong>Project screenshots<br />coming soon.</strong><p>TODO(tim): Add approved screenshots for {project.data.title}.</p></section>
+    <div class="next-work"><a href="/#projects">Explore more work <span aria-hidden="true">↗</span></a></div>
+  </article>
+</Base>
