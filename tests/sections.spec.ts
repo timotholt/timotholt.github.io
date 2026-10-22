@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { sections } from '../src/data/sections';
 
-const order = ['contact', 'highlights', 'projects', 'skills', 'jobs-since', 'jobs-eng', 'awards', 'education', 'contact'];
+const order = ['contact', 'highlights', 'projects', 'skills', 'jobs', 'awards', 'education', 'contact'];
 
 const rgb = (css: string) => (css.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
 const hexRgb = (hex: string) => [1, 3, 5].map(offset => parseInt(hex.slice(offset, offset + 2), 16));
