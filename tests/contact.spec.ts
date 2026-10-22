@@ -51,3 +51,18 @@ test('clicking anywhere on a project card opens its case study in a new tab', as
   await popup.waitForLoadState();
   expect(popup.url()).toMatch(/\/projects\/[^/]+\/$/);
 });
+
+test('no hover rule moves or resizes anything', async ({ page }) => {
+  await page.goto('/');
+  const offenders = await page.evaluate(() => {
+    const bad: string[] = [];
+    const walk = (rules: CSSRuleList) => { for (const r of Array.from(rules)) {
+      if (r instanceof CSSStyleRule && r.selectorText.includes(':hover')) {
+        for (const prop of ['transform', 'scale', 'translate', 'rotate', 'width', 'height', 'margin', 'padding', 'top', 'left', 'font-size']) if (r.style.getPropertyValue(prop)) bad.push(`${r.selectorText} { ${prop} }`);
+      } else if ('cssRules' in r) walk((r as CSSGroupingRule).cssRules);
+    } };
+    for (const sheet of Array.from(document.styleSheets)) { try { walk(sheet.cssRules); } catch {} }
+    return bad;
+  });
+  expect(offenders).toEqual([]);
+});
