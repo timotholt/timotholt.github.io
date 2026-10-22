@@ -1,8 +1,8 @@
 ---
 title: solid-tree
-summary: An accessible tree view built for large, changing data and complex selection workflows.
+summary: "A library of four SolidJS tree components: a basic tree, a virtualized tree for huge datasets, a bring-your-own-database tree, and a batteries-included Supabase tree with automatic multi-user leaf locking. Built for the SolidJS ecosystem using the amazing TanStack Query library."
 category: Interface engineering
-stack: [SolidJS, TypeScript, Accessibility, Virtualization]
+stack: [SolidJS, TanStack Query, TanStack Virtual, Supabase, TypeScript]
 repo: https://github.com/timotholt/solid-tree
 demo: https://timotholt.github.io/solid-tree/
 order: 1
