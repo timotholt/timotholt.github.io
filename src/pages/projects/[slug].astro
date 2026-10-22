@@ -15,7 +15,7 @@ const part = `TO-${String(project.data.order).padStart(3, '0')}`;
   <article class="case-study wrap">
     <a class="back-link" href="/#projects">← INDEX / ALL PROJECTS</a>
     <div class="case-topline"><span>ENGINEERING RECORD / {part}</span><span>REV 01 / PUBLIC</span></div>
-    <h1>{project.data.title}<span class="accent">.</span></h1>
+    <h1>{project.data.title}</h1>
     <p class="case-lede">{project.data.summary}</p>
     <div class="case-links"><a class="button button-primary" href={project.data.repo} target="_blank" rel="noopener noreferrer">View repository ↗</a>{project.data.demo && <a class="button button-muted" href={project.data.demo} target="_blank" rel="noopener noreferrer">Live demo ↗</a>}</div>
     <div class="case-specs"><dl class="spec-table"><div><dt>PART NO.</dt><dd>{part}</dd></div><div><dt>CLASS</dt><dd>{project.data.category}</dd></div><div><dt>YEAR</dt><dd>See repository</dd></div><div><dt>ROLE</dt><dd>Builder</dd></div><div><dt>STATUS</dt><dd>{project.data.status ?? (project.data.demo ? 'Public demo' : 'Public repository')}</dd></div><div><dt>STACK</dt><dd>{project.data.stack.join(' / ')}</dd></div></dl></div>
