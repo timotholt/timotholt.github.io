@@ -24,7 +24,9 @@ function geometry() {
   const origin = document.getElementById('chip-trace-origin')?.getBoundingClientRect();
   const startX = origin ? origin.left + origin.width / 2 - mainBox.left : left;
   const startY = origin ? origin.top + origin.height / 2 - mainBox.top : 16;
-  let d = `M ${startX} ${startY} H ${left}`;
+  const hero = sections[0]?.getBoundingClientRect();
+  const turnY = hero ? hero.bottom - mainBox.top - 18 : startY + 200;
+  let d = `M ${startX} ${startY} V ${turnY} H ${left}`;
   for (let i = 0; i < offsets.length; i++) {
     const y = Math.max(20, offsets[i]);
     const x = left + (width < 700 ? 0 : (i + 1) % 2 ? 18 : 0);
@@ -81,12 +83,12 @@ if ('IntersectionObserver' in window) {
     for (const entry of entries) if (entry.isIntersecting) { entry.target.classList.add('is-active'); viaObserver.unobserve(entry.target); }
   }, { rootMargin: '0px 0px -20% 0px' });
   sections.forEach(section => viaObserver.observe(section));
-  const nativeReveal = CSS.supports('animation-timeline: view()');
-  if (!nativeReveal && !reduceMotion.matches) {
+  if (!CSS.supports('animation-timeline: view()') && !reduceMotion.matches) {
+    document.documentElement.classList.add('js-motion');
     const revealObserver = new IntersectionObserver(entries => {
       for (const entry of entries) if (entry.isIntersecting) { entry.target.classList.add('revealed'); revealObserver.unobserve(entry.target); }
-    }, { threshold: .08 });
-    document.querySelectorAll<HTMLElement>('[data-reveal]').forEach(el => { el.classList.add('js-reveal'); revealObserver.observe(el); });
+    }, { threshold: .08, rootMargin: '0px 0px -5% 0px' });
+    document.querySelectorAll<HTMLElement>('.about-grid > *, .metric-value, .project-card, .pinout-row, .revision-row, .contact-mail').forEach(el => revealObserver.observe(el));
   }
   const countObserver = new IntersectionObserver(entries => {
     for (const entry of entries) {
