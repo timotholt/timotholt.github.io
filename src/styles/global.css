@@ -215,3 +215,8 @@ body:has(.color-section) .site-header nav a:hover{color:var(--home-accent)}
 #projects .project-slot>.project-intro{align-self:stretch;position:static;margin:0}
 #projects .project-slot:first-child .project-card .project-media{max-height:min(34svh,400px)}
 @media(max-width:767px){#projects .project-slot:first-child .project-card .project-media.has-shot{height:min(30svh,260px)}}
+/* The whole project card opens its case study: the title link stretches over the card; other links sit above it. */
+#projects .project-card{position:relative;cursor:pointer}
+#projects .project-card .card-title a::after{content:'';position:absolute;inset:0;z-index:1}
+#projects .project-card .card-links a{position:relative;z-index:2}
+#projects .project-card:hover{outline:2px solid var(--section-accent);outline-offset:-2px}
