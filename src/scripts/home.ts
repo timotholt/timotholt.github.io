@@ -20,11 +20,14 @@ function geometry() {
   const width = mainBox.width;
   const height = main.scrollHeight;
   const left = width < 700 ? 14 : Math.max(20, (width - 1260) / 2 - 24);
-  const offsets = sections.map(section => section.getBoundingClientRect().top - mainBox.top + 34);
-  let d = `M ${left} 16`;
+  const offsets = sections.slice(1).map(section => section.getBoundingClientRect().top - mainBox.top + 34);
+  const origin = document.getElementById('chip-trace-origin')?.getBoundingClientRect();
+  const startX = origin ? origin.left + origin.width / 2 - mainBox.left : left;
+  const startY = origin ? origin.top + origin.height / 2 - mainBox.top : 16;
+  let d = `M ${startX} ${startY} H ${left}`;
   for (let i = 0; i < offsets.length; i++) {
     const y = Math.max(20, offsets[i]);
-    const x = left + (width < 700 ? 0 : i % 2 ? 18 : 0);
+    const x = left + (width < 700 ? 0 : (i + 1) % 2 ? 18 : 0);
     d += ` V ${Math.max(16, y - 22)} H ${x} V ${y}`;
   }
   d += ` V ${height - 20}`;
@@ -58,6 +61,19 @@ if (main && trace) {
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = window.setTimeout(geometry, 140); }, { passive: true });
   reduceMotion.addEventListener('change', progress);
+}
+
+const postPanel = document.querySelector<HTMLElement>('.post-panel');
+if (postPanel && !reduceMotion.matches && 'IntersectionObserver' in window) {
+  postPanel.classList.add('post-ready');
+  const postObserver = new IntersectionObserver(entries => {
+    for (const entry of entries) if (entry.isIntersecting) {
+      entry.target.classList.add('post-booting');
+      postObserver.unobserve(entry.target);
+    }
+  }, { threshold: .15 });
+  postObserver.observe(postPanel);
+  reduceMotion.addEventListener('change', () => { if (reduceMotion.matches) postPanel.classList.remove('post-ready'); });
 }
 
 if ('IntersectionObserver' in window) {

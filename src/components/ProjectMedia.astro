@@ -3,8 +3,8 @@ import { projectMedia } from '../lib/projectMedia';
 interface Props { slug: string; title: string; eager?: boolean }
 const { slug, title, eager = false } = Astro.props;
 const media = projectMedia(slug);
-const variant = ['solid-tree','firmware-calgen','bookstore','cruel-deal','mcp-logger','galaxy-demo'].indexOf(slug);
-const code = String(Math.max(0, variant) + 1).padStart(3, '0');
+const variant = ['timotholt-com','solid-tree','firmware-calgen','bookstore','mcp-logger'].indexOf(slug);
+const code = String(Math.max(0, variant)).padStart(3, '0');
 ---
 <div class="project-media" data-reveal>
   {media?.video ? <video src={media.src} muted loop playsinline autoplay aria-label={`${title} project video`} /> : media ? <img src={media.src} alt={`${title} project preview`} loading={eager ? 'eager' : 'lazy'} /> :
@@ -12,12 +12,11 @@ const code = String(Math.max(0, variant) + 1).padStart(3, '0');
     <defs><pattern id={`grid-${code}`} width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="currentColor" stroke-opacity=".1" stroke-width="1"/></pattern></defs>
     <rect width="800" height="480" fill={`url(#grid-${code})`}/>
     <g fill="none" stroke="currentColor" stroke-width="2">
-      {variant === 0 && <><path d="M90 242H230V120H390V242H540V360H710M230 242V360H390M390 120H620V70"/><rect x="210" y="222" width="40" height="40"/><rect x="370" y="100" width="40" height="40"/><rect x="520" y="222" width="40" height="40"/><circle cx="620" cy="70" r="13"/><circle cx="390" cy="360" r="13"/></>}
-      {variant === 1 && <><path d="M80 240H175l40-80 40 160 42-160 44 160 45-80H710"/><path d="M115 95H685M115 385H685" stroke-dasharray="6 8"/><circle cx="215" cy="160" r="11"/><circle cx="341" cy="320" r="11"/><circle cx="540" cy="240" r="40"/></>}
-      {variant === 2 && <><rect x="130" y="90" width="540" height="300" rx="4"/><path d="M130 145H670M340 145V390M380 195H620M380 240H570M380 285H600M175 195H295V330H175Z"/><circle cx="165" cy="117" r="6"/><circle cx="190" cy="117" r="6"/></>}
-      {variant === 3 && <><path d="M180 90h170l45 70-45 70H180l-45-70zM450 250h170l45 70-45 70H450l-45-70zM350 160h100v160M135 160H70M665 320h65"/><circle cx="400" cy="160" r="12"/><circle cx="400" cy="320" r="12"/></>}
+      {variant === 0 && <><rect x="285" y="115" width="230" height="250" rx="4"/><path d="M120 240H285M515 240H680M330 115V60M400 115V60M470 115V60M330 365V420M400 365V420M470 365V420M175 240V350H120M680 240V125H625"/><path d="M335 200H465M335 240H465M335 280H430" stroke-dasharray="8 8"/></>}
+      {variant === 1 && <><path d="M90 242H230V120H390V242H540V360H710M230 242V360H390M390 120H620V70"/><rect x="210" y="222" width="40" height="40"/><rect x="370" y="100" width="40" height="40"/><rect x="520" y="222" width="40" height="40"/><circle cx="620" cy="70" r="13"/><circle cx="390" cy="360" r="13"/></>}
+      {variant === 2 && <><path d="M80 240H175l40-80 40 160 42-160 44 160 45-80H710"/><path d="M115 95H685M115 385H685" stroke-dasharray="6 8"/><circle cx="215" cy="160" r="11"/><circle cx="341" cy="320" r="11"/><circle cx="540" cy="240" r="40"/></>}
+      {variant === 3 && <><rect x="130" y="90" width="540" height="300" rx="4"/><path d="M130 145H670M340 145V390M380 195H620M380 240H570M380 285H600M175 195H295V330H175Z"/><circle cx="165" cy="117" r="6"/><circle cx="190" cy="117" r="6"/></>}
       {variant === 4 && <><rect x="105" y="105" width="185" height="260"/><rect x="510" y="105" width="185" height="260"/><path d="M145 155h105M145 200h70M145 245h105M145 290h85M290 235h220M390 235v-80M390 235v90M550 155h105M550 200h70M550 245h105M550 290h85"/><circle cx="390" cy="235" r="18"/></>}
-      {variant >= 5 && <><circle cx="400" cy="240" r="150"/><circle cx="400" cy="240" r="75"/><ellipse cx="400" cy="240" rx="310" ry="90" transform="rotate(-24 400 240)"/><circle cx="400" cy="240" r="15"/><circle cx="685" cy="126" r="10"/><path d="M95 395h170M535 75h170"/></>}
     </g>
     <g fill="currentColor"><circle cx="90" cy="242" r="5"/><circle cx="710" cy="360" r="5"/></g>
     <text x="34" y="42" class="diagram-label">FIG. {code} / SYSTEM DIAGRAM</text><text x="34" y="449" class="diagram-label">{slug.toUpperCase().replaceAll('-', ' / ')}</text><text x="765" y="449" class="diagram-label" text-anchor="end">NOT TO SCALE</text>
