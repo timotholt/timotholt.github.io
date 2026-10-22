@@ -180,5 +180,5 @@ body:has(.color-section) .site-header nav a:hover{color:var(--home-accent)}
 /* GPA inline in the credential title, in the section accent. */
 .cred-gpa-inline{white-space:nowrap}
 @media(max-width:767px){.cred-item{padding:9px 0 9px 16px}.cred-year{font-size:17px}.cred-body h3{font-size:18px;margin-bottom:3px}.cred-what{font-size:14px;line-height:1.35}.cred-meta{font-size:14px;margin-top:3px}.cred-section .section-heading{margin-bottom:6px}}
-/* Education years include ranges; widen its year column (awards keep the narrow one). */
-@media(min-width:768px){#education .cred-item{grid-template-columns:200px minmax(0,1fr)}}
+/* Year column fits ranges (2014–2016); shared by Awards and Education so titles align. */
+@media(min-width:768px){.cred-item{grid-template-columns:200px minmax(0,1fr)}}
