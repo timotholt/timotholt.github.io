@@ -58,12 +58,14 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 
       const dimensions = await page.locator(`#${id}`).evaluate(section => {
         const box = section.getBoundingClientRect();
         const panel = section.querySelector('.cred-list')!.getBoundingClientRect();
-        return { slots: section.matches('.feature-slot') ? 1 : section.querySelectorAll('.feature-slot').length, sectionHeight: box.height, panelTop: panel.top - box.top, panelBottom: box.bottom - panel.bottom };
+        const heading = section.querySelector('h2')!.getBoundingClientRect();
+        return { headingTop: heading.top - box.top, slots: section.matches('.feature-slot') ? 1 : section.querySelectorAll('.feature-slot').length, sectionHeight: box.height, panelTop: panel.top - box.top, panelBottom: box.bottom - panel.bottom };
       });
       expect(dimensions.slots).toBe(1);
       expect(Math.abs(dimensions.sectionHeight - viewport.height)).toBeLessThanOrEqual(1);
       expect(dimensions.panelTop).toBeGreaterThanOrEqual(0);
       expect(dimensions.panelBottom).toBeGreaterThanOrEqual(0);
+      expect(dimensions.headingTop).toBeGreaterThanOrEqual(0);
     }
   });
 }

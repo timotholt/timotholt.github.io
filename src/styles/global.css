@@ -176,3 +176,8 @@ body:has(.color-section) .site-header nav a:hover{color:var(--home-accent)}
 
 /* Every section is a full-width row that owns its background; content sits in an inner .wrap. */
 .color-section{width:100%;margin-inline:0}
+
+/* GPA as its own stat on credential rows. */
+.cred-item:has(.cred-gpa){grid-template-columns:110px minmax(0,1fr) auto}.cred-gpa{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;color:var(--section-accent)}.cred-gpa strong{font:800 clamp(44px,5vw,72px)/.9 Archivo,sans-serif;letter-spacing:-.05em}.cred-gpa small{font:700 13px/1.4 Archivo,sans-serif;letter-spacing:.14em}
+@media(max-width:767px){.cred-item:has(.cred-gpa){grid-template-columns:minmax(0,1fr) auto;column-gap:12px}.cred-item:has(.cred-gpa) .cred-year{grid-column:1/-1}.cred-gpa strong{font-size:38px}.cred-gpa small{font-size:11px}}
+@media(max-width:767px){.cred-item{padding:9px 0 9px 16px}.cred-year{font-size:17px}.cred-body h3{font-size:18px;margin-bottom:3px}.cred-what{font-size:14px;line-height:1.35}.cred-meta{font-size:14px;margin-top:3px}.cred-gpa strong{font-size:32px}.cred-section .section-heading{margin-bottom:6px}}
