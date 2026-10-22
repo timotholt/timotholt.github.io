@@ -6,8 +6,8 @@ const media = projectMedia(slug);
 const variant = ['timotholt-com','solid-tree','firmware-calgen','bookstore','mcp-logger'].indexOf(slug);
 const code = String(Math.max(0, variant)).padStart(3, '0');
 ---
-<div class="project-media" data-reveal>
-  {media?.video ? <video src={media.src} muted loop playsinline autoplay aria-label={`${title} project video`} /> : media ? <img src={media.src} alt={`${title} project preview`} loading={eager ? 'eager' : 'lazy'} /> :
+<div class={`project-media${media && !media.video ? ' has-shot' : ''}`} data-reveal>
+  {media?.video ? <video src={media.src} muted loop playsinline autoplay aria-label={`${title} project video`} /> : media ? <picture>{media.phone && <source media="(max-width: 767px)" srcset={media.phone} />}<img src={media.src} alt={`${title} screenshot`} loading={eager ? 'eager' : 'lazy'} /></picture> :
   <svg class="schematic" viewBox="0 0 800 480" role="img" aria-label={`${title} schematic illustration`} preserveAspectRatio="xMidYMid slice">
     <defs><pattern id={`grid-${code}`} width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="currentColor" stroke-opacity=".1" stroke-width="1"/></pattern></defs>
     <rect width="800" height="480" fill={`url(#grid-${code})`}/>
