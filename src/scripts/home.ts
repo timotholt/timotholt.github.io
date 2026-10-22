@@ -84,14 +84,25 @@ function measureRail() {
   // CSS owns the shared viewport slot size; read it after each refresh.
   const slotHeight = getComputedStyle(document.documentElement).getPropertyValue('--slot-h').trim();
   if (!slotHeight) return;
-  targets = anchors.map(anchor => Math.round(anchor.getBoundingClientRect().top + scrollY - LANDING_OFFSET));
+  targets = anchors.map((anchor, i) => {
+    // Flowing rows (job history) land a little below the top; the first one shows its section heading.
+    const flow = slots[i].classList.contains('flow-slot');
+    const firstInSection = flow && slots[i - 1]?.closest('section') !== slots[i].closest('section');
+    const offset = !flow ? LANDING_OFFSET : firstInSection ? Math.round(slots[i].getBoundingClientRect().top - slots[i].closest('section')!.getBoundingClientRect().top) : Math.round(innerHeight * .12);
+    anchor.dataset.offset = String(offset);
+    return Math.round(anchor.getBoundingClientRect().top + scrollY - offset);
+  });
   updateRail();
 }
 const themeMeta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
 function updateRail() {
   if (!targets.length) return;
   const first = targets[0], last = targets[targets.length - 1];
-  const progress = Math.max(0, Math.min(1, (scrollY - first) / Math.max(1, last - first)));
+  // Map scroll onto the evenly spaced dots: progress moves one dot-step between consecutive targets.
+  let seg = 0;
+  while (seg < targets.length - 2 && scrollY >= targets[seg + 1]) seg++;
+  const span = Math.max(1, targets[seg + 1] - targets[seg]);
+  const progress = scrollY <= first ? 0 : scrollY >= last ? 1 : Math.min(1, (seg + (scrollY - targets[seg]) / span) / Math.max(1, targets.length - 1));
   if (railFill) railFill.style.transform = `scaleY(${progress})`;
   if (percent) percent.textContent = `${String(Math.round(progress * 100)).padStart(3, '0')}%`;
   let current = 0;
@@ -219,7 +230,7 @@ function credScene(mobile: boolean) {
 }
 
 function experienceScene(mobile: boolean) {
-  const rows = gsap.utils.toArray<HTMLElement>('.revision-row');
+  const rows = gsap.utils.toArray<HTMLElement>('.job-row');
   // Trigger on the slot so rows under a section heading still settle by the slot's landing.
   rows.forEach((row, i) => gsap.from(row, { x: (i % 2 ? 1 : -1) * innerWidth * (mobile ? .4 : .8), rotation: i % 2 ? 12 : -12, opacity: 0, force3D: true, ease: 'none', scrollTrigger: { trigger: row.closest('.feature-slot') || row, start: 'top 95%', end: 'top 35%', scrub: .6 } }));
 }
