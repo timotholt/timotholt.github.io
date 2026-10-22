@@ -24,9 +24,9 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 
       await expect.poll(() => page.evaluate(index => Math.abs(document.querySelectorAll('.milestone-anchor')[index].getBoundingClientRect().top), i), { timeout: 10_000 }).toBeLessThanOrEqual(1);
       await expect(page.locator('.rail-dot.current')).toHaveCount(1);
       await expect(dots.nth(i)).toHaveClass(/current/);
-      await expect.poll(async () => slots.nth(i).evaluate(slot => { const object = slot.querySelector<HTMLElement>('.metric,.project-card,.pinout-row,.revision-row,.post-panel') || slot; const st = getComputedStyle(object); return st.opacity === '1' && (st.transform === 'none' || st.transform === 'matrix(1, 0, 0, 1, 0, 0)' || st.transform === 'matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)'); }), { timeout: 3000 }).toBeTruthy();
+      await expect.poll(async () => slots.nth(i).evaluate(slot => { const object = slot.querySelector<HTMLElement>('.metric,.project-card,.pinout-row,.revision-row,.cred-item:last-child') || slot; const st = getComputedStyle(object); return st.opacity === '1' && (st.transform === 'none' || st.transform === 'matrix(1, 0, 0, 1, 0, 0)' || st.transform === 'matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)'); }), { timeout: 3000 }).toBeTruthy();
       const state = await slots.nth(i).evaluate(slot => {
-        const object = slot.matches('.hero,.chip-section,.metric-slot,.project-slot,.pin-slot,.revision-slot,#education,#contact') ? slot.querySelector<HTMLElement>('.metric,.project-card,.pinout-row,.revision-row,.post-panel') || slot : slot;
+        const object = slot.matches('.hero,.chip-section,.metric-slot,.project-slot,.pin-slot,.revision-slot,#education,#contact') ? slot.querySelector<HTMLElement>('.metric,.project-card,.pinout-row,.revision-row,.cred-item:last-child') || slot : slot;
         const style = getComputedStyle(object);
         return { transform: style.transform, opacity: Number(style.opacity) };
       });

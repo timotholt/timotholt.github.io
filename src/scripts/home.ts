@@ -202,17 +202,10 @@ function skillsScene(mobile: boolean) {
   });
 }
 
-function postScene() {
-  document.querySelectorAll<HTMLElement>('.post-section').forEach(section => {
-  const panel = section.querySelector<HTMLElement>('.post-panel');
-  if (!panel) return;
-  const lines = gsap.utils.toArray<HTMLElement>(section.querySelectorAll('.post-line'));
-  const tl = gsap.timeline({ scrollTrigger: { trigger: section, start: 'top 75%', end: 'top 20%', scrub: .6 } });
-  tl.from(panel, { scaleY: .004, opacity: .45, transformOrigin: 'center center', duration: .7, force3D: true });
-  tl.to(panel, { opacity: .55, duration: .025, yoyo: true, repeat: 3 }, .44);
-  ScrollTrigger.create({ trigger: section, start: 'top 30%', once: true, onEnter: () => {
-    lines.forEach((line, i) => gsap.fromTo(line, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: .28, delay: i * .18, ease: 'steps(20)' }));
-  } });
+function credScene(mobile: boolean) {
+  // Field-notes recipe per item, timed to the section slot so the list is settled when it lands.
+  document.querySelectorAll<HTMLElement>('.cred-section').forEach(section => {
+    section.querySelectorAll<HTMLElement>('.cred-item').forEach((item, i) => gsap.from(item, { x: (i % 2 ? 1 : -1) * innerWidth * (mobile ? .4 : .8), rotation: i % 2 ? 12 : -12, opacity: 0, force3D: true, ease: 'none', scrollTrigger: { trigger: section, start: `top ${95 - i * 8}%`, end: `top ${30 - i * 6}%`, scrub: .6 } }));
   });
 }
 
@@ -227,7 +220,7 @@ function experienceScene(mobile: boolean) {
 mm.add('(prefers-reduced-motion: reduce)', () => { gsap.set('.portrait', {'--scan':'50%'}); updateRail(); });
 mm.add({desktop:'(min-width: 768px) and (prefers-reduced-motion: no-preference)',mobile:'(max-width: 767px) and (prefers-reduced-motion: no-preference)'}, context => {
   const mobile=!!context.conditions?.mobile;
-  heroScene(); chipScene(); profileScene(mobile); projectScene(mobile); skillsScene(mobile); postScene(); experienceScene(mobile);
+  heroScene(); chipScene(); profileScene(mobile); projectScene(mobile); skillsScene(mobile); credScene(mobile); experienceScene(mobile);
   gsap.to('body',{backgroundPositionY:'200px',ease:'none',scrollTrigger:{start:0,end:'max',scrub:true}});
   requestAnimationFrame(()=>ScrollTrigger.refresh());
 });

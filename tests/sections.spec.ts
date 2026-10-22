@@ -50,14 +50,14 @@ test('section backgrounds, rail bands, and text contrast follow one palette', as
 });
 
 for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 }]) {
-  test(`POST sections fit one slot at ${viewport.width}`, async ({ page }) => {
+  test(`Education and Awards lists fit one slot at ${viewport.width}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
     for (const id of ['education', 'awards']) {
       const dimensions = await page.locator(`#${id}`).evaluate(section => {
         const box = section.getBoundingClientRect();
-        const panel = section.querySelector('.post-panel')!.getBoundingClientRect();
+        const panel = section.querySelector('.cred-list')!.getBoundingClientRect();
         return { slots: section.matches('.feature-slot') ? 1 : section.querySelectorAll('.feature-slot').length, sectionHeight: box.height, panelTop: panel.top - box.top, panelBottom: box.bottom - panel.bottom };
       });
       expect(dimensions.slots).toBe(1);
