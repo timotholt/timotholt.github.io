@@ -58,7 +58,9 @@ function updateRail() {
   const label = sections[current]?.querySelector('.section-label')?.textContent?.trim() || '00.0 HOME';
   if (railLabel) railLabel.textContent = label.replace(' / ', ' ');
   const readout = document.querySelector<HTMLElement>('.rail-readout');
-  if (readout) readout.style.top = `${Math.max(24, Math.min(innerHeight - 35, progress * innerHeight))}px`;
+  // Keep the readout clear of the header (logo) while it is on screen.
+  const headerBottom = document.querySelector('.site-header')?.getBoundingClientRect().bottom ?? 0;
+  if (readout) readout.style.top = `${Math.max(24, headerBottom + 18, Math.min(innerHeight - 35, progress * innerHeight))}px`;
 }
 addEventListener('scroll', updateRail, { passive: true });
 addEventListener('resize', updateRail);
