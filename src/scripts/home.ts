@@ -1,3 +1,4 @@
+import { sectionByKey, type SectionKey } from '../data/sections';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -61,7 +62,14 @@ slotSections.forEach((section, i) => {
   const step = 100 / Math.max(1, slots.length - 1);
   const band = document.createElement('span');
   band.className = 'rail-band';
-  band.style.setProperty('--band', `var(--band-${bands.length % 8})`);
+  const key = section?.getAttribute('data-section-key') as SectionKey | null;
+  if (key && sectionByKey[key]) {
+    band.style.setProperty('--band', `var(--sec)`);
+    band.style.setProperty('--band-dark', `var(--sec-dark)`);
+    band.style.setProperty('--sec', sectionByKey[key].color);
+    band.style.setProperty('--sec-dark', sectionByKey[key].darkColor);
+    band.dataset.sectionKey = key;
+  }
   band.setAttribute('aria-hidden', 'true');
   band.dataset.first = String(i); band.dataset.last = String(last);
   band.style.top = `calc(${(i - .5) * step}% + 2px)`;
@@ -90,7 +98,7 @@ function updateRail() {
   if (chosen >= 0 && Math.abs(scrollY - targets[chosen]) <= 2) current = chosen;
   dots.forEach((dot, i) => dot.classList.toggle('current', i === current));
   bands.forEach(band => band.classList.toggle('current', current >= Number(band.dataset.first) && current <= Number(band.dataset.last)));
-  if (railLabel) railLabel.textContent = slots[current]?.dataset.milestone || 'HOME';
+  if (railLabel) railLabel.textContent = slotSections[current]?.getAttribute('data-section-label') || 'Contact';
   const headerBottom = document.querySelector('.site-header')?.getBoundingClientRect().bottom ?? 0;
   if (readout) readout.style.top = `${Math.max(24, headerBottom + 18, Math.min(innerHeight - 35, progress * innerHeight))}px`;
 }
@@ -167,10 +175,10 @@ function profileScene(mobile: boolean) {
   splitText(heading,true).forEach((word,i)=>gsap.from(word,{x:(i%2?1:-1)*innerWidth*(mobile?.4:.8),skewX:i%2?-25:25,opacity:0,ease:'none',scrollTrigger:{trigger:word,start:'top 95%',end:'top 35%',scrub:.6}}));
   gsap.from('.about-grid > div', {x:mobile?innerWidth*.4:innerWidth*.8,opacity:0,ease:'none',scrollTrigger:{trigger:'.about-grid > div',start:'top 95%',end:'top 35%',scrub:.6}});
   document.querySelectorAll<HTMLElement>('.metric').forEach((metric,i)=>{
-    gsap.from(metric,{x:(i%2?1:-1)*innerWidth*(mobile?.4:.8),scale:3,opacity:0,ease:'none',scrollTrigger:{trigger:metric,start:'top 95%',end:'top 40%',scrub:.6}});
+    gsap.from(metric,{x:(i%2?1:-1)*innerWidth*(mobile?.4:.8),scale:3,opacity:0,ease:'none',scrollTrigger:{trigger:metric.closest('.feature-slot')||metric,start:'top 95%',end:'top 40%',scrub:.6}});
     const el=metric.querySelector<HTMLElement>('.metric-value');if(!el)return;
     const target=Number(el.dataset.count);const decimal=el.dataset.count?.includes('.')?1:0;const counter={value:0};
-    gsap.to(counter,{value:target,ease:'none',scrollTrigger:{trigger:metric,start:'top 95%',end:'top 40%',scrub:.6},onUpdate:()=>{el.textContent=counter.value.toFixed(decimal).padStart(decimal?3:2,'0')}});
+    gsap.to(counter,{value:target,ease:'none',scrollTrigger:{trigger:metric.closest('.feature-slot')||metric,start:'top 95%',end:'top 40%',scrub:.6},onUpdate:()=>{el.textContent=counter.value.toFixed(decimal).padStart(decimal?3:2,'0')}});
   });
 }
 function projectScene(mobile: boolean) {
@@ -189,26 +197,28 @@ function skillsScene(mobile: boolean) {
   if (sweep) gsap.fromTo(sweep, { x: 0, opacity: 1 }, { x: () => drawing?.clientWidth || 400, opacity: 1, ease: 'none', scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: .6 } });
   gsap.utils.toArray<HTMLElement>('.pinout-row').forEach((row, i) => {
     gsap.from(row, { x: (i % 2 ? 1 : -1) * innerWidth * (mobile ? .65 : .9), opacity: .1, skewX: i % 2 ? -15 : 15, ease: 'none', scrollTrigger: { trigger: row.closest('.pin-slot'), start: 'top 95%', end: 'top top', scrub: .6 } });
-    gsap.fromTo(row, { backgroundColor: 'transparent' }, { backgroundColor: 'var(--accent)', duration: .12, yoyo: true, repeat: 1, scrollTrigger: { trigger: row.closest('.pin-slot'), start: 'top 65%', end: 'top 20%', scrub: true } });
+    gsap.fromTo(row, { backgroundColor: 'transparent' }, { backgroundColor: 'var(--section-accent)', duration: .12, yoyo: true, repeat: 1, scrollTrigger: { trigger: row.closest('.pin-slot'), start: 'top 65%', end: 'top 20%', scrub: true } });
   });
 }
 
 function postScene() {
-  const section = document.querySelector<HTMLElement>('#education');
-  const panel = section?.querySelector<HTMLElement>('.post-panel');
-  if (!section || !panel) return;
-  const lines = gsap.utils.toArray<HTMLElement>('.post-line');
+  document.querySelectorAll<HTMLElement>('.post-section').forEach(section => {
+  const panel = section.querySelector<HTMLElement>('.post-panel');
+  if (!panel) return;
+  const lines = gsap.utils.toArray<HTMLElement>(section.querySelectorAll('.post-line'));
   const tl = gsap.timeline({ scrollTrigger: { trigger: section, start: 'top 75%', end: 'top 20%', scrub: .6 } });
   tl.from(panel, { scaleY: .004, opacity: .45, transformOrigin: 'center center', duration: .7, force3D: true });
   tl.to(panel, { opacity: .55, duration: .025, yoyo: true, repeat: 3 }, .44);
   ScrollTrigger.create({ trigger: section, start: 'top 30%', once: true, onEnter: () => {
     lines.forEach((line, i) => gsap.fromTo(line, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: .28, delay: i * .18, ease: 'steps(20)' }));
   } });
+  });
 }
 
 function experienceScene(mobile: boolean) {
   const rows = gsap.utils.toArray<HTMLElement>('.revision-row');
-  rows.forEach((row, i) => gsap.from(row, { x: (i % 2 ? 1 : -1) * innerWidth * (mobile ? .4 : .8), rotation: i % 2 ? 12 : -12, opacity: 0, force3D: true, ease: 'none', scrollTrigger: { trigger: row, start: 'top 95%', end: 'top 35%', scrub: .6 } }));
+  // Trigger on the slot so rows under a section heading still settle by the slot's landing.
+  rows.forEach((row, i) => gsap.from(row, { x: (i % 2 ? 1 : -1) * innerWidth * (mobile ? .4 : .8), rotation: i % 2 ? 12 : -12, opacity: 0, force3D: true, ease: 'none', scrollTrigger: { trigger: row.closest('.feature-slot') || row, start: 'top 95%', end: 'top 35%', scrub: .6 } }));
 }
 
 
