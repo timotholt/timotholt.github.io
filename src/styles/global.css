@@ -178,3 +178,6 @@ body:has(.color-section) .site-header nav a:hover{color:var(--home-accent)}
 
 /* Job history: each page is one full slot; jobs centered, list styling shared with Awards/Education. */
 .job-page{display:flex;flex-direction:column;justify-content:center}.job-list .cred-item:last-child{border-bottom:1px solid var(--section-accent)}
+/* One spacing and heading scale for every credential-style list (Work History, Awards, Education). */
+.cred-list .cred-item{padding-block:34px}
+@media(max-width:767px){.cred-list .cred-item{padding-block:12px}#experience h2,.cred-section h2{font-size:clamp(28px,8vw,40px)}.job-page .section-heading{margin-bottom:6px}}

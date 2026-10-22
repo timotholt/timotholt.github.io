@@ -86,3 +86,22 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 660, height: 780 }
     for (let i = 1; i < rows.length; i++) expect(Math.abs(rows[i].top - rows[i - 1].bottom), `${rows[i - 1].id} → ${rows[i].id}`).toBeLessThanOrEqual(1);
   });
 }
+
+for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 }]) {
+  test(`job pages hold three jobs and fit their slot at ${viewport.width}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    await page.evaluate(() => document.fonts.ready);
+    // Layout offsets ignore the entrance transforms, so this measures the settled layout.
+    const pages = await page.$$eval('.job-page', slots => slots.map(slot => {
+      const list = slot.querySelector<HTMLElement>('.job-list')!;
+      const heading = slot.querySelector<HTMLElement>('.section-heading');
+      return { jobs: list.children.length, top: heading ? heading.offsetTop : list.offsetTop, bottom: list.offsetTop + list.offsetHeight, height: slot.clientHeight };
+    }));
+    expect(pages.map(p => p.jobs)).toEqual([3, 3, 3]);
+    for (const p of pages) {
+      expect(p.top).toBeGreaterThanOrEqual(0);
+      expect(p.bottom).toBeLessThanOrEqual(p.height);
+    }
+  });
+}
