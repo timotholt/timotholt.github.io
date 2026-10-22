@@ -135,9 +135,9 @@ body:has(.color-section) .site-header nav a:hover{color:var(--home-accent)}
 .color-section .metric-value{color:var(--home-bg)}
 .color-section .metric-slot,.color-section .metric,.color-section .project-card,.color-section .spec-table>div,.color-section .pinout,.color-section .pinout-row,.color-section .revision-table,.color-section .revision-row{border-color:var(--section-accent)}
 .color-section .section-heading p,.color-section .about-grid>div,.color-section .project-function,.color-section .pinout p,.color-section .revision-row p,.color-section .contact-identity>span,.color-section .contact-list small,.color-section .hero-pitch{color:var(--sec-fg)}
-.color-section .project-card{background:#174B2F;color:var(--sec-fg)}
+.color-section .project-card{background:#0B3E4B;color:var(--sec-fg)}
 .color-section .project-card .card-top,.color-section .project-card .project-media,.color-section .project-card .card-links{border-color:var(--section-accent)}
-.color-section .project-card .project-media{background:#123F27}
+.color-section .project-card .project-media{background:#08333E}
 .color-section .project-card .schematic{color:var(--sec-fg)}
 .color-section .project-card .diagram-label{fill:var(--section-accent)}
 .color-section .project-card a:hover{color:var(--section-accent)}

@@ -1,12 +1,12 @@
 export const sections = [
   { key: 'contact', label: 'Contact', bg: '#E8541C', fg: '#14110F', accent: '#381006' },
   { key: 'highlights', label: 'Highlights', bg: '#1C1C1C', fg: '#F4F1EA', accent: '#DAA47D' },
-  { key: 'projects', label: 'Projects', bg: '#1E5E3B', fg: '#F4F1EA', accent: '#C6E4CA' },
+  { key: 'projects', label: 'Projects', bg: '#0F4C5C', fg: '#F4F1EA', accent: '#BFE3EA' },
   { key: 'skills', label: 'Skills', bg: '#5B2A6E', fg: '#F4F1EA', accent: '#DEC5EB' },
   { key: 'jobs-since', label: 'Job history · Since 2002', bg: '#1F4E8C', fg: '#F4F1EA', accent: '#BDD9F5' },
   { key: 'jobs-eng', label: 'Job history · Engineering', bg: '#14213D', fg: '#F4F1EA', accent: '#AFCAE8' },
   { key: 'awards', label: 'Awards', bg: '#C99A2E', fg: '#14110F', accent: '#493008' },
-  { key: 'education', label: 'Education', bg: '#4F6B67', fg: '#F4F1EA', accent: '#D5ECE7' },
+  { key: 'education', label: 'Education', bg: '#1E5E3B', fg: '#F4F1EA', accent: '#C6E4CA' },
 ] as const;
 
 export type SectionKey = typeof sections[number]['key'];
