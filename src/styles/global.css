@@ -67,3 +67,37 @@ body{overflow-x:clip}.wrap{width:min(1000px,calc(100% - 100px));margin-inline:au
 @media(max-width:480px){.hero h1{font-size:clamp(36px,9.7vw,50px)}.portrait-caption{font-size:9px}.section h2{font-size:clamp(43px,11vw,58px)}.card-top{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.portrait{--scan:50%}.mesh-label{opacity:1}.chip-section .bios-chip,.project-card{transform:none!important}}
 #skills>.wrap{position:relative}#skills .logic-sweep{top:0;bottom:0;z-index:5}
+/* Round 6: equal viewport slots and commit graph navigation. */
+:root{--slot-h:100svh}
+html{scroll-padding-top:0}
+.feature-slot{position:relative;height:var(--slot-h);min-height:var(--slot-h);max-height:var(--slot-h);overflow:clip}
+.milestone-anchor{position:absolute;top:0;left:0;width:0;height:0;pointer-events:none}
+.progress-rail{left:auto;right:1rem;top:12px;height:calc(100svh - 24px);width:4px;pointer-events:none}
+.rail-dots{overflow:visible}
+.rail-dot{position:absolute;left:2px;width:24px;height:24px;padding:0;border:0;background:transparent;transform:translate(-50%,-50%);pointer-events:auto;cursor:pointer;color:var(--ink)}
+.rail-dot:before{content:'';position:absolute;top:7px;left:7px;width:10px;height:10px;border:1.5px solid var(--ink);border-radius:50%;background:var(--paper)}
+.rail-dot.current:before{background:var(--accent);border-color:var(--accent)}
+.rail-dot:after{content:attr(data-title);position:absolute;right:29px;top:50%;transform:translateY(-50%);white-space:nowrap;padding:3px 6px;background:var(--paper);border:1px solid var(--rule);color:var(--ink);font:500 10px 'JetBrains Mono',monospace;opacity:0;pointer-events:none}
+.rail-dot:hover:after,.rail-dot:focus-visible:after{opacity:1}
+.rail-readout{left:auto;right:13px;text-align:right;justify-content:flex-end}
+.wrap{width:min(1000px,calc(100% - 120px))}
+.site-header.wrap,.site-footer.wrap{width:min(1000px,calc(100% - 120px))}
+.hero{padding-block:20px 28px}.portrait-unit{width:min(43svh,420px);margin:8px auto 8px}.portrait-caption{margin-bottom:12px}.hero-title{margin-bottom:9px}.hero-pitch{font-size:clamp(14px,1.5vw,18px);line-height:1.35;margin-bottom:10px}.hero-meta{margin-top:8px}.hero-actions{margin-top:12px}.socials{margin-top:12px}
+.chip-section{padding-block:0}.chip-stage{height:100%;min-height:0}
+.section{padding-block:0}.section-label{margin-bottom:14px}.section-heading{margin-bottom:18px}.section-heading p{margin-top:8px}.section h2{font-size:clamp(44px,5vw,72px)}
+.metric-grid{margin-top:0;border:0}.metric-slot{display:flex;flex-direction:column;justify-content:center;border-top:1px solid var(--ink)}.about-grid>div{margin-top:12px;font-size:clamp(14px,1.5vw,18px);line-height:1.4}.about-grid p{margin-bottom:8px}.metric{margin-top:20px;padding:12px 0}.metric-value{font-size:clamp(75px,12vw,150px)}
+.project-grid{gap:0}.project-slot{display:flex;flex-direction:column;justify-content:center}.project-intro .section-heading{margin-bottom:8px}.project-intro .section-label{margin-bottom:8px}.project-card{max-width:760px;max-height:calc(var(--slot-h) - 24px);overflow:clip}.project-slot:first-child .project-card{max-height:calc(var(--slot-h) - 145px)}.project-card .project-media{aspect-ratio:800/270}.project-card .card-content{padding:12px 20px}.project-card h3{font-size:clamp(25px,3vw,36px);margin-bottom:5px}.project-function{min-height:0;font-size:13px;margin-bottom:5px}.project-card .spec-table{margin-top:5px}.project-card .spec-table>div{padding:4px 0}.project-card .card-links{margin:6px 0 0;padding-top:6px}.project-note{display:none}
+#skills>.wrap{width:min(1200px,calc(100% - 120px));position:relative}.skills-visual{position:sticky;top:15svh;height:240px;margin-bottom:-240px;width:40%;z-index:2;pointer-events:none}.package-drawing{margin:0;width:100%}.logic-sweep{left:0;top:0;bottom:auto;height:150px}.pinout{width:60%;margin-left:40%;overflow:visible}.pinout-head{display:none}.pin-slot{display:flex;flex-direction:column;justify-content:center;padding:0 0 0 26px}.pinout-row{grid-template-columns:40px 1fr;gap:5px;padding:18px 0}.pinout-row p{grid-column:1/-1}.pinout-row .logic-wave{grid-column:1/-1}.pinout-row>span:not(.pin-number){grid-column:2;display:block;font:500 12px/1.4 'JetBrains Mono',monospace}.pinout-row>span:not(.pin-number)::before{content:attr(data-label) ' ';opacity:.55}.skills-intro{margin-bottom:35px}
+.revision-slot{display:flex;flex-direction:column;justify-content:center}.revision-row{padding:30px 0}.revision-row h3{font-size:clamp(25px,3vw,36px)}.experience-intro{margin-bottom:35px}
+#education{display:flex;align-items:center}.post-panel{margin-top:30px}.contact-section{display:flex;flex-direction:column;justify-content:center}
+@media(max-width:899px){.wrap,.site-header.wrap,.site-footer.wrap{width:calc(100% - 88px);margin-left:18px;margin-right:70px}#skills>.wrap{width:calc(100% - 88px);margin-left:18px;margin-right:70px}.skills-visual{width:100%;height:135px;top:8svh;margin-bottom:-135px}.package-drawing{max-width:420px}.pinout{width:100%;margin-left:0}.pin-slot{padding:120px 0 0}.skills-intro{margin-bottom:4px}.pinout-row{padding:10px 0}.rail-readout{right:13px;font-size:10px}.rail-readout #rail-section{font-size:8px}.hero{padding-block:12px}.portrait-unit{width:min(34svh,280px)}.hero h1{margin:-.3em 0 0}.hero-pitch{font-size:13px}.hero-title{font-size:20px}.hero-actions .button{min-height:35px;padding:6px 8px}.socials{font-size:9px}.section h2{font-size:clamp(38px,10vw,57px)}.metric-value{font-size:clamp(80px,24vw,130px)}.project-card .project-media{aspect-ratio:800/235}.project-card .card-content{padding:9px 12px}.project-card .spec-table>div:nth-child(n+3){display:none}.project-card .card-links{font-size:9px}.project-intro .section-heading p{font-size:11px}.post-panel{font-size:10px}.contact-section h2{font-size:clamp(40px,11vw,60px)}}
+/* Keep the rail readout clear of narrow content and settle row entrances at a slot start. */
+.section{border-top:0}
+.revision-slot{justify-content:flex-start;padding-top:8svh}
+.metric-slot:first-child{justify-content:flex-start;padding-top:6svh}
+@media(max-width:899px){.wrap,.site-header.wrap,.site-footer.wrap{width:calc(100% - 118px);margin-left:18px;margin-right:100px}#skills>.wrap{width:calc(100% - 118px);margin-left:18px;margin-right:100px}.metric-slot:first-child{padding-top:4svh}.metric-slot:first-child .about-grid>div{font-size:12px;line-height:1.3}.metric-slot:first-child .metric-value{font-size:72px}.metric-slot:first-child .metric{margin-top:8px}.hero .eyebrow{font-size:9px}}
+.contact-section{padding-bottom:0}
+.project-slot .project-card{position:absolute;top:50%;left:0;width:100%;translate:0 -50%}
+.project-intro{position:absolute;top:4svh;left:0;right:0}
+.project-slot{display:grid;place-items:center}
+.project-slot .project-card{position:relative;top:auto;left:auto;width:100%;translate:none}

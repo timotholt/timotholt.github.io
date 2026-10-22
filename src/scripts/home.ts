@@ -33,39 +33,78 @@ function splitText(el: HTMLElement, byWord = false) {
 }
 
 const mm = gsap.matchMedia();
-const sections = gsap.utils.toArray<HTMLElement>('.trace-section');
+// Slot starts are untransformed: the anchor is a sibling of each animated object.
+export const LANDING_OFFSET = 0;
+const slots = gsap.utils.toArray<HTMLElement>('.feature-slot');
 const railFill = document.querySelector<HTMLElement>('.rail-fill');
 const railDots = document.querySelector<HTMLElement>('.rail-dots');
 const percent = document.querySelector<HTMLElement>('#scroll-percent');
 const railLabel = document.querySelector<HTMLElement>('#rail-section');
-sections.forEach((_, i) => {
-  const dot = document.createElement('span');
-  dot.className = 'rail-dot'; dot.dataset.section = String(i);
-  railDots?.append(dot);
+const readout = document.querySelector<HTMLElement>('.rail-readout');
+const anchors = slots.map(slot => {
+  const anchor = document.createElement('span');
+  anchor.className = 'milestone-anchor';
+  anchor.setAttribute('aria-hidden', 'true');
+  slot.prepend(anchor);
+  return anchor;
 });
+const dots = slots.map((slot, i) => {
+  const dot = document.createElement('button');
+  dot.type = 'button'; dot.className = 'rail-dot';
+  dot.style.top = `${i / Math.max(1, slots.length - 1) * 100}%`;
+  dot.setAttribute('aria-label', slot.dataset.milestone || `Milestone ${i + 1}`);
+  dot.dataset.title = slot.dataset.milestone || '';
+  dot.dataset.index = String(i);
+  railDots?.append(dot);
+  return dot;
+});
+let targets: number[] = [];
+let chosen = -1;
+let scrollTimer = 0;
+function measureRail() {
+  // CSS owns the shared viewport slot size; read it after each refresh.
+  const slotHeight = getComputedStyle(document.documentElement).getPropertyValue('--slot-h').trim();
+  if (!slotHeight) return;
+  targets = anchors.map(anchor => Math.round(anchor.getBoundingClientRect().top + scrollY - LANDING_OFFSET));
+  updateRail();
+}
 function updateRail() {
-  const range = Math.max(1, document.documentElement.scrollHeight - innerHeight);
-  const progress = Math.min(1, Math.max(0, scrollY / range));
+  if (!targets.length) return;
+  const first = targets[0], last = targets[targets.length - 1];
+  const progress = Math.max(0, Math.min(1, (scrollY - first) / Math.max(1, last - first)));
   if (railFill) railFill.style.transform = `scaleY(${progress})`;
   if (percent) percent.textContent = `${String(Math.round(progress * 100)).padStart(3, '0')}%`;
   let current = 0;
-  sections.forEach((section, i) => {
-    const p = Math.min(1, Math.max(0, (section.offsetTop - innerHeight * .5) / range));
-    const dot = railDots?.children[i] as HTMLElement | undefined;
-    if (dot) { dot.style.top = `${p * 100}%`; dot.classList.toggle('passed', progress >= p); }
-    if (section.getBoundingClientRect().top < innerHeight * .52) current = i;
-  });
-  const label = sections[current]?.querySelector('.section-label')?.textContent?.trim() || '00.0 HOME';
-  if (railLabel) railLabel.textContent = label.replace(' / ', ' ');
-  const readout = document.querySelector<HTMLElement>('.rail-readout');
-  // Keep the readout clear of the header (logo) while it is on screen.
+  targets.forEach((target, i) => { if (scrollY >= target - 2) current = i; });
+  if (chosen >= 0 && Math.abs(scrollY - targets[chosen]) <= 2) current = chosen;
+  dots.forEach((dot, i) => dot.classList.toggle('current', i === current));
+  if (railLabel) railLabel.textContent = slots[current]?.dataset.milestone || 'HOME';
   const headerBottom = document.querySelector('.site-header')?.getBoundingClientRect().bottom ?? 0;
   if (readout) readout.style.top = `${Math.max(24, headerBottom + 18, Math.min(innerHeight - 35, progress * innerHeight))}px`;
 }
+dots.forEach((dot, i) => dot.addEventListener('click', () => {
+  chosen = i;
+  const target = targets[i];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  scrollTo({ top: target, behavior: reduced ? 'instant' : 'smooth' });
+  clearTimeout(scrollTimer);
+  if (!reduced) {
+    const correct = () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = window.setTimeout(() => { scrollTo({ top: targets[i], behavior: 'instant' }); updateRail(); }, 120);
+    };
+    addEventListener('scrollend', correct, { once: true });
+    scrollTimer = window.setTimeout(correct, 1600);
+  }
+  updateRail();
+}));
 addEventListener('scroll', updateRail, { passive: true });
-addEventListener('resize', updateRail);
-ScrollTrigger.addEventListener('refresh', updateRail);
-updateRail();
+addEventListener('resize', () => requestAnimationFrame(measureRail));
+ScrollTrigger.addEventListener('refresh', measureRail);
+addEventListener('load', measureRail);
+document.fonts.ready.then(measureRail);
+document.querySelectorAll('img').forEach(img => img.addEventListener('load', measureRail));
+measureRail();
 
 function drawFace() {
   const canvas = document.querySelector<HTMLCanvasElement>('#face-mesh');
@@ -133,13 +172,13 @@ function projectScene(mobile: boolean) {
 function skillsScene(mobile: boolean) {
   const section = document.querySelector<HTMLElement>('#skills');
   if (!section) return;
-  const rows = gsap.utils.toArray<HTMLElement>('.pinout-row');
+  const drawing = section.querySelector<HTMLElement>('.package-drawing');
   const sweep = section.querySelector<HTMLElement>('.logic-sweep');
-  const tl = gsap.timeline({ scrollTrigger: { trigger: section, start: 'top top', end: '+=130%', pin: true, scrub: .6, anticipatePin: 1 } });
-  if (sweep) tl.fromTo(sweep, { xPercent: -110, opacity: 0 }, { xPercent: 110, opacity: 1, duration: 1, ease: 'none' }, 0);
-  rows.forEach((row, i) => {
-    tl.from(row, { x: (i % 2 ? 1 : -1) * innerWidth * (mobile ? .65 : .9), opacity: .1, skewX: i % 2 ? -15 : 15, duration: .3, force3D: true }, .12 + i * .18);
-    tl.fromTo(row, { backgroundColor: 'transparent' }, { backgroundColor: 'var(--accent)', duration: .05, yoyo: true, repeat: 1 }, .25 + i * .18);
+  if (drawing) gsap.fromTo(drawing, { yPercent: 18 }, { yPercent: -18, ease: 'none', scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: .6 } });
+  if (sweep) gsap.fromTo(sweep, { x: 0, opacity: 1 }, { x: () => drawing?.clientWidth || 400, opacity: 1, ease: 'none', scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: .6 } });
+  gsap.utils.toArray<HTMLElement>('.pinout-row').forEach((row, i) => {
+    gsap.from(row, { x: (i % 2 ? 1 : -1) * innerWidth * (mobile ? .65 : .9), opacity: .1, skewX: i % 2 ? -15 : 15, ease: 'none', scrollTrigger: { trigger: row.closest('.pin-slot'), start: 'top 95%', end: 'top top', scrub: .6 } });
+    gsap.fromTo(row, { backgroundColor: 'transparent' }, { backgroundColor: 'var(--accent)', duration: .12, yoyo: true, repeat: 1, scrollTrigger: { trigger: row.closest('.pin-slot'), start: 'top 65%', end: 'top 20%', scrub: true } });
   });
 }
 
