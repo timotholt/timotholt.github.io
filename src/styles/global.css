@@ -181,3 +181,5 @@ body:has(.color-section) .site-header nav a:hover{color:var(--home-accent)}
 /* One spacing and heading scale for every credential-style list (Work History, Awards, Education). */
 .cred-list .cred-item{padding-block:34px}
 @media(max-width:767px){.cred-list .cred-item{padding-block:12px}#experience h2,.cred-section h2{font-size:clamp(28px,8vw,40px)}.job-page .section-heading{margin-bottom:6px}}
+.page-mark{margin:6px 0 0;font:700 15px/1.4 Archivo,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--section-accent)}
+@media(max-width:767px){.page-mark{font-size:12px;margin-top:2px}}
