@@ -84,14 +84,7 @@ function measureRail() {
   // CSS owns the shared viewport slot size; read it after each refresh.
   const slotHeight = getComputedStyle(document.documentElement).getPropertyValue('--slot-h').trim();
   if (!slotHeight) return;
-  targets = anchors.map((anchor, i) => {
-    // Flowing rows (job history) land a little below the top; the first one shows its section heading.
-    const flow = slots[i].classList.contains('flow-slot');
-    const firstInSection = flow && slots[i - 1]?.closest('section') !== slots[i].closest('section');
-    const offset = !flow ? LANDING_OFFSET : firstInSection ? Math.round(slots[i].getBoundingClientRect().top - slots[i].closest('section')!.getBoundingClientRect().top) : Math.round(innerHeight * .12);
-    anchor.dataset.offset = String(offset);
-    return Math.round(anchor.getBoundingClientRect().top + scrollY - offset);
-  });
+  targets = anchors.map(anchor => Math.round(anchor.getBoundingClientRect().top + scrollY - LANDING_OFFSET));
   updateRail();
 }
 const themeMeta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
@@ -230,9 +223,10 @@ function credScene(mobile: boolean) {
 }
 
 function experienceScene(mobile: boolean) {
-  const rows = gsap.utils.toArray<HTMLElement>('.job-row');
-  // Trigger on the slot so rows under a section heading still settle by the slot's landing.
-  rows.forEach((row, i) => gsap.from(row, { x: (i % 2 ? 1 : -1) * innerWidth * (mobile ? .4 : .8), rotation: i % 2 ? 12 : -12, opacity: 0, force3D: true, ease: 'none', scrollTrigger: { trigger: row.closest('.feature-slot') || row, start: 'top 95%', end: 'top 35%', scrub: .6 } }));
+  // Field-notes values, staggered per row and timed to the page slot so a page is settled when it lands.
+  document.querySelectorAll<HTMLElement>('.job-page').forEach(page => {
+    page.querySelectorAll<HTMLElement>('.job-row').forEach((row, i) => gsap.from(row, { x: (i % 2 ? 1 : -1) * innerWidth * (mobile ? .4 : .8), rotation: i % 2 ? 12 : -12, opacity: 0, force3D: true, ease: 'none', scrollTrigger: { trigger: page, start: `top ${95 - i * 8}%`, end: `top ${30 - i * 6}%`, scrub: .6 } }));
+  });
 }
 
 

@@ -176,7 +176,5 @@ body:has(.color-section) .site-header nav a:hover{color:var(--home-accent)}
 /* Year column fits ranges (2014–2016); shared by Awards and Education so titles align. */
 @media(min-width:768px){.cred-item{grid-template-columns:200px minmax(0,1fr)}}
 
-/* Job history flows as one continuous list; each job is a rail milestone but not a full-screen slot. */
-.feature-slot.flow-slot{height:auto;min-height:0;max-height:none;overflow:visible}
-.job-list{list-style:none;padding:0}.job-list>.job-slot{display:block}.job-list .cred-item{border-top:1px solid var(--section-accent)}.job-list .cred-item:last-child{border-bottom:0}.job-list>.job-slot:last-child .cred-item{border-bottom:1px solid var(--section-accent)}
-#experience{padding-block:14svh}
+/* Job history: each page is one full slot; jobs centered, list styling shared with Awards/Education. */
+.job-page{display:flex;flex-direction:column;justify-content:center}.job-list .cred-item:last-child{border-bottom:1px solid var(--section-accent)}

@@ -11,7 +11,7 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 
     const geometry = await page.evaluate(() => {
       const slots = [...document.querySelectorAll<HTMLElement>('.feature-slot')];
       const dots = [...document.querySelectorAll<HTMLElement>('.rail-dot')];
-      return { widths: [document.documentElement.scrollWidth, innerWidth], heights: slots.filter(s => !s.classList.contains('flow-slot')).map(s => s.getBoundingClientRect().height), centers: dots.map(d => d.getBoundingClientRect().top + 12), railRight: document.querySelector('.progress-rail')!.getBoundingClientRect().right, logo: document.querySelector('.brand')!.getBoundingClientRect().toJSON(), readout: document.querySelector('.rail-readout')!.getBoundingClientRect().toJSON() };
+      return { widths: [document.documentElement.scrollWidth, innerWidth], heights: slots.map(s => s.getBoundingClientRect().height), centers: dots.map(d => d.getBoundingClientRect().top + 12), railRight: document.querySelector('.progress-rail')!.getBoundingClientRect().right, logo: document.querySelector('.brand')!.getBoundingClientRect().toJSON(), readout: document.querySelector('.rail-readout')!.getBoundingClientRect().toJSON() };
     });
     expect(geometry.widths[0]).toBeLessThanOrEqual(geometry.widths[1]);
     expect(viewport.width - geometry.railRight).toBeGreaterThanOrEqual(14);
@@ -21,13 +21,12 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 
     geometry.centers.forEach((c, i) => expect(Math.abs(c - geometry.centers[0] - step * i)).toBeLessThanOrEqual(1));
     for (let i = 0; i < await dots.count(); i++) {
       await dots.nth(i).click();
-      // Screen slots land at the top; flowing job rows land at their recorded offset.
-      await expect.poll(() => page.evaluate(index => { const a = document.querySelectorAll<HTMLElement>('.milestone-anchor')[index]; return Math.abs(a.getBoundingClientRect().top - Number(a.dataset.offset || 0)); }, i), { timeout: 10_000 }).toBeLessThanOrEqual(1);
+      await expect.poll(() => page.evaluate(index => Math.abs(document.querySelectorAll('.milestone-anchor')[index].getBoundingClientRect().top), i), { timeout: 10_000 }).toBeLessThanOrEqual(1);
       await expect(page.locator('.rail-dot.current')).toHaveCount(1);
       await expect(dots.nth(i)).toHaveClass(/current/);
       await expect.poll(async () => slots.nth(i).evaluate(slot => { const object = slot.querySelector<HTMLElement>('.metric,.project-card,.pinout-row,.job-row,.cred-item:last-child') || slot; const st = getComputedStyle(object); return st.opacity === '1' && (st.transform === 'none' || st.transform === 'matrix(1, 0, 0, 1, 0, 0)' || st.transform === 'matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)'); }), { timeout: 3000 }).toBeTruthy();
       const state = await slots.nth(i).evaluate(slot => {
-        const object = slot.matches('.hero,.chip-section,.metric-slot,.project-slot,.pin-slot,.job-slot,#education,#contact') ? slot.querySelector<HTMLElement>('.metric,.project-card,.pinout-row,.job-row,.cred-item:last-child') || slot : slot;
+        const object = slot.matches('.hero,.chip-section,.metric-slot,.project-slot,.pin-slot,.job-page,#education,#contact') ? slot.querySelector<HTMLElement>('.metric,.project-card,.pinout-row,.job-row,.cred-item:last-child') || slot : slot;
         const style = getComputedStyle(object);
         return { transform: style.transform, opacity: Number(style.opacity) };
       });
