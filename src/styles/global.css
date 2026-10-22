@@ -127,7 +127,7 @@ body:has(.color-section) .site-header .brand-caption{color:var(--home-fg);border
 body:has(.color-section) .site-header .brand-mark span,
 body:has(.color-section) .site-header nav a:hover{color:var(--home-accent)}
 .color-section{position:relative;isolation:isolate;background:var(--sec-bg);color:var(--sec-fg);--muted:var(--sec-fg);--rule:var(--section-accent);--ink:var(--sec-fg);--accent:var(--section-accent)}.color-section .section-label,.color-section h2 .accent,.color-section h2 em,.color-section .metric small,.color-section .chip-stage-label,.color-section .chip-leads text,.color-section .pin-number,.color-section .card-top span:first-child,.color-section .spec-table dt{color:var(--section-accent);fill:var(--section-accent)}
-.color-section .metric-value{color:var(--home-bg)}.color-section .metric-slot,.color-section .metric,.color-section .project-card,.color-section .spec-table>div,.color-section .pinout,.color-section .pinout-row{border-color:var(--section-accent)}.color-section .section-heading p,.color-section .about-grid>div,.color-section .project-function,.color-section .pinout p,.color-section .contact-identity>span,.color-section .contact-list small,.color-section .hero-pitch{color:var(--sec-fg)}
+.color-section .metric-value{color:var(--brand)}.color-section .metric-slot,.color-section .metric,.color-section .project-card,.color-section .spec-table>div,.color-section .pinout,.color-section .pinout-row{border-color:var(--section-accent)}.color-section .section-heading p,.color-section .about-grid>div,.color-section .project-function,.color-section .pinout p,.color-section .contact-identity>span,.color-section .contact-list small,.color-section .hero-pitch{color:var(--sec-fg)}
 .color-section .project-card{background:#0B3E4B;color:var(--sec-fg)}
 .color-section .project-card .card-top,.color-section .project-card .project-media,.color-section .project-card .card-links{border-color:var(--section-accent)}
 .color-section .project-card .project-media{background:#08333E}
@@ -143,9 +143,9 @@ body:has(.color-section) .site-header nav a:hover{color:var(--home-accent)}
 .color-section .bios-chip{color:var(--sec-fg)}
 .color-section .chip-leads{stroke:var(--sec-fg)}
 .color-section .chip-body{fill:#292929;stroke:var(--sec-fg)}
-.color-section .die-window{fill:var(--sec-bg);stroke:var(--home-bg)}
+.color-section .die-window{fill:var(--sec-bg);stroke:var(--brand)}
 .color-section .die-art{stroke:var(--sec-fg)}
-.color-section .die-title{fill:var(--home-bg)}
+.color-section .die-title{fill:var(--brand)}
 .color-section .portrait{background:var(--sec-bg);border-color:var(--sec-fg)}
 .color-section .scan-line{background:var(--sec-fg);box-shadow:0 0 16px var(--sec-fg)}
 .color-section.hero h1{text-shadow:none}
@@ -182,3 +182,9 @@ body:has(.color-section) .site-header nav a:hover{color:var(--home-accent)}
 .cred-list .cred-item{padding-block:34px}
 @media(max-width:767px){.cred-list .cred-item{padding-block:12px}#experience h2,.cred-section h2{font-size:clamp(28px,8vw,40px)}.job-page .section-heading{margin-bottom:6px}}
 .page-mark{font-size:.5em;font-weight:600;letter-spacing:0;color:var(--section-accent);vertical-align:.35em}
+:root{--brand:#E8541C}
+/* Phones: keep content clear of the right-hand progress rail. */
+@media(max-width:767px){.wrap,.hero.wrap{width:auto;margin-left:18px;margin-right:58px}}
+/* The hero is a full-width colored row; inset its content to the same column as other sections. */
+.hero.color-section{padding-inline:max(60px,calc((100% - 1000px)/2))}
+@media(max-width:767px){.hero.color-section{padding-inline:18px 58px}.wrap.hero{margin:0}}
