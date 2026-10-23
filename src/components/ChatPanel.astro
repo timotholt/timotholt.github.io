@@ -1,0 +1,34 @@
+---
+import { limits, starters } from '../data/chat';
+import { sectionStyle } from '../data/sections';
+// Both are public. Unset → the panel runs on saved answers only (offline mode).
+const chatUrl = import.meta.env.PUBLIC_CHAT_URL ?? '';
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
+---
+<dialog id="ask-ai" class="chat" aria-labelledby="chat-title" style={sectionStyle('contact')} data-chat-url={chatUrl} data-site-key={siteKey}>
+  <header class="chat-head">
+    <div>
+      <h2 id="chat-title">Ask my AI</h2>
+      <p class="chat-label">AI version of Tim · AI-generated — may be imperfect</p>
+    </div>
+    <button class="chat-close" type="button" aria-label="Close chat">✕</button>
+  </header>
+  <div class="chat-log" role="log" aria-live="polite" aria-label="Conversation">
+    <p class="chat-msg chat-msg-ai">Hi, I'm an AI version of Tim. Ask me about my work, projects or skills.</p>
+  </div>
+  <div class="chat-chips-bar">
+    <div class="chat-chips" role="group" aria-label="Suggested questions">
+      {starters.map(question => <button class="chat-chip" type="button">{question}</button>)}
+    </div>
+    <button class="chat-chips-toggle" type="button" aria-expanded="true">Hide</button>
+  </div>
+  <form class="chat-form">
+    <label class="visually-hidden" for="chat-input">Your question</label>
+    <textarea id="chat-input" name="question" rows="2" maxlength={limits.maxChars} placeholder="Ask about Tim's work…" required></textarea>
+    <button class="chat-send" type="submit">Send</button>
+  </form>
+  <p class="chat-meta"><span class="chat-count">0/{limits.maxChars}</span><span class="chat-left">{limits.maxTurns} questions left</span></p>
+  <p class="chat-privacy">Questions are logged anonymously by topic to improve answers.</p>
+  <div class="chat-turnstile"></div>
+</dialog>
+<script src="../scripts/chat.ts"></script>

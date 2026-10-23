@@ -1,0 +1,5 @@
+# Copy to .dev.vars for `npm run dev` (gitignored). Never commit real keys.
+ENV=dev
+ANTHROPIC_API_KEY=sk-ant-your-key-here
+# Cloudflare's published Turnstile test secret: always passes.
+TURNSTILE_SECRET=1x0000000000000000000000000000000AA

@@ -21,7 +21,14 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx astro check
+      - run: npm ci && npm test
+        working-directory: worker
       - run: npm run build
+        env:
+          # Public values (repo Settings → Secrets and variables → Actions → Variables).
+          # Unset → the chat panel runs on saved answers only.
+          PUBLIC_CHAT_URL: ${{ vars.PUBLIC_CHAT_URL }}
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

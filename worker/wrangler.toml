@@ -1,0 +1,24 @@
+name = "timotholt-chat"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+# docs/persona.md is bundled into the system prompt as text.
+rules = [{ type = "Text", globs = ["**/*.md"], fallthrough = true }]
+
+[vars]
+ENV = "production"
+
+# Per-IP limit: 5 chat requests per 60 s per Cloudflare location.
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 5
+  period = 60
+
+# Anonymous topic log for `npm run gaps` (no IP, no session, no message text).
+[[analytics_engine_datasets]]
+binding = "CHAT_LOG"
+dataset = "ask_tim_chat"
