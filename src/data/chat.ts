@@ -36,13 +36,13 @@ export const topics: Topic[] = [
   {
     key: 'availability',
     pattern: /\b(availab\w*|remote|relocat\w*|hybrid|on-?site|start date|full[- ]time|part[- ]time|contract\w*|open to|notice)\b/i,
-    answer: `I'm looking for AI engineering, Forward Deployed Engineering, or firmware roles. For details like start date or location, ${reach}.`,
+    answer: `I'm looking for AI engineering, Forward Deployed Engineering, or firmware roles. I'm open to remote, hybrid or on-site work, and to some relocation; I'm based in ${contact.location}. For start date and other details, ${reach}.`,
     followUps: ['Why Forward Deployed Engineering?', 'How do I reach Tim?'],
   },
   {
     key: 'fde',
     pattern: /forward[- ]deployed|\bfde\b|customer[- ]facing|field engineer|solutions engineer/i,
-    answer: `I'm targeting Forward Deployed Engineering roles. My background mixes low-level engineering with two decades of hands-on delivery for clients: film productions, 22 AT&T cell sites, and on-call IT support. For the why in my own words, email me at ${contact.email}.`,
+    answer: "I build software with AI coding agents every day, and the hard part is never the model. It's fitting it to a real customer's mess. That's the job I want: sitting with the customer, building with AI, and owning the result.",
     followUps: ["What's Tim's AI experience?", 'Tell me about the cell-site work'],
   },
   {

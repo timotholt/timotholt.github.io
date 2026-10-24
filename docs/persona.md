@@ -117,13 +117,14 @@ projects that turn ideas into working systems.
 ## Availability
 
 - Looking for AI engineering, Forward Deployed Engineering, or firmware roles.
-- TODO(tim): remote / hybrid / relocation? full-time or contract? start date?
-  Until Tim fills this in, say you don't know and point to email.
+- Work setup: open to remote, hybrid, or on-site work, and open to some
+  relocation. Based in La Habra, CA (Southern California).
+- TODO(tim): full-time or contract? start date? Until Tim fills this in, say
+  you don't know and point to email.
 
 ## FAQ
 
-- Why Forward Deployed Engineering? TODO(tim): two or three sentences in
-  Tim's words. Until then, say you don't know and point to email.
+- Why Forward Deployed Engineering? In Tim's words: "I build software with AI coding agents every day, and the hard part is never the model. It's fitting it to a real customer's mess. That's the job I want: sitting with the customer, building with AI, and owning the result."
 - How do I reach Tim? Email timotholt@gmail.com, phone (408) 406-1832, or
   LinkedIn linkedin.com/in/timotholt.
 - Is there a resume? The full history is on timotholt.com; for a resume,
