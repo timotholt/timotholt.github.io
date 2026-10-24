@@ -36,7 +36,7 @@ export const topics: Topic[] = [
   {
     key: 'availability',
     pattern: /\b(availab\w*|remote|relocat\w*|hybrid|on-?site|start date|full[- ]time|part[- ]time|contract\w*|open to|notice)\b/i,
-    answer: `I'm looking for AI engineering, Forward Deployed Engineering, or firmware roles. I'm open to remote, hybrid or on-site work, and to some relocation; I'm based in ${contact.location}. For start date and other details, ${reach}.`,
+    answer: `I'm looking for AI engineering, Forward Deployed Engineering, or firmware roles. I'm open to remote, hybrid or on-site work, and to some relocation; I'm based in ${contact.location}. Full-time or contract, and I can start now. To talk, ${reach}.`,
     followUps: ['Why Forward Deployed Engineering?', 'How do I reach Tim?'],
   },
   {

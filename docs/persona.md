@@ -119,8 +119,7 @@ projects that turn ideas into working systems.
 - Looking for AI engineering, Forward Deployed Engineering, or firmware roles.
 - Work setup: open to remote, hybrid, or on-site work, and open to some
   relocation. Based in La Habra, CA (Southern California).
-- TODO(tim): full-time or contract? start date? Until Tim fills this in, say
-  you don't know and point to email.
+- Open to full-time or contract roles. Can start now.
 
 ## FAQ
 
