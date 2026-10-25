@@ -162,20 +162,20 @@ function heroScene() {
   const letters = [...splitText(title.querySelector<HTMLElement>('.name-tim')!), ...splitText(title.querySelector<HTMLElement>('.name-otholt')!)];
   gsap.from(letters, { x: i => (i%2 ? 1 : -1)*Math.min(innerWidth*.65,600), opacity:0, duration:.9, stagger:.045, ease:'power3.out', clearProps:'transform,opacity' });
 }
-function chipScene() {
-  gsap.fromTo('.chip-section .bios-chip', { scale:.6, rotationY:-16, rotationZ:-7 }, { scale:2.5, rotationY:9, rotationZ:4, ease:'none', scrollTrigger:{trigger:'.chip-section',start:'top bottom',end:'bottom top',scrub:.6} });
-  gsap.to('.chip-stage-label', {opacity:0, y:-55, ease:'none', scrollTrigger:{trigger:'.chip-section',start:'center center',end:'bottom top',scrub:true}});
-}
 function profileScene(mobile: boolean) {
   const heading = document.querySelector<HTMLElement>('#about h2'); if (!heading) return;
   heading.setAttribute('aria-label', "From firmware to what's next.");
-  splitText(heading,true).forEach((word,i)=>gsap.from(word,{x: () => (i%2?1:-1)*innerWidth*(mobile?.4:.8),skewX:i%2?-25:25,opacity:0,ease:'none',scrollTrigger:{invalidateOnRefresh:true,trigger:word,start:'top 95%',end:'top 35%',scrub:.6}}));
-  gsap.from('.about-grid > div', {x:()=>mobile?innerWidth*.4:innerWidth*.8,opacity:0,ease:'none',scrollTrigger:{invalidateOnRefresh:true,trigger:'.about-grid > div',start:'top 95%',end:'top 35%',scrub:.6}});
-  document.querySelectorAll<HTMLElement>('.metric').forEach((metric,i)=>{
-    gsap.from(metric,{x: () => (i%2?1:-1)*innerWidth*(mobile?.4:.8),scale:3,opacity:0,ease:'none',scrollTrigger:{invalidateOnRefresh:true,trigger:metric.closest('.feature-slot')||metric,start:'top 95%',end:'top 40%',scrub:.6}});
-    const el=metric.querySelector<HTMLElement>('.metric-value');if(!el)return;
+  // Timed to the slot, not the words: the intro is centered, so it must be settled when the slot lands.
+  const intro=heading.closest('.feature-slot')||heading;
+  splitText(heading,true).forEach((word,i)=>gsap.from(word,{x: () => (i%2?1:-1)*innerWidth*(mobile?.4:.8),skewX:i%2?-25:25,opacity:0,ease:'none',scrollTrigger:{invalidateOnRefresh:true,trigger:intro,start:'top 95%',end:'top 25%',scrub:.6}}));
+  gsap.from('.hl-copy', {x:()=>mobile?innerWidth*.4:innerWidth*.8,opacity:0,ease:'none',scrollTrigger:{invalidateOnRefresh:true,trigger:intro,start:'top 90%',end:'top 20%',scrub:.6}});
+  // Proof cards fly in from alternating sides and settle as their slot lands; numbers count up on the way.
+  document.querySelectorAll<HTMLElement>('.proof-card').forEach((card,i)=>{
+    const slot=card.closest('.feature-slot')||card;
+    gsap.from(card,{x: () => (i%2?1:-1)*innerWidth*(mobile?.4:.6),opacity:0,ease:'none',scrollTrigger:{invalidateOnRefresh:true,trigger:slot,start:`top ${95-i*5}%`,end:`top ${35-i*5}%`,scrub:.6}});
+    const el=card.querySelector<HTMLElement>('.proof-value[data-count]');if(!el)return;
     const target=Number(el.dataset.count);const decimal=el.dataset.count?.includes('.')?1:0;const counter={value:0};
-    gsap.to(counter,{value:target,ease:'none',scrollTrigger:{trigger:metric.closest('.feature-slot')||metric,start:'top 95%',end:'top 40%',scrub:.6},onUpdate:()=>{el.textContent=counter.value.toFixed(decimal).padStart(decimal?3:2,'0')}});
+    gsap.to(counter,{value:target,ease:'none',scrollTrigger:{trigger:slot,start:'top 95%',end:'top 35%',scrub:.6},onUpdate:()=>{el.textContent=counter.value.toLocaleString('en-US',{minimumFractionDigits:decimal,maximumFractionDigits:decimal})}});
   });
 }
 function projectScene(mobile: boolean) {
@@ -189,15 +189,9 @@ function projectScene(mobile: boolean) {
   });
 }
 function skillsScene(mobile: boolean) {
-  const section = document.querySelector<HTMLElement>('#skills');
-  if (!section) return;
-  const drawing = section.querySelector<HTMLElement>('.package-drawing');
-  const sweep = section.querySelector<HTMLElement>('.logic-sweep');
-  if (drawing) gsap.fromTo(drawing, { yPercent: 18 }, { yPercent: -18, ease: 'none', scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: .6 } });
-  if (sweep) gsap.fromTo(sweep, { x: 0, opacity: 1 }, { x: () => drawing?.clientWidth || 400, opacity: 1, ease: 'none', scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: .6 } });
-  gsap.utils.toArray<HTMLElement>('.pinout-row').forEach((row, i) => {
-    gsap.from(row, { x: () => (i % 2 ? 1 : -1) * innerWidth * (mobile ? .65 : .9), opacity: .1, skewX: i % 2 ? -15 : 15, ease: 'none', scrollTrigger:{invalidateOnRefresh:true, trigger: row.closest('.pin-slot'), start: 'top 95%', end: 'top top', scrub: .6 } });
-    gsap.fromTo(row, { backgroundColor: 'transparent' }, { backgroundColor: 'var(--section-accent)', duration: .12, yoyo: true, repeat: 1, scrollTrigger: { trigger: row.closest('.pin-slot'), start: 'top 65%', end: 'top 20%', scrub: true } });
+  // Same entrance as the proof cards, timed to each skills page.
+  document.querySelectorAll<HTMLElement>('.skill-slot').forEach(slot => {
+    slot.querySelectorAll<HTMLElement>('.skill-card').forEach((card, i) => gsap.from(card, { x: () => (i % 2 ? 1 : -1) * innerWidth * (mobile ? .4 : .6), opacity: 0, ease: 'none', scrollTrigger: { invalidateOnRefresh: true, trigger: slot, start: `top ${95 - i * 8}%`, end: `top ${35 - i * 6}%`, scrub: .6 } }));
   });
 }
 
@@ -220,7 +214,7 @@ function experienceScene(mobile: boolean) {
 mm.add('(prefers-reduced-motion: reduce)', () => { updateRail(); });
 mm.add({desktop:'(min-width: 768px) and (prefers-reduced-motion: no-preference)',mobile:'(max-width: 767px) and (prefers-reduced-motion: no-preference)'}, context => {
   const mobile=!!context.conditions?.mobile;
-  heroScene(); chipScene(); profileScene(mobile); projectScene(mobile); skillsScene(mobile); credScene(mobile); experienceScene(mobile);
+  heroScene(); profileScene(mobile); projectScene(mobile); skillsScene(mobile); credScene(mobile); experienceScene(mobile);
   gsap.to('body',{backgroundPositionY:'200px',ease:'none',scrollTrigger:{start:0,end:'max',scrub:true}});
   requestAnimationFrame(()=>ScrollTrigger.refresh());
   // Leaving this breakpoint rebuilds every scene; remember where the reader was.
