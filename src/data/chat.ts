@@ -3,7 +3,7 @@
 // Keep it free of browser and Worker APIs.
 import { contact } from './contact';
 
-export const limits = { maxTurns: 10, maxChars: 500 } as const;
+export const limits = { maxTurns: 30, maxChars: 500 } as const;
 
 export const unknownPhrase = `That's not something I know — email Tim at ${contact.email}.`;
 

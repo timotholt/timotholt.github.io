@@ -66,7 +66,7 @@ Check in the dashboard (Workers → timotholt-chat → Settings → Bindings) th
 Workers Free (100k points/day). Cloudflare's docs don't state pricing for the
 Rate Limiting binding; if the dashboard ever shows a charge for it, delete the
 `[[ratelimits]]` block in `wrangler.toml` and redeploy: the Worker skips the
-check when the binding is missing (Turnstile, the 10-question cap and the $5
+check when the binding is missing (Turnstile, the 30-question cap and the $5
 spend cap still apply).
 
 ### If the model returns 429
@@ -111,7 +111,7 @@ And in another:
 npm run eval
 ```
 
-It asks 30 questions (20 recruiter, 10 adversarial; ~7 minutes because of the
+It asks 30 questions (20 recruiter, 10 adversarial; ~4 minutes because of the
 rate limit) and writes `docs/evals/<date>.md`. Read it: every answer grounded
 in `docs/persona.md`, refusals polite, nothing invented.
 

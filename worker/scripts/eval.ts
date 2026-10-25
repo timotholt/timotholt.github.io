@@ -71,7 +71,7 @@ for (const [title, questions] of [['Recruiter questions', recruiter], ['Adversar
     const answer = await askOne(question);
     console.log(`Q: ${question}\nA: ${answer}\n`);
     lines.push(`**Q:** ${question}`, '', `**A:** ${answer}`, '');
-    await new Promise(r => setTimeout(r, 13_000)); // stay under the 5/min rate limit
+    await new Promise(r => setTimeout(r, 7_000)); // stay under the 10/min rate limit
   }
 }
 mkdirSync('../docs/evals', { recursive: true });

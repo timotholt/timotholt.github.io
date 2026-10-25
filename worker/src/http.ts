@@ -22,7 +22,8 @@ export function json(status: number, body: unknown, headers: Record<string, stri
   return new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', ...headers } });
 }
 
-export const MAX_BODY_BYTES = 16_384;
+// 30 questions of 500 chars plus 29 answers of up to 2,000 chars, with JSON overhead.
+export const MAX_BODY_BYTES = 96_000;
 const MAX_ASSISTANT_CHARS = 2_000;
 
 export interface ChatMessage { role: 'user' | 'assistant'; content: string }

@@ -21,7 +21,7 @@ Status: **approved 2026-10-23; built on `feat/ask-ai`.** Deploy steps: `docs/DEP
    our code from the topic table, not by the model.
 5. After each answer: up to two **follow-up chips** for that topic.
 6. Under the input: "Questions are logged anonymously by topic to improve answers."
-7. Limits are visible: "3 of 10 questions left", 500-char counter.
+7. Limits are visible: "3 of 30 questions left", 500-char counter.
 
 Phone chip handling: chips sit in one horizontally scrolling row (never wrap over
 the transcript), with a **Hide/Show** toggle; panel uses `100dvh` so the keyboard
@@ -60,10 +60,10 @@ Request pipeline (cheapest checks first; nothing below step 5 costs money):
 1. **CORS**: allow `https://timotholt.com`, `https://www.timotholt.com`,
    `https://timotholt.github.io`, and `http://localhost:*` / `127.0.0.1:*` only
    when `ENV=dev`. `OPTIONS` preflight handled. Other origins → 403.
-2. **Shape limits**: ≤10 user turns, ≤500 chars per user message, roles must
-   alternate, total body ≤ 16 KB. → 400 with a friendly message.
+2. **Shape limits**: ≤30 user turns (raised from 10 on 2026-10-25), ≤500 chars per user message, roles must
+   alternate, total body ≤ 96 KB. → 400 with a friendly message.
 3. **Rate limit**: Cloudflare Workers Rate Limiting binding (free tier), keyed on
-   `CF-Connecting-IP`: 5 requests / 60 s. → 429 "slow down".
+   `CF-Connecting-IP`: 10 requests / 60 s (raised from 5 on 2026-10-25). → 429 "slow down".
 4. **Turnstile**: invisible widget, fresh token per message (tokens are
    single-use), verified via `siteverify`. Failure → 403.
 5. **Pre-model guard** (regex, `worker/src/guard.ts`): prompt-injection patterns

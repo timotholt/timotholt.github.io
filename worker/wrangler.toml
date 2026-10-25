@@ -12,13 +12,13 @@ rules = [{ type = "Text", globs = ["**/*.md"], fallthrough = true }]
 [vars]
 ENV = "production"
 
-# Per-IP limit: 5 chat requests per 60 s per Cloudflare location.
+# Per-IP limit: 10 chat requests per 60 s per Cloudflare location.
 [[ratelimits]]
 name = "RATE_LIMITER"
 namespace_id = "1001"
 
   [ratelimits.simple]
-  limit = 5
+  limit = 10
   period = 60
 
 # Anonymous topic log for `npm run gaps` (no IP, no session, no message text).

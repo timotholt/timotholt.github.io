@@ -82,7 +82,7 @@ knowledge the model gets. Worker bundles it at build time as the system prompt.
 - Verifies Turnstile token server-side.
 - CORS: allow only `https://timotholt.com`, `https://www.timotholt.com`,
   `https://timotholt.github.io`, and localhost in dev.
-- Limits: max 10 user turns per conversation, 500 chars per message,
+- Limits: max 30 user turns per conversation (raised from 10), 500 chars per message,
   `max_tokens` 400, per-IP rate limit (e.g. 20 req / 10 min via Workers KV or
   Durable Object — pick whichever stays on the free tier).
 - Secret `ANTHROPIC_API_KEY` via `wrangler secret put`; never in repo.

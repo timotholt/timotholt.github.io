@@ -76,9 +76,17 @@ describe('limits', () => {
     expect(h.modelCalls).toHaveLength(0);
   });
 
+  it('accepts a maximum-size conversation', async () => {
+    const h = harness();
+    const messages = Array.from({ length: limits.maxTurns * 2 - 1 }, (_, i) => i % 2 === 0
+      ? { role: 'user', content: 'q'.repeat(limits.maxChars) }
+      : { role: 'assistant', content: 'a'.repeat(2_000) });
+    expect((await send(h, { turnstileToken: 'tok', messages })).status).toBe(200);
+  });
+
   it('refuses oversize bodies', async () => {
     const h = harness();
-    const res = await h.handler.fetch(chatRequest({ ...ask('Hi'), pad: 'x'.repeat(20_000) }), h.env);
+    const res = await h.handler.fetch(chatRequest({ ...ask('Hi'), pad: 'x'.repeat(100_000) }), h.env);
     expect(res.status).toBe(413);
   });
 
