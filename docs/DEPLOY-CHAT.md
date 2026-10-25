@@ -57,6 +57,20 @@ Rate Limiting binding; if the dashboard ever shows a charge for it, delete the
 check when the binding is missing (Turnstile, the 10-question cap and the $5
 spend cap still apply).
 
+### If the model returns 429
+
+If your key has no access to `claude-haiku-5-5` yet, every answer falls back to
+the saved answers and the Worker log shows `model error: 429`. Check:
+`npx wrangler tail`. Until access arrives, run on Haiku 4.5:
+
+```bash
+npx wrangler deploy --var MODEL:claude-haiku-4-5
+```
+
+Haiku 4.5 costs about 10× more ($1 / $5 per MTok, ~$0.002 per message, so the
+$5 cap ≈ 2,500 messages) and won't cache a prompt this short. Redeploy without
+`--var` to return to 5.5.
+
 ## 6. Point the site at the Worker
 
 GitHub → repo **Settings → Secrets and variables → Actions → Variables**:

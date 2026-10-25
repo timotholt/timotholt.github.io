@@ -117,6 +117,12 @@ describe('model request', () => {
     expect(params.messages.map(m => m.role)).toEqual(['user', 'assistant', 'user']);
   });
 
+  it('the MODEL var overrides the default model', async () => {
+    const h = harness({ env: { MODEL: 'claude-haiku-4-5' } });
+    await send(h, ask('Tell me about solid-tree'));
+    expect(h.modelCalls[0].model).toBe('claude-haiku-4-5');
+  });
+
   it('streams the answer with topic follow-ups and logs it', async () => {
     const h = harness({ reply: 'solid-tree is four SolidJS tree components.' });
     const reply = await send(h, ask('Tell me about solid-tree'));

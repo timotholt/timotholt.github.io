@@ -130,3 +130,10 @@ test('laptop: panel docks bottom-right inside the viewport', async ({ page }) =>
   expect(box.y + box.height).toBeLessThanOrEqual(900 - 20);
   expect(box.width).toBeLessThanOrEqual(440);
 });
+
+test('markdown from the model is shown as plain text', async ({ page }) => {
+  await fakeWorker(page, () => ({ body: sse([['delta', { text: '**solid-tree** is a library.\n- one\n- two' }], ['done', done('solid-tree', 9)]]) }));
+  await openChat(page);
+  await page.locator('.chat-chip').first().click();
+  await expect(page.locator('.chat-msg-ai').last()).toHaveText('solid-tree is a library.\none\ntwo');
+});

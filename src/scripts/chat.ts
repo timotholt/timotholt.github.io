@@ -13,6 +13,12 @@ declare global {
 }
 
 type Message = { role: 'user' | 'assistant'; content: string };
+
+/** Models sometimes add markdown despite the prompt; the panel shows plain text, so drop the markup. */
+const plain = (text: string) => text
+  .replace(/\*\*(.+?)\*\*/g, '$1')
+  .replace(/^#{1,6}\s+/gm, '')
+  .replace(/^\s*[-*•]\s+/gm, '');
 interface Done { topic: string; followUps: string[]; link: Topic['link'] | null; turnsLeft: number }
 
 const dialog = document.querySelector<HTMLDialogElement>('#ask-ai');
@@ -181,7 +187,7 @@ function setup(dialog: HTMLDialogElement) {
           buffer = buffer.slice(cut + 2);
           const event = /^event: (.+)$/m.exec(block)?.[1];
           const data = JSON.parse(/^data: (.+)$/m.exec(block)?.[1] ?? '{}');
-          if (event === 'delta') { text += data.text; reply.textContent = text; reply.classList.remove('is-pending'); log.scrollTop = log.scrollHeight; }
+          if (event === 'delta') { text += data.text; reply.textContent = plain(text); reply.classList.remove('is-pending'); log.scrollTop = log.scrollHeight; }
           if (event === 'replace') { text = data.text; reply.textContent = text; }
           if (event === 'done') done = data;
           if (event === 'error') { failed = true; reply.dataset.topic = data.topic; }
@@ -194,6 +200,8 @@ function setup(dialog: HTMLDialogElement) {
       reply.textContent = '';
       return 'fallback';
     }
+    text = plain(text);
+    reply.textContent = text;
     finish(question, text, done);
     return 'ok';
   }

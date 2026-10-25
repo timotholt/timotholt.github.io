@@ -10,6 +10,8 @@ export interface Env {
   ANTHROPIC_API_KEY: string;
   TURNSTILE_SECRET: string;
   ENV?: string;
+  /** Optional model override; defaults to MODEL in prompt.ts. */
+  MODEL?: string;
   RATE_LIMITER?: RateLimit;
   CHAT_LOG?: AnalyticsEngineDataset;
 }
@@ -118,11 +120,12 @@ async function answer(
   let text = '';
   let stop: string | null = null;
   try {
-    for await (const event of deps.model(modelParams(messages.slice(-(limits.maxTurns * 2 - 1))), env)) {
+    for await (const event of deps.model(modelParams(messages.slice(-(limits.maxTurns * 2 - 1)), env.MODEL || undefined), env)) {
       if (event.type === 'text') { text += event.text; send('delta', { text: event.text }); }
       else stop = event.reason;
     }
-  } catch {
+  } catch (err) {
+    console.error('model error:', err instanceof Error ? err.message : err);
     send('error', { message: 'The AI is unavailable right now.', fallback: true, ...(done('fallback') as object) });
     return;
   }
