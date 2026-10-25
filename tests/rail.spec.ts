@@ -11,7 +11,7 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 
     const geometry = await page.evaluate(() => {
       const slots = [...document.querySelectorAll<HTMLElement>('.feature-slot')];
       const dots = [...document.querySelectorAll<HTMLElement>('.rail-dot')];
-      return { widths: [document.documentElement.scrollWidth, innerWidth], heights: slots.map(s => s.getBoundingClientRect().height), centers: dots.map(d => d.getBoundingClientRect().top + 12), railRight: document.querySelector('.progress-rail')!.getBoundingClientRect().right, logo: document.querySelector('.brand')!.getBoundingClientRect().toJSON(), readout: document.querySelector('.rail-readout')!.getBoundingClientRect().toJSON() };
+      return { widths: [document.documentElement.scrollWidth, innerWidth], heights: slots.map(s => s.getBoundingClientRect().height), centers: dots.map(d => d.getBoundingClientRect().top + 12), railRight: document.querySelector('.progress-rail')!.getBoundingClientRect().right, logo: (document.querySelector('.site-header nav') ?? document.body).getBoundingClientRect().toJSON(), readout: document.querySelector('.rail-readout')!.getBoundingClientRect().toJSON() };
     });
     expect(geometry.widths[0]).toBeLessThanOrEqual(geometry.widths[1]);
     expect(viewport.width - geometry.railRight).toBeGreaterThanOrEqual(14);

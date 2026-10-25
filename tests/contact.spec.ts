@@ -66,3 +66,21 @@ test('no hover rule moves or resizes anything', async ({ page }) => {
   });
   expect(offenders).toEqual([]);
 });
+
+for (const viewport of [{ width: 375, height: 812 }, { width: 415, height: 780 }, { width: 1000, height: 560 }, { width: 1280, height: 720 }, { width: 1440, height: 900 }]) {
+  test(`hero fits with readable contact info at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    await page.evaluate(() => document.fonts.ready);
+    await page.waitForTimeout(1600);
+    const hero = await page.evaluate(() => {
+      const h = document.querySelector<HTMLElement>('.hero')!;
+      const buttons = [...h.querySelectorAll('.hero-actions .button')].map(b => b.getBoundingClientRect().bottom);
+      const sizes = [...h.querySelectorAll('.contact-list a, .contact-list .contact-item')].map(e => parseFloat(getComputedStyle(e).fontSize));
+      return { height: h.clientHeight, lowestButton: Math.max(...buttons), smallestContact: Math.min(...sizes) };
+    });
+    // Both buttons fully on screen with room to spare, and the contact info (the most important text) large enough to read.
+    expect(hero.lowestButton).toBeLessThanOrEqual(hero.height - 24);
+    expect(hero.smallestContact).toBeGreaterThanOrEqual(16);
+  });
+}

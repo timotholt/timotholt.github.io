@@ -154,43 +154,12 @@ document.fonts.ready.then(measureRail);
 document.querySelectorAll('img').forEach(img => img.addEventListener('load', measureRail));
 measureRail();
 
-function drawFace() {
-  const canvas = document.querySelector<HTMLCanvasElement>('#face-mesh');
-  const img = document.querySelector<HTMLImageElement>('.portrait img');
-  if (!canvas || !img || !img.complete || !img.naturalWidth) return;
-  const size = Math.round(img.getBoundingClientRect().width);
-  const ratio = Math.min(2, devicePixelRatio || 1);
-  canvas.width = Math.round(size * ratio); canvas.height = Math.round(size * ratio);
-  const ctx = canvas.getContext('2d', { willReadFrequently: true }); if (!ctx) return;
-  ctx.scale(ratio, ratio);
-  const crop = Math.min(img.naturalWidth, img.naturalHeight);
-  const sx = (img.naturalWidth - crop) / 2, sy = (img.naturalHeight - crop) / 2;
-  ctx.drawImage(img, sx, sy, crop, crop, 0, 0, size, size);
-  const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  ctx.clearRect(0, 0, size, size);
-  ctx.fillStyle = sectionByKey.contact.bg; ctx.fillRect(0, 0, size, size);
-  const step = 7;
-  for (let y=0; y<size; y+=step) for (let x=0; x<size; x+=step) {
-    const k = (Math.floor(y*ratio)*canvas.width + Math.floor(x*ratio))*4;
-    const lum = (pixels.data[k]*.2126 + pixels.data[k+1]*.7152 + pixels.data[k+2]*.0722)/255;
-    ctx.fillStyle = sectionByKey.contact.fg;
-    ctx.beginPath(); ctx.arc(x+step/2,y+step/2,Math.max(.35,(1-lum)*step*.46),0,Math.PI*2); ctx.fill();
-  }
-  ctx.strokeStyle = 'rgba(20,17,15,.24)'; ctx.lineWidth=.5;
-  for(let n=0;n<size;n+=28){ctx.beginPath();ctx.moveTo(n,0);ctx.lineTo(n,size);ctx.moveTo(0,n);ctx.lineTo(size,n);ctx.stroke();}
-}
-const img = document.querySelector<HTMLImageElement>('.portrait img');
-img?.addEventListener('load', drawFace); if (img?.complete) drawFace();
-let resizeTimer: number; addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = window.setTimeout(drawFace, 150); });
-
 function heroScene() {
   const title = document.querySelector<HTMLElement>('#hero-title');
-  const portrait = document.querySelector<HTMLElement>('.portrait');
-  if (!title || !portrait) return;
-  title.setAttribute('aria-label', 'Tim Otholt.');
+  if (!title) return;
+  title.setAttribute('aria-label', 'Tim Otholt');
   const letters = [...splitText(title.querySelector<HTMLElement>('.name-tim')!), ...splitText(title.querySelector<HTMLElement>('.name-otholt')!)];
   gsap.from(letters, { x: i => (i%2 ? 1 : -1)*Math.min(innerWidth*.65,600), opacity:0, duration:.9, stagger:.045, ease:'power3.out', clearProps:'transform,opacity' });
-  gsap.fromTo(portrait, { '--scan': '0%' }, { '--scan': '50%', ease:'none', scrollTrigger:{ trigger:'.hero', start:'top top', end:'40% top', scrub:.6 } });
 }
 function chipScene() {
   gsap.fromTo('.chip-section .bios-chip', { scale:.6, rotationY:-16, rotationZ:-7 }, { scale:2.5, rotationY:9, rotationZ:4, ease:'none', scrollTrigger:{trigger:'.chip-section',start:'top bottom',end:'bottom top',scrub:.6} });
@@ -247,7 +216,7 @@ function experienceScene(mobile: boolean) {
 
 
 
-mm.add('(prefers-reduced-motion: reduce)', () => { gsap.set('.portrait', {'--scan':'50%'}); updateRail(); });
+mm.add('(prefers-reduced-motion: reduce)', () => { updateRail(); });
 mm.add({desktop:'(min-width: 768px) and (prefers-reduced-motion: no-preference)',mobile:'(max-width: 767px) and (prefers-reduced-motion: no-preference)'}, context => {
   const mobile=!!context.conditions?.mobile;
   heroScene(); chipScene(); profileScene(mobile); projectScene(mobile); skillsScene(mobile); credScene(mobile); experienceScene(mobile);
