@@ -49,7 +49,7 @@ test('section backgrounds, rail bands, and text contrast follow one palette', as
   }
 });
 
-for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 }]) {
+for (const viewport of [{ width: 375, height: 812 }, { width: 1000, height: 560 }, { width: 1280, height: 720 }, { width: 1440, height: 900 }]) {
   test(`Education and Awards lists fit one slot at ${viewport.width}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto('/');
@@ -64,8 +64,10 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 
       expect(dimensions.slots).toBe(1);
       expect(Math.abs(dimensions.sectionHeight - viewport.height)).toBeLessThanOrEqual(1);
       expect(dimensions.panelTop).toBeGreaterThanOrEqual(0);
-      expect(dimensions.panelBottom).toBeGreaterThanOrEqual(0);
-      expect(dimensions.headingTop).toBeGreaterThanOrEqual(0);
+      // Laptops need visible breathing room above the heading and below the list, not just a fit.
+      const room = viewport.width >= 768 ? 24 : 0;
+      expect(dimensions.panelBottom).toBeGreaterThanOrEqual(room);
+      expect(dimensions.headingTop).toBeGreaterThanOrEqual(room);
     }
   });
 }
@@ -87,7 +89,7 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 660, height: 780 }
   });
 }
 
-for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 }]) {
+for (const viewport of [{ width: 375, height: 812 }, { width: 1000, height: 560 }, { width: 1280, height: 720 }, { width: 1440, height: 900 }]) {
   test(`job pages hold three jobs and fit their slot at ${viewport.width}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto('/');
@@ -100,8 +102,9 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 
     }));
     expect(pages.map(p => p.jobs)).toEqual([3, 3, 3]);
     for (const p of pages) {
-      expect(p.top).toBeGreaterThanOrEqual(0);
-      expect(p.bottom).toBeLessThanOrEqual(p.height);
+      const room = viewport.width >= 768 ? 24 : 0;
+      expect(p.top).toBeGreaterThanOrEqual(room);
+      expect(p.bottom).toBeLessThanOrEqual(p.height - room);
     }
   });
 }

@@ -258,3 +258,12 @@ body:has(.color-section) .site-header nav a:hover{color:var(--home-accent)}
 .chat-privacy{margin:0;padding:2px 18px 12px;font:400 11px/1.4 Archivo,sans-serif;color:var(--sec-fg);opacity:.85}
 .chat-turnstile:empty{display:none}
 @media(max-width:767px){.chat{inset:0;width:100%;height:100dvh;border:0;box-shadow:none}.chat-head{padding:12px 14px 10px}.chat-log{padding:12px 14px}.chat-chips-bar,.chat-form{padding-inline:14px}.chat-meta,.chat-privacy{padding-inline:14px}.chat-form textarea{font-size:16px}}
+/* Laptop/desktop: list sections (Work History, Education, Awards) scale type and spacing by the tighter of width and height,
+   so short windows (e.g. 1280x720) keep breathing room; big screens keep the original sizes. */
+@media(min-width:768px){
+#experience h2,.cred-section h2{font-size:clamp(30px,min(5vw,8svh),72px)}
+.cred-list .cred-year,.cred-list .cred-body h3{font-size:clamp(18px,min(2.6vw,3.8svh),34px)}
+.cred-list .cred-what,.cred-list .cred-meta{font-size:clamp(14px,min(1.5vw,2.2svh),20px)}
+.cred-list .cred-item{padding-block:clamp(8px,2.6svh,34px)}
+.cred-list{margin-top:clamp(12px,3svh,32px)}
+}
