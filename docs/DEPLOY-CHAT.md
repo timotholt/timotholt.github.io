@@ -3,7 +3,7 @@
 ## Live status (2026-10-25)
 
 - Worker: `https://timotholt-chat.timotholt-chat-worker.workers.dev/chat` on
-  `claude-haiku-5-5`, key from its own Anthropic workspace (org cap $25/month).
+  `claude-haiku-5-5`, key from its own Anthropic workspace `timotholt.com`, capped at $5/month (org cap $25).
 - Turnstile widget `timotholt-chat` (invisible), site key `0x4AAAAAAFlhdh0dcyG1ujH6`.
 - Repo variables `PUBLIC_CHAT_URL` and `PUBLIC_TURNSTILE_SITE_KEY` set.
 - DNS: timotholt.com on Cloudflare (Free, nameservers laila/piers), all records DNS
