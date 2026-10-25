@@ -8,8 +8,9 @@
 - Repo variables `PUBLIC_CHAT_URL` and `PUBLIC_TURNSTILE_SITE_KEY` set.
 - DNS: timotholt.com on Cloudflare (Free, nameservers laila/piers), all records DNS
   only → GitHub Pages; Pages custom domain set, HTTPS enforced.
-- Not done: Cloudflare Email Routing (`*@timotholt.com` → Gmail), `_dmarc` TXT, and
-  GitHub's verified-domain TXT. All optional; no mail is used on the domain.
+- Email: Cloudflare Email Routing catch-all, `*@timotholt.com` → timotholt@gmail.com
+  (MX route1-3.mx.cloudflare.net, SPF added by Cloudflare).
+- Not done: `_dmarc` TXT and GitHub's verified-domain TXT. Both optional.
 
 Everything here needs Tim's accounts or costs money, so Tim runs it. The site
 already works without the Worker: the chat panel answers from saved answers
