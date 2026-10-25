@@ -7,14 +7,15 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
 ---
 <dialog id="ask-ai" class="chat" aria-labelledby="chat-title" style={sectionStyle('contact')} data-chat-url={chatUrl} data-site-key={siteKey}>
   <header class="chat-head">
-    <div>
+    <img class="chat-avatar" src="/headshot.jpg" alt="" width="40" height="40" />
+    <div class="chat-title-block">
       <h2 id="chat-title">Ask my AI</h2>
-      <p class="chat-label">AI version of Tim · AI-generated — may be imperfect</p>
+      <p class="chat-label"><span class="chat-dot" aria-hidden="true"></span>AI version of Tim · AI-generated — may be imperfect</p>
     </div>
     <button class="chat-close" type="button" aria-label="Close chat">✕</button>
   </header>
   <div class="chat-log" role="log" aria-live="polite" aria-label="Conversation">
-    <p class="chat-msg chat-msg-ai">Hi, I'm an AI version of Tim. Ask me about my work, projects or skills.</p>
+    <p class="chat-msg chat-msg-ai">Hi! I'm an AI version of Tim. Questions about my work? I answer in seconds — try one below or ask your own.</p>
   </div>
   <div class="chat-chips-bar">
     <div class="chat-chips" role="group" aria-label="Suggested questions">
@@ -24,8 +25,8 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
   </div>
   <form class="chat-form">
     <label class="visually-hidden" for="chat-input">Your question</label>
-    <textarea id="chat-input" name="question" rows="2" maxlength={limits.maxChars} placeholder="Ask about Tim's work…" required></textarea>
-    <button class="chat-send" type="submit">Send</button>
+    <textarea id="chat-input" name="question" rows="1" maxlength={limits.maxChars} placeholder="Ask about Tim's work…" required></textarea>
+    <button class="chat-send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
   </form>
   <p class="chat-meta"><span class="chat-count">0/{limits.maxChars}</span><span class="chat-left">{limits.maxTurns} questions left</span></p>
   <p class="chat-privacy">Questions are logged anonymously by topic to improve answers.</p>

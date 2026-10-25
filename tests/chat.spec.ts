@@ -99,7 +99,8 @@ test('model text is shown as text, never as HTML', async ({ page }) => {
   await page.locator('.chat-chip').first().click();
   await expect(page.locator('.chat-msg-ai').last()).toHaveText('<img src=x onerror="window.hacked=1">');
   expect(await page.evaluate(() => (window as { hacked?: number }).hacked)).toBeUndefined();
-  await expect(page.locator('#ask-ai img')).toHaveCount(0);
+  // The header avatar is ours; nothing in the conversation may become an element.
+  await expect(page.locator('#ask-ai .chat-log img')).toHaveCount(0);
 });
 
 test('phone: panel fills the screen, chips stay in one scrolling row and can be hidden', async ({ page }) => {
