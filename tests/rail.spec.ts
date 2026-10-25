@@ -80,3 +80,31 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 
     }
   });
 }
+
+test('resizing within a layout keeps the reader on the same settled milestone', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  const dots = page.locator('.rail-dot');
+  const labels = await dots.evaluateAll(d => d.map(x => x.getAttribute('aria-label')));
+  const index = labels.indexOf('Firmware CalGen');
+  await dots.nth(index).click();
+  await page.waitForTimeout(1500);
+  for (const [width, height] of [[1280, 720], [1100, 800], [1440, 900]]) {
+    await page.setViewportSize({ width, height });
+    await page.waitForTimeout(1500);
+    await expect(dots.nth(index)).toHaveClass(/current/);
+    const card = await page.locator('.feature-slot').nth(index).locator('.project-card').evaluate(c => ({ opacity: Number(getComputedStyle(c).opacity), transform: getComputedStyle(c).transform }));
+    expect(card.opacity).toBeGreaterThan(.98);
+    expect(['none', 'matrix(1, 0, 0, 1, 0, 0)', 'matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)']).toContain(card.transform);
+  }
+});
+
+test('stopping near the top of a page snaps onto it', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  const top = await page.locator('.feature-slot').nth(4).evaluate(s => s.getBoundingClientRect().top + scrollY);
+  await page.mouse.move(700, 450);
+  await page.evaluate(y => window.scrollTo(0, y + 60), top);
+  await page.mouse.wheel(0, 1);
+  await expect.poll(() => page.evaluate(y => Math.abs(scrollY - y), top), { timeout: 3000 }).toBeLessThanOrEqual(2);
+});

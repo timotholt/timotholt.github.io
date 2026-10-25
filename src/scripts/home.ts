@@ -147,7 +147,8 @@ addEventListener('scroll', () => {
   clearTimeout(idleTimer);
   idleTimer = window.setTimeout(() => rail?.classList.remove('is-scrolling'), 900);
 }, { passive: true });
-addEventListener('resize', () => requestAnimationFrame(measureRail));
+// Any resize changes slot heights (they are one viewport tall), so return to the milestone the reader was on.
+addEventListener('resize', () => { if (restoreIndex < 0) restoreIndex = readerIndex; requestAnimationFrame(measureRail); });
 ScrollTrigger.addEventListener('refresh', measureRail);
 addEventListener('load', measureRail);
 document.fonts.ready.then(measureRail);
@@ -168,10 +169,10 @@ function chipScene() {
 function profileScene(mobile: boolean) {
   const heading = document.querySelector<HTMLElement>('#about h2'); if (!heading) return;
   heading.setAttribute('aria-label', "From firmware to what's next.");
-  splitText(heading,true).forEach((word,i)=>gsap.from(word,{x:(i%2?1:-1)*innerWidth*(mobile?.4:.8),skewX:i%2?-25:25,opacity:0,ease:'none',scrollTrigger:{trigger:word,start:'top 95%',end:'top 35%',scrub:.6}}));
-  gsap.from('.about-grid > div', {x:mobile?innerWidth*.4:innerWidth*.8,opacity:0,ease:'none',scrollTrigger:{trigger:'.about-grid > div',start:'top 95%',end:'top 35%',scrub:.6}});
+  splitText(heading,true).forEach((word,i)=>gsap.from(word,{x: () => (i%2?1:-1)*innerWidth*(mobile?.4:.8),skewX:i%2?-25:25,opacity:0,ease:'none',scrollTrigger:{invalidateOnRefresh:true,trigger:word,start:'top 95%',end:'top 35%',scrub:.6}}));
+  gsap.from('.about-grid > div', {x:()=>mobile?innerWidth*.4:innerWidth*.8,opacity:0,ease:'none',scrollTrigger:{invalidateOnRefresh:true,trigger:'.about-grid > div',start:'top 95%',end:'top 35%',scrub:.6}});
   document.querySelectorAll<HTMLElement>('.metric').forEach((metric,i)=>{
-    gsap.from(metric,{x:(i%2?1:-1)*innerWidth*(mobile?.4:.8),scale:3,opacity:0,ease:'none',scrollTrigger:{trigger:metric.closest('.feature-slot')||metric,start:'top 95%',end:'top 40%',scrub:.6}});
+    gsap.from(metric,{x: () => (i%2?1:-1)*innerWidth*(mobile?.4:.8),scale:3,opacity:0,ease:'none',scrollTrigger:{invalidateOnRefresh:true,trigger:metric.closest('.feature-slot')||metric,start:'top 95%',end:'top 40%',scrub:.6}});
     const el=metric.querySelector<HTMLElement>('.metric-value');if(!el)return;
     const target=Number(el.dataset.count);const decimal=el.dataset.count?.includes('.')?1:0;const counter={value:0};
     gsap.to(counter,{value:target,ease:'none',scrollTrigger:{trigger:metric.closest('.feature-slot')||metric,start:'top 95%',end:'top 40%',scrub:.6},onUpdate:()=>{el.textContent=counter.value.toFixed(decimal).padStart(decimal?3:2,'0')}});
@@ -182,7 +183,7 @@ function projectScene(mobile: boolean) {
     const sign=i%2?1:-1;
     // Time to the slot: on phones the section heading shares the first slot and pushes the card down.
     const slot=card.closest<HTMLElement>('.feature-slot')||card;
-    gsap.from(card,{x:sign*innerWidth*(mobile?.4:.4),rotationY:sign*(mobile?35:70),rotationZ:sign*6,z:-400,opacity:0,ease:'none',scrollTrigger:{trigger:slot,start:'top bottom',end:'top 20%',scrub:.6}});
+    gsap.from(card,{x:()=>sign*innerWidth*(mobile?.4:.4),rotationY:sign*(mobile?35:70),rotationZ:sign*6,z:-400,opacity:0,ease:'none',scrollTrigger:{invalidateOnRefresh:true,trigger:slot,start:'top bottom',end:'top 20%',scrub:.6}});
     // Explicit start values: a plain .to() would capture the entrance's opacity:0 start state and hide the card just past landing.
     gsap.fromTo(card,{y:0,z:0,opacity:1},{y:-55,z:-90,opacity:.72,ease:'none',immediateRender:false,scrollTrigger:{trigger:slot,start:'top top',end:'bottom top',scrub:.6}});
   });
@@ -195,7 +196,7 @@ function skillsScene(mobile: boolean) {
   if (drawing) gsap.fromTo(drawing, { yPercent: 18 }, { yPercent: -18, ease: 'none', scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: .6 } });
   if (sweep) gsap.fromTo(sweep, { x: 0, opacity: 1 }, { x: () => drawing?.clientWidth || 400, opacity: 1, ease: 'none', scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: .6 } });
   gsap.utils.toArray<HTMLElement>('.pinout-row').forEach((row, i) => {
-    gsap.from(row, { x: (i % 2 ? 1 : -1) * innerWidth * (mobile ? .65 : .9), opacity: .1, skewX: i % 2 ? -15 : 15, ease: 'none', scrollTrigger: { trigger: row.closest('.pin-slot'), start: 'top 95%', end: 'top top', scrub: .6 } });
+    gsap.from(row, { x: () => (i % 2 ? 1 : -1) * innerWidth * (mobile ? .65 : .9), opacity: .1, skewX: i % 2 ? -15 : 15, ease: 'none', scrollTrigger:{invalidateOnRefresh:true, trigger: row.closest('.pin-slot'), start: 'top 95%', end: 'top top', scrub: .6 } });
     gsap.fromTo(row, { backgroundColor: 'transparent' }, { backgroundColor: 'var(--section-accent)', duration: .12, yoyo: true, repeat: 1, scrollTrigger: { trigger: row.closest('.pin-slot'), start: 'top 65%', end: 'top 20%', scrub: true } });
   });
 }
@@ -203,14 +204,14 @@ function skillsScene(mobile: boolean) {
 function credScene(mobile: boolean) {
   // Field-notes recipe per item, timed to the section slot so the list is settled when it lands.
   document.querySelectorAll<HTMLElement>('.cred-section').forEach(section => {
-    section.querySelectorAll<HTMLElement>('.cred-item').forEach((item, i) => gsap.from(item, { x: (i % 2 ? 1 : -1) * innerWidth * (mobile ? .4 : .8), rotation: i % 2 ? 20 : -20, opacity: 0, force3D: true, ease: 'none', scrollTrigger: { trigger: section, start: `top ${95 - i * 8}%`, end: `top ${30 - i * 6}%`, scrub: .6 } }));
+    section.querySelectorAll<HTMLElement>('.cred-item').forEach((item, i) => gsap.from(item, { x: () => (i % 2 ? 1 : -1) * innerWidth * (mobile ? .4 : .8), rotation: i % 2 ? 20 : -20, opacity: 0, force3D: true, ease: 'none', scrollTrigger:{invalidateOnRefresh:true, trigger: section, start: `top ${95 - i * 8}%`, end: `top ${30 - i * 6}%`, scrub: .6 } }));
   });
 }
 
 function experienceScene(mobile: boolean) {
   // Field-notes values, staggered per row and timed to the page slot so a page is settled when it lands.
   document.querySelectorAll<HTMLElement>('.job-page').forEach(page => {
-    page.querySelectorAll<HTMLElement>('.job-row').forEach((row, i) => gsap.from(row, { x: (i % 2 ? 1 : -1) * innerWidth * (mobile ? .4 : .8), rotation: i % 2 ? 12 : -12, opacity: 0, force3D: true, ease: 'none', scrollTrigger: { trigger: page, start: `top ${95 - i * 8}%`, end: `top ${30 - i * 6}%`, scrub: .6 } }));
+    page.querySelectorAll<HTMLElement>('.job-row').forEach((row, i) => gsap.from(row, { x: () => (i % 2 ? 1 : -1) * innerWidth * (mobile ? .4 : .8), rotation: i % 2 ? 12 : -12, opacity: 0, force3D: true, ease: 'none', scrollTrigger:{invalidateOnRefresh:true, trigger: page, start: `top ${95 - i * 8}%`, end: `top ${30 - i * 6}%`, scrub: .6 } }));
   });
 }
 
