@@ -45,7 +45,8 @@ const anchors = slots.map(slot => {
 const dots = slots.map((slot, i) => {
   const dot = document.createElement('button');
   dot.type = 'button'; dot.className = 'rail-dot';
-  dot.style.top = `${i / Math.max(1, slots.length - 1) * 100}%`;
+  // Dots are centered in equal cells (half a step of inset at each end), so the first and last sections' bands fit whole.
+  dot.style.top = `${(i + .5) / slots.length * 100}%`;
   dot.setAttribute('aria-label', slot.dataset.milestone || `Milestone ${i + 1}`);
   dot.dataset.title = slot.dataset.milestone || '';
   dot.dataset.index = String(i);
@@ -61,7 +62,7 @@ slotSections.forEach((section, i) => {
   if (i > 0 && section === slotSections[i - 1]) return;
   let last = i;
   while (last + 1 < slots.length && slotSections[last + 1] === section) last++;
-  const step = 100 / Math.max(1, slots.length - 1);
+  const step = 100 / slots.length;
   const band = document.createElement('span');
   band.className = 'rail-band';
   const key = section?.getAttribute('data-section-key') as SectionKey | null;
@@ -72,7 +73,7 @@ slotSections.forEach((section, i) => {
   }
   band.setAttribute('aria-hidden', 'true');
   band.dataset.first = String(i); band.dataset.last = String(last);
-  band.style.top = `calc(${(i - .5) * step}% + 2px)`;
+  band.style.top = `calc(${i * step}% + 2px)`;
   band.style.height = `calc(${(last - i + 1) * step}% - 4px)`;
   railDots?.prepend(band);
   bands.push(band);
@@ -101,7 +102,9 @@ function updateRail() {
   while (seg < targets.length - 2 && scrollY >= targets[seg + 1]) seg++;
   const span = Math.max(1, targets[seg + 1] - targets[seg]);
   const progress = scrollY <= first ? 0 : scrollY >= last ? 1 : Math.min(1, (seg + (scrollY - targets[seg]) / span) / Math.max(1, targets.length - 1));
-  if (railFill) railFill.style.transform = `scaleY(${progress})`;
+  // The fill tip sits on the dot cell centers: first dot at 0%, last dot at 100%.
+  const tip = (.5 + progress * (slots.length - 1)) / slots.length;
+  if (railFill) railFill.style.transform = `scaleY(${tip})`;
   if (percent) percent.textContent = `${Math.round(progress * 100)}%`;
   let current = 0;
   targets.forEach((target, i) => { if (scrollY >= target - 2) current = i; });
@@ -122,7 +125,7 @@ function updateRail() {
   if (readout && railFill) {
     const railH = railFill.parentElement?.clientHeight || innerHeight;
     const half = readout.offsetHeight / 2;
-    readout.style.top = `${Math.max(half, Math.min(railH - half, progress * railH))}px`;
+    readout.style.top = `${Math.max(half, Math.min(railH - half, tip * railH))}px`;
   }
 }
 dots.forEach((dot, i) => dot.addEventListener('click', () => {
@@ -141,6 +144,24 @@ dots.forEach((dot, i) => dot.addEventListener('click', () => {
   }
   updateRail();
 }));
+// Keyboard: with hard snap, a 40px arrow step gets pulled back to the same page (stutter). Move a whole page instead.
+addEventListener('keydown', event => {
+  if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || !targets.length) return;
+  const el = event.target as HTMLElement;
+  if (el.closest('input, textarea, select, [contenteditable], [role="dialog"]')) return;
+  const next = () => targets.findIndex(t => t > scrollY + 2);
+  const prev = () => { let k = -1; targets.forEach((t, i) => { if (t < scrollY - 2) k = i; }); return k; };
+  let to = -1;
+  if (event.key === 'ArrowDown' || event.key === 'PageDown' || (event.key === ' ' && !event.shiftKey)) to = next();
+  else if (event.key === 'ArrowUp' || event.key === 'PageUp' || (event.key === ' ' && event.shiftKey)) to = prev();
+  else if (event.key === 'Home') to = 0;
+  else if (event.key === 'End') to = targets.length - 1;
+  else return;
+  event.preventDefault();
+  if (to < 0) return;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  scrollTo({ top: targets[to], behavior: reduced ? 'instant' : 'smooth' });
+});
 // Phones: the readout overlaps text, so it shows only while scrolling.
 const rail = document.querySelector<HTMLElement>('.progress-rail');
 let idleTimer = 0;

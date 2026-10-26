@@ -110,7 +110,7 @@ test('stopping near the top of a page snaps onto it', async ({ page }) => {
 });
 
 for (const viewport of [{ width: 1440, height: 900 }, { width: 1000, height: 560 }]) {
-  test(`the readout rides the fill tip from the very top to the very bottom at ${viewport.width}`, async ({ page }) => {
+  test(`the readout rides the fill tip from the first dot to the last at ${viewport.width}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto('/');
     await page.waitForTimeout(800);
@@ -120,8 +120,9 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1000, height: 560
       const r = document.querySelector('.rail-readout')!.getBoundingClientRect();
       return { railTop: rail.top, railBottom: rail.bottom, tip, top: r.top, bottom: r.bottom, center: (r.top + r.bottom) / 2 };
     });
+    const dotCenter = (i: number) => page.evaluate(k => { const d = [...document.querySelectorAll('.rail-dot')].at(k)!.getBoundingClientRect(); return (d.top + d.bottom) / 2; }, i);
     const atTop = await measure();
-    expect(atTop.top - atTop.railTop).toBeLessThanOrEqual(2);
+    expect(Math.abs(atTop.center - await dotCenter(0))).toBeLessThanOrEqual(2);
     const mid = await page.evaluate(() => document.documentElement.scrollHeight / 2);
     await page.evaluate(y => window.scrollTo({ top: y, behavior: 'instant' }), mid);
     await page.waitForTimeout(600);
@@ -130,7 +131,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1000, height: 560
     await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
     await page.waitForTimeout(600);
     const atBottom = await measure();
-    expect(atBottom.railBottom - atBottom.bottom).toBeLessThanOrEqual(2);
+    expect(Math.abs(atBottom.center - await dotCenter(-1))).toBeLessThanOrEqual(2);
   });
 }
 
@@ -154,4 +155,27 @@ test('the footer is still reachable with hard snap', async ({ page }) => {
   await page.waitForTimeout(800);
   const footer = await page.locator('.site-footer').boundingBox();
   expect(footer!.y + footer!.height).toBeLessThanOrEqual(900 + 1);
+});
+
+test('every section band, including the first and last, fits inside the rail', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  const fit = await page.evaluate(() => {
+    const rail = document.querySelector('.progress-rail')!.getBoundingClientRect();
+    return [...document.querySelectorAll('.rail-band')].map(b => { const r = b.getBoundingClientRect(); return r.top >= rail.top - 1 && r.bottom <= rail.bottom + 1; });
+  });
+  expect(fit.every(Boolean)).toBeTruthy();
+});
+
+test('arrow keys move exactly one page, smoothly, without stutter', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.waitForTimeout(600);
+  const tops = await page.$$eval('.feature-slot', s => s.map(x => Math.round(x.getBoundingClientRect().top + scrollY)));
+  await page.keyboard.press('ArrowDown');
+  await expect.poll(() => page.evaluate(() => Math.round(scrollY)), { timeout: 3000 }).toBe(tops[1]);
+  await page.keyboard.press('ArrowDown');
+  await expect.poll(() => page.evaluate(() => Math.round(scrollY)), { timeout: 3000 }).toBe(tops[2]);
+  await page.keyboard.press('ArrowUp');
+  await expect.poll(() => page.evaluate(() => Math.round(scrollY)), { timeout: 3000 }).toBe(tops[1]);
 });
