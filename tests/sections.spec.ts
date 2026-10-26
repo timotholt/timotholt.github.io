@@ -167,3 +167,17 @@ test('on a short phone no screen clips its content; a screen grows instead', asy
   }));
   expect(clipped).toEqual([]);
 });
+
+// Between 768 and 899px the hero stacks under the overlaid laptop header; the photo once slid under the menu.
+for (const viewport of [{ width: 768, height: 700 }, { width: 840, height: 540 }, { width: 899, height: 900 }]) {
+  test(`stacked hero starts below the header at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    const g = await page.evaluate(() => ({
+      header: document.querySelector('.site-header')!.getBoundingClientRect().bottom,
+      photo: document.querySelector('.hero .portrait-unit')!.getBoundingClientRect().top,
+    }));
+    expect(g.photo).toBeGreaterThan(g.header + 8);
+  });
+}

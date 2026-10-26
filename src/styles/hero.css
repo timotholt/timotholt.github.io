@@ -275,6 +275,18 @@
   }
 }
 
+@media (min-width: 768px) and (max-width: 899px) {
+  /* Stacked hero with the laptop header overlaid on top: start below the header rule. */
+  .hero {
+    padding-top: 64px;
+  }
+
+  .hero .portrait-unit {
+    width: min(24svh, 220px);
+    align-self: flex-start;
+  }
+}
+
 @media (max-width: 767px) {
   .portrait-unit {
     margin-top: 35px;
@@ -349,8 +361,8 @@
   }
 }
 
-@media (min-width: 768px) {
-  /* Laptop hero scales with the tighter of width and height so short windows keep the buttons well clear of the bottom. */
+@media (min-width: 900px) {
+  /* Side-by-side laptop hero (900px+; narrower windows stack) scales with the tighter of width and height so short windows keep the buttons well clear of the bottom. */
   .hero .portrait-unit {
     width: min(100%, 52svh, 460px);
   }
