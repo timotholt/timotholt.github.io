@@ -351,3 +351,5 @@ html{scroll-snap-type:y mandatory}
 @media(min-width:768px){.site-header{justify-content:flex-start}}
 /* Snap pauses during a keyboard glide (the glide lands exactly on a page). */
 html.key-gliding{scroll-snap-type:none}
+/* No rule under the header: it ran through the rail readout at the top and was leftover datasheet decoration. */
+.site-header,body:has(.color-section) .site-header{border-bottom:0}
