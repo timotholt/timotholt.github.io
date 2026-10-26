@@ -11,24 +11,62 @@
   --brand: #e8541c;
 }
 
-/* Laptop/desktop type scale (docs/TYPE-SCALE.md): every size is a share of the section column (--u = 1% of a
-   1000px-equivalent column), so text and column grow together. Redeclared on .wrap so a section's own --u applies. */
+/* One type scale (docs/TYPE-SCALE.md). --scale is the knob: 1.1 makes every size 10% bigger.
+   --text-zoom is the visitor's browser text size (set in Base.astro). */
 :root {
-  --u: 1cqi;
+  --scale: 1;
+  --k: calc(var(--scale) * var(--text-zoom, 1));
+  /* Phone (under 900px): the phone column is the screen minus 84px of margins; --u tracks it, equal to 3.75px on a
+     375px phone (1% of the screen) and holding at 4.8px from about 460px up. */
+  --u: clamp(3.75px, calc((100vw - 84px) * 0.012887), 4.8px);
   --col-max: 1000px;
   --col-gutter: 120px;
   --col-fit: 143;
+
+  /* Chrome (chat, rail, nav, eyebrows, buttons): rem already follows the visitor's text size. */
+  --fs-ui-2xs: calc(0.5rem * var(--scale));
+  --fs-ui-xs: calc(0.5625rem * var(--scale));
+  --fs-ui-sm: calc(0.625rem * var(--scale));
+  --fs-ui: calc(0.6875rem * var(--scale));
+  --fs-ui-md: calc(0.75rem * var(--scale));
+  --fs-ui-lg: calc(0.8125rem * var(--scale));
+  --fs-ui-xl: calc(0.9375rem * var(--scale));
+  --fs-ui-base: calc(1rem * var(--scale));
+  --fs-ui-title: calc(1.375rem * var(--scale));
+  --fs-ui-display: calc(1.625rem * var(--scale));
 }
 
+/* Content sizes, redeclared on .wrap so a section's own --u applies. */
 :where(:root, .wrap) {
-  --fs-display: calc(9.9 * var(--u));
-  --fs-h2: calc(7 * var(--u));
-  --fs-h3: calc(3.4 * var(--u));
-  --fs-lead: calc(2.4 * var(--u));
-  --fs-body-l: max(13px, calc(2 * var(--u)));
-  --fs-body: max(14px, calc(1.8 * var(--u)));
-  --fs-small: max(10px, calc(1.3 * var(--u)));
-  --sp-1: calc(1 * var(--u));
-  --sp-2: calc(2 * var(--u));
-  --sp-3: calc(3 * var(--u));
+  --fs-giant: calc(15 * var(--u) * var(--k));
+  --fs-display: calc(12 * var(--u) * var(--k));
+  --fs-h2: calc(8.5 * var(--u) * var(--k));
+  --fs-h3: calc(5 * var(--u) * var(--k));
+  --fs-lead: calc(4.5 * var(--u) * var(--k));
+  --fs-body-l: calc(3.9 * var(--u) * var(--k));
+  --fs-body: calc(3.7 * var(--u) * var(--k));
+  --fs-small: calc(2.8 * var(--u) * var(--k));
+  --fs-contact: calc(4.5 * var(--u) * var(--k));
+  --sp-1: calc(1 * var(--u) * var(--k));
+  --sp-2: calc(2 * var(--u) * var(--k));
+  --sp-3: calc(3 * var(--u) * var(--k));
+}
+
+@media (min-width: 900px) {
+  /* Laptop/desktop: --u is 1% of a 1000px-equivalent section column, so text and column grow together. */
+  :root {
+    --u: 1cqi;
+  }
+
+  :where(:root, .wrap) {
+    --fs-giant: calc(13 * var(--u) * var(--k));
+    --fs-display: calc(9.9 * var(--u) * var(--k));
+    --fs-h2: calc(7 * var(--u) * var(--k));
+    --fs-h3: calc(3.4 * var(--u) * var(--k));
+    --fs-lead: calc(2.4 * var(--u) * var(--k));
+    --fs-body-l: max(calc(0.8125rem * var(--scale)), calc(2 * var(--u) * var(--k)));
+    --fs-body: max(calc(0.875rem * var(--scale)), calc(1.8 * var(--u) * var(--k)));
+    --fs-small: max(calc(0.625rem * var(--scale)), calc(1.3 * var(--u) * var(--k)));
+    --fs-contact: max(calc(1rem * var(--scale)), calc(2 * var(--u) * var(--k)));
+  }
 }

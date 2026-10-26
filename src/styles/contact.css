@@ -6,7 +6,7 @@
   min-height: 48px;
   padding: 12px 17px;
   border: 1px solid var(--ink);
-  font-size: 12px;
+  font-size: var(--fs-ui-md);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -63,7 +63,7 @@
 
 .contact-list small {
   display: block;
-  font-size: 10px;
+  font-size: var(--fs-ui-sm);
   color: var(--muted);
   margin-bottom: 2px;
 }
@@ -86,14 +86,14 @@
 }
 
 .contact-section h2 {
-  font-size: clamp(42px, 5.4vw, 78px);
+  font-size: var(--fs-h2);
 }
 
 .contact-section .wrap > p {
   color: var(--muted);
   margin-top: 25px;
   margin: 14px 0 16px;
-  font-size: clamp(13px, calc(13px + (100vw - 375px) * 0.0095), clamp(14px, 1.5vw, 18px));
+  font-size: var(--fs-body);
   line-height: 1.35;
 }
 
@@ -106,12 +106,12 @@
 }
 
 .contact-identity strong {
-  font-size: clamp(23px, 2.7vw, 35px);
+  font-size: var(--fs-h3);
   letter-spacing: -0.05em;
 }
 
 .contact-identity > span {
-  font-size: clamp(16px, 1.6vw, 21px);
+  font-size: var(--fs-body-l);
   color: var(--muted);
 }
 
@@ -184,7 +184,7 @@
   padding: 0;
   margin: 0;
   font:
-    500 clamp(12px, 1.06vw, 15px)/1.25 "JetBrains Mono",
+    500 var(--fs-contact)/1.25 "JetBrains Mono",
     monospace;
   font-family: Archivo, sans-serif;
   font-weight: 500;
@@ -192,7 +192,6 @@
 
 .contact-section .contact-list {
   gap: 4px 22px;
-  font-size: clamp(17px, min(1.5vw, 2.4svh), 20px);
 }
 
 @media (max-width: 899px) {
@@ -214,18 +213,8 @@
     margin-right: 7px;
   }
 
-  .contact-section h2 {
-    font-size: clamp(38px, 10vw, 58px);
-  }
-
   .contact-identity {
     margin-bottom: 5px;
-  }
-}
-
-@media (max-width: 899px) {
-  .contact-section .contact-list {
-    font-size: 17px;
   }
 }
 
@@ -246,26 +235,12 @@
     height: 0.95em;
   }
 
-  .contact-section h2 {
-    font-size: var(--fs-h2);
-  }
-
   .contact-section .wrap > p {
     margin: calc(1.4 * var(--u)) 0 calc(1.6 * var(--u));
-    font-size: var(--fs-body);
-  }
-
-  .contact-identity strong {
-    font-size: var(--fs-h3);
-  }
-
-  .contact-identity > span {
-    font-size: var(--fs-body-l);
   }
 
   .contact-section .contact-list {
     gap: calc(0.4 * var(--u)) calc(2.2 * var(--u));
-    font-size: max(16px, calc(2 * var(--u)));
   }
 
   .contact-section .contact-list a,

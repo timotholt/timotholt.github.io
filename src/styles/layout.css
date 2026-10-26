@@ -13,7 +13,7 @@ main {
 
 .eyebrow {
   font-family: "JetBrains Mono", monospace;
-  font-size: 11px;
+  font-size: var(--fs-ui);
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -30,7 +30,7 @@ main {
 }
 
 .not-found h1 {
-  font-size: clamp(65px, 9vw, 130px);
+  font-size: var(--fs-giant);
   letter-spacing: -0.08em;
   margin: 40px 0 20px;
   overflow-wrap: anywhere;
@@ -39,7 +39,7 @@ main {
 .next-work {
   margin-top: 75px;
   font:
-    600 24px Archivo,
+    600 var(--fs-lead) Archivo,
     sans-serif;
 }
 
@@ -54,7 +54,7 @@ main {
 
 .not-found p:not(.eyebrow) {
   color: var(--muted);
-  font-size: 20px;
+  font-size: var(--fs-body-l);
 }
 
 .trace-section {
@@ -85,7 +85,7 @@ main {
 
 .section-label {
   font-family: "JetBrains Mono", monospace;
-  font-size: 11px;
+  font-size: var(--fs-ui);
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -110,7 +110,7 @@ main {
 
 .section h2 {
   margin-bottom: 0;
-  font-size: clamp(44px, 5vw, 72px);
+  font-size: var(--fs-h2);
 }
 
 /* Keep the rail readout clear of narrow content and settle row entrances at a slot start. */
@@ -147,10 +147,6 @@ main {
 }
 
 @media (max-width: 899px) {
-  .section h2 {
-    font-size: clamp(38px, 10vw, 57px);
-  }
-
   .wrap {
     width: calc(100% - 118px);
     margin-left: 18px;
@@ -196,8 +192,10 @@ main {
     width: min(var(--col-max), calc(100% - var(--col-gutter)), calc(var(--col-fit) * 1svh));
   }
 
-  .section h2 {
-    font-size: var(--fs-h2);
+  /* Case studies and the 404 page are their own column on the same scale. */
+  .case-study,
+  .not-found {
+    container-type: inline-size;
   }
 
   .section-heading {

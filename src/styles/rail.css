@@ -17,7 +17,7 @@
 }
 
 #rail-section {
-  font-size: 9px;
+  font-size: var(--fs-ui-xs);
   color: var(--ink);
 }
 
@@ -99,7 +99,7 @@
   background: var(--paper);
   color: var(--accent);
   font:
-    500 12px "JetBrains Mono",
+    500 var(--fs-ui-md) "JetBrains Mono",
     monospace;
   transform: translateY(-50%);
   border: 1px solid var(--rule);
@@ -175,7 +175,7 @@
   border: 1px solid #f4f1ea;
   color: #f4f1ea;
   font:
-    700 13px/1.2 Archivo,
+    700 var(--fs-ui-lg)/1.2 Archivo,
     sans-serif;
   letter-spacing: -0.01em;
   opacity: 0;
@@ -199,14 +199,14 @@
   color: #f4f1ea;
   order: -1;
   font:
-    700 15px/1.2 Archivo,
+    700 var(--fs-ui-xl)/1.2 Archivo,
     sans-serif;
   letter-spacing: -0.01em;
 }
 
 .progress-rail .rail-readout #scroll-percent {
   font:
-    500 11px/1.2 "JetBrains Mono",
+    500 var(--fs-ui)/1.2 "JetBrains Mono",
     monospace;
   opacity: 0.75;
 }
@@ -214,17 +214,17 @@
 @media (max-width: 899px) {
   .rail-readout {
     right: 13px;
-    font-size: 10px;
+    font-size: var(--fs-ui-sm);
   }
 
   .rail-readout #rail-section {
-    font-size: 8px;
+    font-size: var(--fs-ui-2xs);
   }
 }
 
 @media (max-width: 899px) {
   .rail-readout #rail-section {
-    font-size: 8px;
+    font-size: var(--fs-ui-2xs);
   }
 
   .progress-rail .rail-readout {
@@ -237,11 +237,11 @@
   }
 
   .progress-rail .rail-readout #rail-section {
-    font-size: 13px;
+    font-size: var(--fs-ui-lg);
   }
 
   .progress-rail .rail-readout #scroll-percent {
-    font-size: 10px;
+    font-size: var(--fs-ui-sm);
   }
 }
 

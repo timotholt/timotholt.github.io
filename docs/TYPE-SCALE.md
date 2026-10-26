@@ -59,6 +59,46 @@ Scratch script (not committed) loads the built site at 920x700, 1000x560, 1100x8
 
 Then `npm run check` and `npm test` (includes the slot-fit and readable-contact tests).
 
+## Phase 2: one knob, every size, a guard test
+
+Ask (Tim): change one value and everything resizes; nothing hard-coded left over.
+
+1. **One knob.** `--scale` (default 1) in `tokens.css`. Every token multiplies by
+   `--k = --scale × --text-zoom`. `--text-zoom` is the visitor's browser text size (root font size ÷
+   16px), set by a two-line inline script in `Base.astro` before first paint; without JS it stays 1.
+   Sizes still come from the column (`--u`), so line breaks stay put; `--k` changes all sizes
+   by the same factor everywhere.
+2. **Two kinds of token.**
+   - *Content* (`--fs-display … --fs-small`): headings, body, labels inside sections, case studies
+     and 404. Built on `--u`.
+   - *Chrome* (`--fs-ui-*`): chat panel, progress rail, header/footer nav, eyebrows, buttons, spec
+     tables. Built on `rem × --scale`; they don't belong to a column, so `rem` already follows the
+     visitor's text size.
+3. **Phone base (under 900px).** No size container there, so `--u` is the viewport:
+   `clamp(3.75px, 1vw, 4.8px)`, i.e. 1% of the screen width, ramping from a 375px phone to a 480px
+   one and then holding. Line breaks are the same on every phone from 375 to 480. The same content
+   tokens get phone multipliers (below), so an element names a role once and both layouts follow.
+   Phone headings are unified: every section heading is `--fs-h2` (projects and contact were
+   bigger than skills/lists before).
+4. **Guard test.** `tests/type-scale.spec.ts` reads every `src/styles/*.css` except `tokens.css`
+   and fails on any `font-size` / `font` whose size isn't a `--fs-*` token, `inherit`, or an
+   `em` / `%` share of its parent. Exceptions need an entry in the test's commented allowlist.
+
+| Token | Laptop (× `--u` = 1% of column) | Phone (× `--u` = 1vw, 375–480) | px phone 375 / 480 |
+| --- | --- | --- | --- |
+| `--fs-giant` | 13 | 15 | 56 / 72 |
+| `--fs-display` | 9.9 | 12 | 45 / 58 |
+| `--fs-h2` | 7 | 8.5 | 32 / 41 |
+| `--fs-h3` | 3.4 | 5 | 19 / 24 |
+| `--fs-lead` | 2.4 | 4.5 | 17 / 22 |
+| `--fs-body-l` | 2 (min 13px) | 3.9 | 14.6 / 18.7 |
+| `--fs-body` | 1.8 (min 14px) | 3.7 | 13.9 / 17.8 |
+| `--fs-contact` | 2 (min 16px) | 4.5 | 16.9 / 21.6 |
+| `--fs-small` | 1.3 (min 10px) | 2.8 | 10.5 / 13 |
+
+Chrome tokens (`rem`): `2xs` 8 · `xs` 9 · `sm` 10 · (base) 11 · `md` 12 · `lg` 13 · `xl` 15 ·
+`base` 16 (body text, chat input) · `title` 22 · `display` 26 px at default text size.
+
 ## Result (2026-10-26)
 
 Height caps (`--col-fit`, column px per 1svh): hero and default 143, Work History / Education /

@@ -18,6 +18,8 @@ const person = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Type scale follows the visitor's browser text size (docs/TYPE-SCALE.md). -->
+    <script is:inline>document.documentElement.style.setProperty('--text-zoom', parseFloat(getComputedStyle(document.documentElement).fontSize) / 16);</script>
     <meta name="theme-color" content={sectionByKey.contact.bg} />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

@@ -25,7 +25,7 @@
 
 .cred-year {
   font:
-    700 clamp(26px, 2.6vw, 34px)/1.05 Archivo,
+    700 var(--fs-h3)/1.05 Archivo,
     sans-serif;
   letter-spacing: -0.03em;
   color: var(--section-accent);
@@ -35,7 +35,7 @@
   position: relative;
   margin: 0 0 6px;
   font:
-    700 clamp(24px, 2.6vw, 34px)/1.1 Archivo,
+    700 var(--fs-h3)/1.1 Archivo,
     sans-serif;
   letter-spacing: -0.03em;
 }
@@ -53,14 +53,14 @@
 .cred-what {
   margin: 0;
   font:
-    500 clamp(17px, 1.5vw, 20px)/1.45 Archivo,
+    500 var(--fs-body-l)/1.45 Archivo,
     sans-serif;
 }
 
 .cred-meta {
   margin: 6px 0 0;
   font:
-    600 clamp(17px, 1.5vw, 20px)/1.45 Archivo,
+    600 var(--fs-body-l)/1.45 Archivo,
     sans-serif;
 }
 
@@ -126,22 +126,15 @@
     padding: 9px 0 9px 16px;
   }
 
-  .cred-year {
-    font-size: 17px;
-  }
-
   .cred-body h3 {
-    font-size: 18px;
     margin-bottom: 3px;
   }
 
   .cred-what {
-    font-size: 14px;
     line-height: 1.35;
   }
 
   .cred-meta {
-    font-size: 14px;
     margin-top: 3px;
   }
 
@@ -151,14 +144,6 @@
 
   .cred-list .cred-item {
     padding-block: 12px;
-  }
-
-  #experience h2 {
-    font-size: clamp(28px, 8vw, 40px);
-  }
-
-  .cred-section h2 {
-    font-size: clamp(28px, 8vw, 40px);
   }
 
   .job-page .section-heading {
@@ -183,27 +168,12 @@
     gap: calc(2.8 * var(--u));
   }
 
-  #experience h2,
-  .cred-section h2 {
-    font-size: var(--fs-h2);
-  }
-
-  .cred-list .cred-year,
-  .cred-list .cred-body h3 {
-    font-size: var(--fs-h3);
-  }
-
   .cred-list .cred-body h3 {
     margin-bottom: calc(0.6 * var(--u));
   }
 
   .cred-list .cred-meta {
     margin-top: calc(0.6 * var(--u));
-  }
-
-  .cred-list .cred-what,
-  .cred-list .cred-meta {
-    font-size: var(--fs-body-l);
   }
 
   .cred-list .cred-item {

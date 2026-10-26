@@ -46,7 +46,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   font:
-    400 16px/1.55 Archivo,
+    400 var(--fs-ui-base)/1.55 Archivo,
     Arial,
     sans-serif;
   background-image:
