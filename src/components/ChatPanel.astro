@@ -10,7 +10,7 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
     <img class="chat-avatar" src="/headshot.jpg" alt="" width="40" height="40" />
     <div class="chat-title-block">
       <h2 id="chat-title">Ask my AI</h2>
-      <p class="chat-label"><span class="chat-dot" aria-hidden="true"></span>AI version of Tim · AI-generated — may be imperfect</p>
+      <p class="chat-label"><span class="chat-dot" aria-hidden="true"></span>AI-generated · may be imperfect</p>
     </div>
     <button class="chat-close" type="button" aria-label="Close chat">✕</button>
   </header>
@@ -21,7 +21,7 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
     <div class="chat-chips" role="group" aria-label="Suggested questions">
       {starters.map(question => <button class="chat-chip" type="button">{question}</button>)}
     </div>
-    <button class="chat-chips-toggle" type="button" aria-expanded="true">Hide</button>
+    <button class="chat-chips-toggle" type="button" aria-expanded="true">Hide suggestions</button>
   </div>
   <form class="chat-form">
     <label class="visually-hidden" for="chat-input">Your question</label>

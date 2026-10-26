@@ -1,5 +1,5 @@
 export const sections = [
-  { key: 'contact', label: 'Contact', bg: '#0F3D2A', fg: '#F4F1EA', accent: '#A8E0C0' },
+  { key: 'contact', label: 'Contact', bg: '#0A2E1F', fg: '#F4F1EA', accent: '#A8E0C0' },
   { key: 'highlights', label: 'Highlights', bg: '#8E4430', fg: '#F4F1EA', accent: '#F6D2B8' },
   { key: 'projects', label: 'Projects', bg: '#0F4C5C', fg: '#F4F1EA', accent: '#BFE3EA' },
   { key: 'process', label: 'How I build', bg: '#1E1E1E', fg: '#F4F1EA', accent: '#F2B880' },

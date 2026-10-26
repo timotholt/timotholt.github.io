@@ -170,16 +170,18 @@
   top: 50%;
   transform: translateY(-50%);
   white-space: nowrap;
-  background: var(--paper);
-  border: 1px solid var(--rule);
-  color: var(--ink);
+  /* Same pill as the current-place readout, so hovering a dot previews the label it will show. */
+  background: #14110f;
+  border: 1px solid #f4f1ea;
+  color: #f4f1ea;
   font:
-    500 10px "JetBrains Mono",
-    monospace;
+    700 13px/1.2 Archivo,
+    sans-serif;
+  letter-spacing: -0.01em;
   opacity: 0;
   pointer-events: none;
   border-radius: 999px;
-  padding: 3px 9px;
+  padding: 4px 10px;
 }
 
 /* Rail readout hierarchy: the section name leads and is large; the percentage is a small secondary note. */

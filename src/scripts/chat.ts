@@ -49,7 +49,7 @@ function setup(dialog: HTMLDialogElement) {
 
   toggle.addEventListener('click', () => {
     const hidden = chips.toggleAttribute('hidden');
-    toggle.textContent = hidden ? 'Show suggestions' : 'Hide';
+    toggle.textContent = hidden ? 'Show suggestions' : 'Hide suggestions';
     toggle.setAttribute('aria-expanded', String(!hidden));
   });
   chips.addEventListener('click', event => {

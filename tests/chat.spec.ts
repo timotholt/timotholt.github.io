@@ -31,7 +31,8 @@ async function openChat(page: Page) {
 test('hero button opens the labelled chat panel; Escape closes it', async ({ page }) => {
   await openChat(page);
   const panel = page.locator('#ask-ai');
-  await expect(panel).toContainText('AI-generated — may be imperfect');
+  // The panel must always disclose that answers are AI-generated and may be imperfect.
+  await expect(panel).toContainText(/AI-generated.*may be imperfect/);
   await expect(panel).toContainText('logged anonymously');
   await expect(panel.locator('.chat-chip')).toHaveCount(4);
   await expect(page.locator('#chat-input')).toBeFocused();
@@ -103,15 +104,16 @@ test('model text is shown as text, never as HTML', async ({ page }) => {
   await expect(page.locator('#ask-ai .chat-log img')).toHaveCount(0);
 });
 
-test('phone: panel fills the screen, chips stay in one scrolling row and can be hidden', async ({ page }) => {
+// Chips used to sit in one sideways-scrolling row, which clipped them mid-word; Tim called that sloppy, so they wrap.
+test('phone: panel fills the screen, every chip is fully visible, and chips can be hidden', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await openChat(page);
   const box = (await page.locator('#ask-ai').boundingBox())!;
   expect(box.x).toBe(0);
   expect(box.width).toBe(375);
   expect(Math.round(box.height)).toBe(812);
-  const tops = await page.locator('.chat-chip').evaluateAll(chips => chips.map(c => Math.round(c.getBoundingClientRect().top)));
-  expect(new Set(tops).size).toBe(1);
+  const clipped = await page.locator('.chat-chip').evaluateAll(chips => chips.filter(c => { const r = c.getBoundingClientRect(); return r.left < 0 || r.right > 375 || c.scrollWidth > c.clientWidth + 1; }).length);
+  expect(clipped).toBe(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
   await expect(page.locator('#chat-input')).toBeInViewport();
   await page.locator('.chat-chips-toggle').click();
