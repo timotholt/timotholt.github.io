@@ -592,6 +592,11 @@
     font-size: var(--fs-small);
   }
 
+  #projects .project-card .card-links {
+    gap: calc(1.8 * var(--u));
+    font-size: var(--fs-small);
+  }
+
   #projects .project-card .project-media {
     max-height: min(46svh, 460px);
   }

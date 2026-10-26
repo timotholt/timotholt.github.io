@@ -196,4 +196,8 @@ main {
   .section-heading {
     margin-bottom: calc(1.8 * var(--u));
   }
+
+  .section-heading p {
+    font-size: var(--fs-body);
+  }
 }
