@@ -37,6 +37,7 @@ const blockedByGuard: [string, keyof typeof declines][] = [
 const allowed = [
   "What's Tim's AI experience?",
   'Why Forward Deployed Engineering?',
+  'Why an internship?',
   'Can Tim act as a technical lead on a customer project?',
   'What is his email address?',
   'Is he open to remote work?',

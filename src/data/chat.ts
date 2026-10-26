@@ -34,10 +34,16 @@ export const topics: Topic[] = [
     followUps: ['Show me a project', "What's Tim's AI experience?"],
   },
   {
+    key: 'why-junior',
+    pattern: /\bwhy\b.*\b(intern\w*|junior|apprentic\w*|entry[- ]level|start over)\b/i,
+    answer: "I wrote firmware and BIOS code from 1988 to 2001, then spent twenty years in film. To rebuild my engineering career I went back to school: Per Scholas in 2024 (2nd in class) and now an A.A.S. in AI Software Engineering (4.0 GPA). An internship or junior role is the honest way back in. The fundamentals still apply, and I'd rather learn today's stack inside a team that ships.",
+    followUps: ["What's Tim's AI experience?", 'How do I reach Tim?'],
+  },
+  {
     key: 'availability',
     pattern: /\b(availab\w*|remote|relocat\w*|hybrid|on-?site|start date|full[- ]time|part[- ]time|contract\w*|open to|notice|intern\w*|junior|apprentic\w*|entry[- ]level|why now)\b/i,
     answer: `Yes. I'm looking for an on-ramp: internships, apprenticeships and junior roles in AI engineering, software or firmware, and I'm available now. I wrote BIOS and drivers for 13 years, spent twenty in film, and came back to engineering on purpose (Per Scholas, 2nd in class; A.A.S. in AI Software Engineering, 4.0). Remote, hybrid or on-site; I'm based in ${contact.location}. Résumé: timotholt.com/Timothy_Otholt_Resume.pdf. To talk, ${reach}.`,
-    followUps: ['Why Forward Deployed Engineering?', 'How do I reach Tim?'],
+    followUps: ['Why an internship?', 'How do I reach Tim?'],
   },
   {
     key: 'fde',
@@ -77,7 +83,7 @@ export const topics: Topic[] = [
     key: 'ai',
     pattern: /\b(ai|a\.i\.|llms?|claude|gpt|openai|anthropic|agents?|agentic|machine learning|ml|genai|chatbot)\b/i,
     answer: "I've done AI-assisted software development for 3 years. I built Chantel's Corner, a live 30,000-book store, end to end with AI coding agents, and MCP Logger, a tool that lets AI coding assistants read runtime logs. I'm also studying AI Software Engineering at Maestro College (GPA 4.0).",
-    followUps: ['Show me a project', 'Why Forward Deployed Engineering?'],
+    followUps: ['Show me a project', 'Why an internship?'],
   },
   {
     key: 'projects',
@@ -90,19 +96,19 @@ export const topics: Topic[] = [
     key: 'firmware',
     pattern: /firmware|\bbios\b|drivers?|assembly|embedded|phoenix|low[- ]level|hardware|fastboot/i,
     answer: 'I wrote motherboard BIOS at Phoenix Technologies that shipped in millions of PCs, and invented FastBoot and Save-To-Disk. Then Windows drivers and firmware at Quantum, AMD, Metalithic and Spruce, and DVD firmware for six NUON systems at VM Labs.',
-    followUps: ['Why Forward Deployed Engineering?', 'Tell me about Firmware CalGen'],
+    followUps: ['Why an internship?', 'Tell me about Firmware CalGen'],
   },
   {
     key: 'telecom',
     pattern: /at&t|\bcell\b|cell[- ]site|fiber|\b5g\b|telecom|ventel|tower/i,
     answer: 'As a contractor for AT&T through Ventura Telephone (2023–2025), I upgraded 22 cell tower sites across Southern California to Fujitsu flexiHaul 5G fiber-optic transport: SOWs, SFPs, fiber runs and DC power cabling.',
-    followUps: ['Why Forward Deployed Engineering?', 'Walk me through the work history'],
+    followUps: ['Why an internship?', 'Walk me through the work history'],
   },
   {
     key: 'production',
     pattern: /\b(film|movie|video|cinematograph\w*|photograph\w*|production|director|av)\b/i,
     answer: 'I ran Light Hollywood as a Director of Photography: 11 feature films, 50+ short films, 200+ commercials and 700+ interviews, leading crews of 20–40 contractors. I won Best Cinematography for Days of Reckoning.',
-    followUps: ['Why Forward Deployed Engineering?', "What's Tim's AI experience?"],
+    followUps: ['Why an internship?', "What's Tim's AI experience?"],
   },
   {
     key: 'education',
@@ -126,7 +132,7 @@ export const topics: Topic[] = [
     key: 'work',
     pattern: /experience|work history|jobs?|career|employ\w*|resume|cv|background|years/i,
     answer: 'BIOS and firmware engineering from 1988 to 2001 (Phoenix, Quantum, AMD, VM Labs and more), two decades as a Director of Photography, 5G fiber upgrades for AT&T, and since 2022 software and AI-built products at Egghead Rodeo.',
-    followUps: ['Tell me about the firmware background', 'Why Forward Deployed Engineering?'],
+    followUps: ['Tell me about the firmware background', 'Why an internship?'],
     link: { href: '/#experience', text: 'Work history' },
   },
 ];
