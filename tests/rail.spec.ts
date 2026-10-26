@@ -253,3 +253,24 @@ test('menu links glide to their section instead of jumping', async ({ page }) =>
   // ...and it lands exactly on the section.
   await expect.poll(() => page.evaluate(() => Math.round(scrollY)), { timeout: 4000 }).toBe(target);
 });
+
+test('the address bar follows the section being read, and deep links still work', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.waitForTimeout(600);
+  const historyLength = await page.evaluate(() => history.length);
+  for (const [id, hash] of [['projects', '#projects'], ['education', '#education'], ['contact', '#contact']]) {
+    await page.evaluate(i => window.scrollTo({ top: document.getElementById(i)!.getBoundingClientRect().top + scrollY, behavior: 'instant' }), id);
+    await expect.poll(() => page.evaluate(() => location.hash), { timeout: 2000 }).toBe(hash);
+  }
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+  await expect.poll(() => page.evaluate(() => location.hash), { timeout: 2000 }).toBe('');
+  // replaceState: scrolling never piles up history entries.
+  expect(await page.evaluate(() => history.length)).toBe(historyLength);
+  // A deep link lands on its section and keeps its hash.
+  await page.goto('/#awards');
+  await page.waitForTimeout(1200);
+  expect(await page.evaluate(() => location.hash)).toBe('#awards');
+  const top = await page.locator('#awards').evaluate(s => Math.round(s.getBoundingClientRect().top));
+  expect(Math.abs(top)).toBeLessThanOrEqual(2);
+});

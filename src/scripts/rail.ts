@@ -134,6 +134,7 @@ export function updateRail() {
     railLabel.textContent =
       slotSections[current]?.getAttribute("data-section-label") || "Contact";
   updateChrome(slotSections[current]);
+  updateUrl(slotSections[current]);
   // The readout rides the fill tip (the 'thumb'), held just inside the rail's ends so it is never clipped.
   if (readout && railFill) {
     const railH = railFill.parentElement?.clientHeight || innerHeight;
@@ -162,12 +163,25 @@ dots.forEach((dot, i) =>
     updateRail();
   }),
 );
+// The address bar follows the section being read (#projects, #skills, ...; none on the hero). replaceState adds no
+// history entries and never scrolls. It waits for the first real scroll so a deep link (e.g. /#awards) is not
+// overwritten before the browser has jumped to it.
+let urlLive = false;
+let lastHash = location.hash;
+function updateUrl(section: Element | null | undefined) {
+  if (!urlLive) return;
+  const hash = section?.id ? `#${section.id}` : "";
+  if (hash === lastHash) return;
+  lastHash = hash;
+  history.replaceState(history.state, "", hash || location.pathname + location.search);
+}
 // Phones: the readout overlaps text, so it shows only while scrolling.
 const rail = document.querySelector<HTMLElement>(".progress-rail");
 let idleTimer = 0;
 addEventListener(
   "scroll",
   () => {
+    urlLive = true;
     updateRail();
     if (restoreIndex < 0) setReaderIndex(railCurrent);
     rail?.classList.add("is-scrolling");
