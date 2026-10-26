@@ -42,10 +42,10 @@ test('hero button opens the labelled chat panel; Escape closes it', async ({ pag
 });
 
 test('streams an answer, then shows follow-up chips, a case-study link and the turn count', async ({ page }) => {
-  const bodies = await fakeWorker(page, () => ({ body: sse([['delta', { text: 'I built ' }], ['delta', { text: 'solid-tree.' }], ['done', done('solid-tree', limits.maxTurns - 1)]]) }));
+  const bodies = await fakeWorker(page, () => ({ body: sse([['delta', { text: 'Tim built ' }], ['delta', { text: 'solid-tree.' }], ['done', done('solid-tree', limits.maxTurns - 1)]]) }));
   await openChat(page);
   await page.locator('.chat-chip', { hasText: 'Show me a project' }).click();
-  await expect(page.locator('.chat-msg-ai').last()).toHaveText('I built solid-tree.');
+  await expect(page.locator('.chat-msg-ai').last()).toHaveText('Tim built solid-tree.');
   await expect(page.locator('.chat-chip')).toHaveText(topics.find(t => t.key === 'solid-tree')!.followUps);
   await expect(page.locator('.chat-link')).toHaveAttribute('href', 'https://timotholt.com/solid-tree/');
   await expect(page.locator('.chat-left')).toHaveText(`${limits.maxTurns - 1} questions left`);
@@ -56,7 +56,7 @@ test('streams an answer, then shows follow-up chips, a case-study link and the t
   await expect(page.locator('.chat-msg-ai')).toHaveCount(3);
   expect((bodies[1] as { messages: unknown[] }).messages).toEqual([
     { role: 'user', content: 'Show me a project' },
-    { role: 'assistant', content: 'I built solid-tree.' },
+    { role: 'assistant', content: 'Tim built solid-tree.' },
     { role: 'user', content: 'And the bookstore?' },
   ]);
 });

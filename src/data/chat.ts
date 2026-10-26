@@ -1,11 +1,11 @@
-// "Ask my AI" shared data: used by the site (starters, offline fallback) and
+// "Ask Tim's AI" shared data: used by the site (starters, offline fallback) and
 // bundled into the Worker (topic tagging, follow-ups, canned declines).
 // Keep it free of browser and Worker APIs.
 import { contact } from './contact';
 
 export const limits = { maxTurns: 30, maxChars: 500 } as const;
 
-export const unknownPhrase = `That's not something I know — email Tim at ${contact.email}.`;
+export const unknownPhrase = `That's not covered here — email Tim at ${contact.email}.`;
 
 export const starters = [
   "What's Tim's AI experience?",
@@ -17,38 +17,38 @@ export const starters = [
 export interface Topic {
   key: string;
   pattern: RegExp;
-  /** Offline answer, first person, facts from the live site only. */
+  /** Offline answer, third person about Tim, facts from the live site only. */
   answer: string;
   followUps: string[];
   link?: { href: string; text: string };
 }
 
-const reach = `email ${contact.email}, call ${contact.phone}, or find me on LinkedIn at ${contact.linkedin}`;
+const reach = `email ${contact.email}, call ${contact.phone}, or find Tim on LinkedIn at ${contact.linkedin}`;
 
 // First match wins: specific topics before general ones.
 export const topics: Topic[] = [
   {
     key: 'contact',
     pattern: /\b(contact|reach|e-?mail|phone|call|linkedin|get in touch)\b/i,
-    answer: `The best way to reach me: ${reach}.`,
+    answer: `The best way to reach Tim: ${reach}.`,
     followUps: ['Show me a project', "What's Tim's AI experience?"],
   },
   {
     key: 'why-junior',
     pattern: /\bwhy\b.*\b(intern\w*|junior|apprentic\w*|entry[- ]level|start over)\b/i,
-    answer: "I wrote firmware and BIOS code from 1988 to 2001, then spent twenty years in film. To rebuild my engineering career I went back to school: Per Scholas in 2024 (2nd in class) and now an A.A.S. in AI Software Engineering (4.0 GPA). An internship or junior role is the honest way back in. The fundamentals still apply, and I'd rather learn today's stack inside a team that ships.",
+    answer: "Tim wrote firmware and BIOS code from 1988 to 2001, then spent twenty years in film. To rebuild an engineering career, Tim went back to school: Per Scholas in 2024 (2nd in class) and now an A.A.S. in AI Software Engineering (4.0 GPA). An internship or junior role is the honest way back in. The fundamentals still apply, and Tim would rather learn today's stack inside a team that ships.",
     followUps: ["What's Tim's AI experience?", 'How do I reach Tim?'],
   },
   {
     key: 'availability',
     pattern: /\b(availab\w*|remote|relocat\w*|hybrid|on-?site|start date|full[- ]time|part[- ]time|contract\w*|open to|notice|intern\w*|junior|apprentic\w*|entry[- ]level|why now)\b/i,
-    answer: `Yes. I'm looking for an on-ramp: internships, apprenticeships and junior roles in AI engineering, software or firmware, and I'm available now. I wrote BIOS and drivers for 13 years, spent twenty in film, and came back to engineering on purpose (Per Scholas, 2nd in class; A.A.S. in AI Software Engineering, 4.0). Remote, hybrid or on-site; I'm based in ${contact.location}. Résumé: timotholt.com/Timothy_Otholt_Resume.pdf. To talk, ${reach}.`,
+    answer: `Yes. Tim is looking for an on-ramp: internships, apprenticeships and junior roles in AI engineering, software or firmware, and is available now. Tim wrote BIOS and drivers for 13 years, spent twenty in film, and came back to engineering on purpose (Per Scholas, 2nd in class; A.A.S. in AI Software Engineering, 4.0). Remote, hybrid or on-site; based in ${contact.location}. Résumé: timotholt.com/Timothy_Otholt_Resume.pdf. To talk, ${reach}.`,
     followUps: ['Why an internship?', 'How do I reach Tim?'],
   },
   {
     key: 'fde',
     pattern: /forward[- ]deployed|\bfde\b|customer[- ]facing|field engineer|solutions engineer/i,
-    answer: "I build software with AI coding agents every day, and the hard part is never the model. It's fitting it to a real customer's mess. That's the job I want: sitting with the customer, building with AI, and owning the result.",
+    answer: "Tim builds software with AI coding agents every day, and the hard part is never the model. It's fitting it to a real customer's mess. That's the job Tim wants: sitting with the customer, building with AI, and owning the result.",
     followUps: ["What's Tim's AI experience?", 'Tell me about the cell-site work'],
   },
   {
@@ -61,7 +61,7 @@ export const topics: Topic[] = [
   {
     key: 'bookstore',
     pattern: /book ?store|chantel|axum|htmx|\brust\b/i,
-    answer: "I built Chantel's Corner, a live online bookstore with 30,000 books, end to end with AI coding agents: Rust, Axum, Askama, HTMX and PostgreSQL.",
+    answer: "Tim built Chantel's Corner, a live online bookstore with 30,000 books, end to end with AI coding agents: Rust, Axum, Askama, HTMX and PostgreSQL.",
     followUps: ['Show me a project', "What's Tim's AI experience?"],
     link: { href: 'https://www.chantelscorner.com/', text: "Chantel's Corner" },
   },
@@ -82,7 +82,7 @@ export const topics: Topic[] = [
   {
     key: 'ai',
     pattern: /\b(ai|a\.i\.|llms?|claude|gpt|openai|anthropic|agents?|agentic|machine learning|ml|genai|chatbot)\b/i,
-    answer: "I've done AI-assisted software development for 3 years. I built Chantel's Corner, a live 30,000-book store, end to end with AI coding agents, and MCP Logger, a tool that lets AI coding assistants read runtime logs. I'm also studying AI Software Engineering at Maestro College (GPA 4.0).",
+    answer: "Tim has done AI-assisted software development for 3 years, building Chantel's Corner, a live 30,000-book store, end to end with AI coding agents, and MCP Logger, a tool that lets AI coding assistants read runtime logs. Tim is also studying AI Software Engineering at Maestro College (GPA 4.0).",
     followUps: ['Show me a project', 'Why an internship?'],
   },
   {
@@ -95,25 +95,25 @@ export const topics: Topic[] = [
   {
     key: 'firmware',
     pattern: /firmware|\bbios\b|drivers?|assembly|embedded|phoenix|low[- ]level|hardware|fastboot/i,
-    answer: 'I wrote motherboard BIOS at Phoenix Technologies that shipped in millions of PCs, and invented FastBoot and Save-To-Disk. Then Windows drivers and firmware at Quantum, AMD, Metalithic and Spruce, and DVD firmware for six NUON systems at VM Labs.',
+    answer: 'Tim wrote motherboard BIOS at Phoenix Technologies that shipped in millions of PCs, and invented FastBoot and Save-To-Disk. Then Windows drivers and firmware at Quantum, AMD, Metalithic and Spruce, and DVD firmware for six NUON systems at VM Labs.',
     followUps: ['Why an internship?', 'Tell me about Firmware CalGen'],
   },
   {
     key: 'telecom',
     pattern: /at&t|\bcell\b|cell[- ]site|fiber|\b5g\b|telecom|ventel|tower/i,
-    answer: 'As a contractor for AT&T through Ventura Telephone (2023–2025), I upgraded 22 cell tower sites across Southern California to Fujitsu flexiHaul 5G fiber-optic transport: SOWs, SFPs, fiber runs and DC power cabling.',
+    answer: 'As a contractor for AT&T through Ventura Telephone (2023–2025), Tim upgraded 22 cell tower sites across Southern California to Fujitsu flexiHaul 5G fiber-optic transport: SOWs, SFPs, fiber runs and DC power cabling.',
     followUps: ['Why an internship?', 'Walk me through the work history'],
   },
   {
     key: 'production',
     pattern: /\b(film|movie|video|cinematograph\w*|photograph\w*|production|director|av)\b/i,
-    answer: 'I ran Light Hollywood as a Director of Photography: 11 feature films, 50+ short films, 200+ commercials and 700+ interviews, leading crews of 20–40 contractors. I won Best Cinematography for Days of Reckoning.',
+    answer: 'Tim ran Light Hollywood as a Director of Photography: 11 feature films, 50+ short films, 200+ commercials and 700+ interviews, leading crews of 20–40 contractors, and won Best Cinematography for Days of Reckoning.',
     followUps: ['Why an internship?', "What's Tim's AI experience?"],
   },
   {
     key: 'education',
     pattern: /educat\w*|degree|school|college|universit\w*|stud(y|ying)|\bgpa\b|certif\w*|course\w*|bootcamp|per scholas|maestro/i,
-    answer: "I'm working on an AAS in AI Software Engineering at Maestro College (GPA 4.0, expected December 2027). I finished Per Scholas MERN Full Stack in 2024 (GPA 3.8, 2nd in class, full scholarship), plus a Dubspot music production certificate.",
+    answer: "Tim is working on an AAS in AI Software Engineering at Maestro College (GPA 4.0, expected December 2027), and finished Per Scholas MERN Full Stack in 2024 (GPA 3.8, 2nd in class, full scholarship), plus a Dubspot music production certificate.",
     followUps: ["What's Tim's AI experience?", 'Show me a project'],
   },
   {
@@ -125,7 +125,7 @@ export const topics: Topic[] = [
   {
     key: 'skills',
     pattern: /skills?|stack|languages?|typescript|javascript|python|react|node|tech\w*|tools?/i,
-    answer: 'TypeScript, JavaScript, Python, Rust, SolidJS, Astro and MCP today; C and x86 assembly from my firmware years; MERN from Per Scholas. Plus 23 years of client management and project coordination.',
+    answer: 'TypeScript, JavaScript, Python, Rust, SolidJS, Astro and MCP today; C and x86 assembly from the firmware years; MERN from Per Scholas. Plus 23 years of client management and project coordination.',
     followUps: ['Show me a project', "What's Tim's AI experience?"],
   },
   {
@@ -140,7 +140,7 @@ export const topics: Topic[] = [
 export const fallbackTopic: Topic = {
   key: 'uncategorized',
   pattern: /$^/,
-  answer: `I can tell you about my AI work, projects, firmware background and work history. For anything else, ${reach}.`,
+  answer: `Ask about Tim's AI work, projects, firmware background and work history. For anything else, ${reach}.`,
   followUps: ["What's Tim's AI experience?", 'Show me a project'],
 };
 
@@ -150,9 +150,9 @@ export function topicFor(text: string): Topic {
 
 /** Fixed replies the Worker sends without calling the model. */
 export const declines = {
-  salary: `I don't discuss pay here — that's a conversation for Tim directly at ${contact.email}. Happy to talk about my experience or projects.`,
-  personal: "I keep to my professional background. Ask me about my work, skills or projects.",
-  injection: "I can't change how I work or share my instructions. Ask me about my background, skills or projects.",
+  salary: `Pay isn't discussed here — that's a conversation for Tim directly at ${contact.email}. Ask about Tim's experience or projects instead.`,
+  personal: "This chat sticks to Tim's professional background. Ask about Tim's work, skills or projects.",
+  injection: "This chat can't change how it works or share its instructions. Ask about Tim's background, skills or projects.",
 } as const;
 
 export const offlineNote = "Live chat is offline right now, so here's a saved answer.";

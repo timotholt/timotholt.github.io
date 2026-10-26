@@ -1,6 +1,8 @@
 import { contact } from '../../src/data/contact';
 import { personaText } from './prompt';
 
+// The site speaks about Tim in third person; first person means the model slipped.
+const firstPerson = /\bI('m|'ve|'d|'ll)?\b|\b(my|me|mine|myself)\b/i;
 const hype = /\b(rock ?star|ninja|guru|wizard|10x|world[- ]class|genius|unicorn|visionary|legendary|best in the (world|industry))\b/i;
 const allowedLinks = ['timotholt.com', 'timotholt.github.io', 'github.com/timotholt', 'linkedin.com/in/timotholt', 'chantelscorner.com'];
 const digitsOnly = (s: string) => s.replace(/\D/g, '');
@@ -11,6 +13,7 @@ const personaNumbers = new Set((personaText.match(/\d[\d,.]*/g) ?? []).map(norma
 export function checkAnswer(text: string): string[] {
   const problems: string[] = [];
   if (hype.test(text)) problems.push('hype word');
+  if (firstPerson.test(text)) problems.push('first person');
   if (text.trim().split(/\s+/).length > 160) problems.push('too long');
   for (const email of text.match(/[\w.+-]+@[\w-]+(\.[\w-]+)+/g) ?? []) {
     if (email.toLowerCase() !== contact.email) problems.push(`email ${email}`);

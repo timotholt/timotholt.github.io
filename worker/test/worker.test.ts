@@ -120,7 +120,7 @@ describe('model request', () => {
     const system = params.system as { text: string; cache_control?: unknown }[];
     expect(system).toHaveLength(1);
     expect(system[0].cache_control).toEqual({ type: 'ephemeral' });
-    expect(system[0].text).toContain('AI version of Tim');
+    expect(system[0].text).toContain('Speak about Tim in third person');
     expect(system[0].text).toContain('Phoenix Technologies');
     expect(params.messages.map(m => m.role)).toEqual(['user', 'assistant', 'user']);
   });
@@ -141,7 +141,7 @@ describe('model request', () => {
   });
 
   it('tags unknown answers and keeps only anonymous keywords', async () => {
-    const h = harness({ reply: "That's not something I know — email Tim at timotholt@gmail.com." });
+    const h = harness({ reply: "That's not covered here — email Tim at timotholt@gmail.com." });
     await send(h, ask('Does Tim speak Japanese?'));
     expect(h.logged[0].blobs).toEqual(['uncategorized', 'unknown', 'speak japanese']);
   });
@@ -189,8 +189,10 @@ describe('refusals and failures', () => {
 
 describe('answer checks', () => {
   it('accepts grounded answers with Tim\'s own contacts, links and numbers', () => {
-    expect(checkAnswer("I built Chantel's Corner, a store with 30,000 books. Reach me at timotholt@gmail.com or (408) 406-1832, or see timotholt.com/projects/bookstore/ and github.com/timotholt.")).toEqual([]);
-    expect(checkAnswer('From 1988 to 1992 I wrote BIOS at Phoenix. My GPA is 4.0 and I upgraded 22 AT&T sites to 5G.')).toEqual([]);
+    expect(checkAnswer("Tim built Chantel's Corner, a store with 30,000 books. Reach Tim at timotholt@gmail.com or (408) 406-1832, or see timotholt.com/projects/bookstore/ and github.com/timotholt.")).toEqual([]);
+    expect(checkAnswer("From 1988 to 1992 Tim wrote BIOS at Phoenix. Tim's GPA is 4.0 and Tim upgraded 22 AT&T sites to 5G.")).toEqual([]);
+    expect(checkAnswer('I wrote BIOS at Phoenix.')).toEqual(['first person']);
+    expect(checkAnswer('Reach me on LinkedIn.')).toEqual(['first person']);
   });
 
   it('keywords drop emails, links, numbers and stopwords', () => {

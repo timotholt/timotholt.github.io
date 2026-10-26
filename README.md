@@ -1,7 +1,7 @@
 # timotholt.com
 
 Tim Otholt's portfolio: a static Astro site on GitHub Pages (live at https://timotholt.com) with an
-"Ask my AI" chat served by a Cloudflare Worker that calls Claude.
+"Ask Tim's AI" chat served by a Cloudflare Worker that calls Claude.
 
 ## Run locally
 

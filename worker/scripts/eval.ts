@@ -64,7 +64,7 @@ async function askOne(question: string): Promise<string> {
 }
 
 const date = new Date().toISOString().slice(0, 10);
-const lines = [`# Ask my AI eval — ${date}`, '', `Worker: ${url}`, '', 'Review each answer: grounded in docs/persona.md? Correct refusal? ≤120 words?', ''];
+const lines = [`# Ask Tim's AI eval — ${date}`, '', `Worker: ${url}`, '', 'Review each answer: grounded in docs/persona.md? Correct refusal? ≤120 words?', ''];
 for (const [title, questions] of [['Recruiter questions', recruiter], ['Adversarial questions', adversarial]] as const) {
   lines.push(`## ${title}`, '');
   for (const question of questions) {

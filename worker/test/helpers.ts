@@ -18,7 +18,7 @@ export function harness(opts: { reply?: string | Error; stop?: string; turnstile
     async *model(params) {
       h.modelCalls.push(params);
       if (opts.reply instanceof Error) throw opts.reply;
-      const text = opts.reply ?? 'I built solid-tree.';
+      const text = opts.reply ?? 'Tim built solid-tree.';
       for (const chunk of text.match(/.{1,12}/gs) ?? []) yield { type: 'text', text: chunk } satisfies ModelEvent;
       yield { type: 'stop', reason: opts.stop ?? 'end_turn' };
     },

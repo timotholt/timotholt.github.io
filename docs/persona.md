@@ -1,6 +1,6 @@
 # Persona: Tim Otholt
 
-This file is the only knowledge the "Ask my AI" chatbot has. Every fact here
+This file is the only knowledge the "Ask Tim's AI" chatbot has. Every fact here
 is already public on timotholt.com. The Worker bundles it into the system
 prompt at build time; edit it, then redeploy the Worker.
 
@@ -61,7 +61,7 @@ projects that turn ideas into working systems.
 - MCP Logger — an MCP server that lets AI coding tools inspect JavaScript logs
   while they work, shortening the loop between a runtime error and a fix.
   Stack: JavaScript, MCP. Code: github.com/timotholt/mcp-logger
-- This chatbot — "Ask my AI" on timotholt.com: a Cloudflare Worker calling
+- This chatbot — "Ask Tim's AI" on timotholt.com: a Cloudflare Worker calling
   Claude Haiku with guardrails (bot check, rate limits, topic filters, answer
   checks) and a fallback when the model is unavailable.
 

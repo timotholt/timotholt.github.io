@@ -1,4 +1,4 @@
-# Deploy "Ask my AI" — Tim's checklist
+# Deploy "Ask Tim's AI" — Tim's checklist
 
 ## Live status (2026-10-25)
 
