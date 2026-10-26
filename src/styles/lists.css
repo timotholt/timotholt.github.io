@@ -151,10 +151,6 @@
 }
 
 @media (min-width: 900px) {
-  .cred-list {
-    max-width: calc(96 * var(--u));
-  }
-
   /* Year column fits ranges (2014–2016); shared by Awards and Education so titles align. Sizes follow the shared scale. */
   .cred-item {
     grid-template-columns: calc(20 * var(--u)) minmax(0, 1fr);
@@ -174,6 +170,7 @@
   }
 
   .cred-list {
+    max-width: calc(96 * var(--u));
     margin-top: calc(1.2 * var(--u));
   }
 }

@@ -12,10 +12,6 @@
   transform-origin: top;
 }
 
-.rail-dot.passed {
-  background: var(--accent);
-}
-
 #rail-section {
   color: var(--ink);
 }
@@ -213,10 +209,6 @@
   .rail-readout {
     right: 13px;
   }
-
-}
-
-@media (max-width: 899px) {
   .progress-rail .rail-readout {
     opacity: 0;
     transition: opacity 0.25s;
@@ -225,7 +217,6 @@
   .progress-rail.is-scrolling .rail-readout {
     opacity: 1;
   }
-
 }
 
 /* Laptop/desktop with a mouse or trackpad: the rail replaces the native scrollbar (see rail-drag.ts). */

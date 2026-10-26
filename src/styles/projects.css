@@ -195,10 +195,6 @@
   margin-bottom: 8px;
 }
 
-.project-intro .section-label {
-  margin-bottom: 8px;
-}
-
 .project-card {
   border: 1px solid var(--ink);
   background: var(--paper);
@@ -233,25 +229,9 @@
   margin-bottom: 5px;
 }
 
-.project-card .spec-table {
-  margin-top: 5px;
-}
-
-.project-card .spec-table > div {
-  padding: 4px 0;
-}
-
 .project-card .card-links {
   margin: 6px 0 0;
   padding-top: 6px;
-}
-
-.project-note {
-  margin-top: 23px;
-  color: var(--muted);
-  max-width: 900px;
-  margin-inline: auto;
-  display: none;
 }
 
 .project-intro {
@@ -274,15 +254,6 @@
   left: auto;
   width: 100%;
   translate: none;
-}
-
-.color-section .spec-table dt {
-  color: var(--section-accent);
-  fill: var(--section-accent);
-}
-
-.color-section .spec-table > div {
-  border-color: var(--section-accent);
 }
 
 .color-section .project-function {
@@ -452,14 +423,6 @@
   .project-card .card-content {
     padding: 9px 12px;
   }
-
-  .project-card .spec-table > div:nth-child(n + 3) {
-    display: none;
-  }
-
-}
-
-@media (max-width: 899px) {
   .case-specs .spec-table {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
@@ -472,12 +435,6 @@
 
   .case-grid .section-label {
     margin-bottom: 16px;
-  }
-}
-
-@media (max-width: 899px) {
-  #projects .project-card:has(.has-shot) .spec-table {
-    display: none;
   }
 
   #projects .project-card .card-title {
@@ -527,10 +484,6 @@
 
   #projects .project-card:has(.has-shot) .card-content {
     flex-direction: column;
-  }
-
-  #projects .project-card:has(.has-shot) .spec-table > div {
-    display: grid;
   }
 
   /* Projects runs a wider column; its cards stay on the shared type scale (max-width in --u). */

@@ -65,9 +65,6 @@ body:has(.color-section) .site-header nav a:hover {
     margin-left: 18px;
     margin-right: 100px;
   }
-}
-
-@media (max-width: 899px) {
   .site-header {
     display: none;
   }

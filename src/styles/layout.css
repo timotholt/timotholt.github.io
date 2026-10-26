@@ -113,16 +113,6 @@ main {
   border-top: 0;
 }
 
-.color-section .section-label {
-  color: var(--section-accent);
-  fill: var(--section-accent);
-}
-
-.color-section h2 .accent {
-  color: var(--section-accent);
-  fill: var(--section-accent);
-}
-
 .color-section h2 em {
   color: var(--section-accent);
   fill: var(--section-accent);
@@ -142,20 +132,12 @@ main {
 
 @media (max-width: 899px) {
   .wrap {
-    width: calc(100% - 118px);
-    margin-left: 18px;
-    margin-right: 100px;
-  }
-}
-
-@media (max-width: 899px) {
-  /* Phones: keep content clear of the right-hand progress rail. */
-  /* Phones: symmetric content margins that clear the rail, readout only while scrolling. */
-  .wrap {
     width: auto;
     margin-left: 42px;
     margin-right: 42px;
   }
+  /* Phones: keep content clear of the right-hand progress rail. */
+  /* Phones: symmetric content margins that clear the rail, readout only while scrolling. */
 }
 
 /* Every section is a full-width row that owns its background; content sits in an inner .wrap. */
@@ -182,7 +164,11 @@ main {
 @media (min-width: 900px) {
   /* Every section column follows the same rule as the root type size (type.css): short windows narrow it so a slot still fits. */
   .color-section > .wrap {
-    width: min(var(--col-max), calc(100% - var(--col-gutter)), calc(var(--col-fit) * 1svh));
+    width: min(
+      var(--col-max),
+      calc(100% - var(--col-gutter)),
+      calc(var(--col-fit) * 1svh)
+    );
   }
 
   .section-heading {
@@ -192,5 +178,4 @@ main {
   .section-heading p {
     max-width: calc(80 * var(--u));
   }
-
 }

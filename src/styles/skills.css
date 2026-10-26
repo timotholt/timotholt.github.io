@@ -84,14 +84,6 @@
 
 @media (max-width: 899px) {
   :is(#skills, #process) > .wrap {
-    width: calc(100% - 118px);
-    margin-left: 18px;
-    margin-right: 100px;
-  }
-}
-
-@media (max-width: 899px) {
-  :is(#skills, #process) > .wrap {
     width: auto;
     margin-left: 42px;
     margin-right: 42px;
