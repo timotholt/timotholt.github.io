@@ -220,3 +220,21 @@ for (const viewport of [{ width: 1000, height: 560 }, { width: 1280, height: 720
     expect(g.ruleRight).toBeLessThan(g.readoutLeft - 8);
   });
 }
+
+test('on laptops the rail is the scrollbar: native bar hidden, dragging the rail scrolls', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.waitForTimeout(800);
+  // The native scrollbar takes no space.
+  expect(await page.evaluate(() => innerWidth - document.documentElement.clientWidth)).toBe(0);
+  const rail = (await page.locator('.progress-rail').boundingBox())!;
+  const x = rail.x + rail.width / 2 + 10; // beside the line, inside the grab zone, away from the dots' centers
+  await page.mouse.move(x, rail.y + 4);
+  await page.mouse.down();
+  await page.mouse.move(x, rail.y + rail.height / 2, { steps: 8 });
+  await page.mouse.up();
+  await page.waitForTimeout(400);
+  const percent = await page.locator('#scroll-percent').textContent();
+  expect(Number(percent!.replace('%', ''))).toBeGreaterThanOrEqual(45);
+  expect(Number(percent!.replace('%', ''))).toBeLessThanOrEqual(55);
+});

@@ -242,3 +242,36 @@
     font-size: 10px;
   }
 }
+
+/* Laptop/desktop with a mouse or trackpad: the rail replaces the native scrollbar (see rail-drag.ts). */
+@media (min-width: 768px) and (pointer: fine) {
+  html {
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
+  }
+
+  .progress-rail {
+    pointer-events: auto;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  /* A wider invisible grab zone around the 2px line. */
+  .progress-rail::before {
+    content: "";
+    position: absolute;
+    inset: 0 -16px;
+  }
+
+  html.rail-dragging {
+    scroll-snap-type: none;
+    user-select: none;
+  }
+
+  html.rail-dragging .progress-rail {
+    cursor: grabbing;
+  }
+}
