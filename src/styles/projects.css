@@ -34,21 +34,6 @@
   fill: var(--accent);
 }
 
-.card-content {
-  padding: 25px 27px 20px;
-}
-
-.project-card h3 a {
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-.project-card h3 span {
-  color: var(--accent);
-  letter-spacing: 0;
-}
-
 .spec-table {
   font-family: "JetBrains Mono", monospace;
   margin: 25px 0 0;
@@ -70,21 +55,6 @@
 .spec-table dd {
   margin: 0;
   overflow-wrap: anywhere;
-}
-
-.card-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-  border-top: 1px solid var(--ink);
-  padding-top: 16px;
-  margin-top: 15px;
-  font-family: "JetBrains Mono", monospace;
-  text-transform: uppercase;
-}
-
-.card-links a:hover {
-  color: var(--accent);
 }
 
 .case-study {
@@ -182,247 +152,7 @@
   padding-top: 25px;
 }
 
-.project-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  max-width: 900px;
-  margin-inline: auto;
-  perspective: 1400px;
-  gap: 0;
-}
-
-.project-intro .section-heading {
-  margin-bottom: 8px;
-}
-
-.project-card {
-  border: 1px solid var(--ink);
-  background: var(--paper);
-  min-width: 0;
-  width: 100%;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  max-width: 760px;
-  max-height: calc(var(--slot-h) - 24px);
-  overflow: clip;
-}
-
-.project-slot:first-child .project-card {
-  max-height: calc(var(--slot-h) - 145px);
-}
-
-.project-card .project-media {
-  aspect-ratio: 800/270;
-}
-
-.project-card .card-content {
-  padding: 12px 20px;
-}
-
-.project-card h3 {
-  margin-bottom: 5px;
-}
-
-.project-function {
-  color: var(--muted);
-  min-height: 0;
-  margin-bottom: 5px;
-}
-
-.project-card .card-links {
-  margin: 6px 0 0;
-  padding-top: 6px;
-}
-
-.project-intro {
-  position: absolute;
-  top: 4svh;
-  left: 0;
-  right: 0;
-}
-
-.project-slot {
-  flex-direction: column;
-  justify-content: center;
-  display: grid;
-  place-items: center;
-}
-
-.project-slot .project-card {
-  position: relative;
-  top: auto;
-  left: auto;
-  width: 100%;
-  translate: none;
-}
-
-.color-section .project-function {
-  color: var(--sec-fg);
-}
-
-.color-section .project-card {
-  border-color: var(--section-accent);
-  background: #0b3e4b;
-  color: var(--sec-fg);
-}
-
-.color-section .project-card .card-links {
-  border-color: var(--section-accent);
-}
-
-.color-section .project-card .project-media {
-  border-color: var(--section-accent);
-  background: #08333e;
-}
-
-.color-section .project-card .schematic {
-  color: var(--sec-fg);
-}
-
-.color-section .project-card .diagram-label {
-  fill: var(--section-accent);
-}
-
-.color-section .project-card a:hover {
-  color: var(--section-accent);
-}
-
-#projects .project-media.has-shot picture {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-}
-
-#projects .project-media.has-shot img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-}
-
-#projects .project-grid {
-  max-width: none;
-}
-
-/* Project card, one column everywhere: title, screenshot, description, stack, links. */
-#projects .project-card:has(.has-shot) {
-  display: flex;
-  flex-direction: column;
-  max-width: 960px;
-  max-height: none;
-}
-
-#projects .project-card .card-title {
-  margin: 0;
-  padding: 16px 22px 12px;
-}
-
-#projects .project-card .card-title a {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-#projects .project-card .project-media {
-  aspect-ratio: 16/9;
-  height: auto;
-  border-right: 0;
-  border-top: 1px solid var(--section-accent);
-  border-bottom: 1px solid var(--section-accent);
-}
-
-#projects .project-card .project-media.has-shot {
-  aspect-ratio: 16/9;
-  height: auto;
-  border-right: 0;
-  border-top: 1px solid var(--section-accent);
-  border-bottom: 1px solid var(--section-accent);
-}
-
-#projects .project-card .card-content {
-  padding: 14px 22px 16px;
-  display: block;
-}
-
-#projects .project-card:has(.has-shot) .card-content {
-  padding: 14px 22px 16px;
-  display: block;
-}
-
-#projects .project-function {
-  min-height: 0;
-  margin: 0 0 8px;
-  line-height: 1.45;
-}
-
-#projects .card-stack {
-  margin: 0 0 4px;
-  font-weight: 500;
-  line-height: 1.5;
-  font-family: "JetBrains Mono", monospace;
-  color: var(--section-accent);
-}
-
-/* Project slots stack the (first-slot) heading above the card instead of overlapping it. */
-#projects .project-slot {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 14px;
-}
-
-#projects .project-slot > .project-intro {
-  align-self: stretch;
-  position: static;
-  margin: 0;
-}
-
-#projects .project-slot:first-child .project-card .project-media {
-  max-height: min(34svh, 400px);
-}
-
-/* Project cards with real screenshots: laptop = screenshot left, details right; phone = tall screenshot, title and links below. */
-/* Project card, one column everywhere: title, screenshot, description, stack, links. */
-/* The whole project card opens its case study: the title link stretches over the card; other links sit above it. */
-#projects .project-card {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  max-width: 960px;
-  max-height: none;
-  position: relative;
-  cursor: pointer;
-}
-
-#projects .project-card .card-title a::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-}
-
-#projects .project-card .card-links a {
-  position: relative;
-  z-index: 2;
-}
-
-#projects .project-card:hover {
-  outline: 2px solid var(--section-accent);
-  outline-offset: -2px;
-}
-
 @media (max-width: 899px) {
-  .project-card .project-media {
-    aspect-ratio: 800/235;
-  }
-
-  .project-card .card-content {
-    padding: 9px 12px;
-  }
   .case-specs .spec-table {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
@@ -437,80 +167,9 @@
     margin-bottom: 16px;
   }
 
-  #projects .project-card .card-title {
-    padding: 10px 14px 8px;
-  }
-
-  #projects .project-card .card-content {
-    padding: 10px 14px 12px;
-  }
-
-  #projects .card-stack {
-    display: none;
-  }
-
-  #projects .project-slot:first-child .project-media.has-shot img {
-    max-height: min(30svh, 260px);
-  }
-
-  /* Phones: screenshots keep their own shape, capped in height (wide images show whole, tall ones crop from the top). */
-  #projects .project-card .project-media.has-shot {
-    height: auto;
-    max-height: min(40svh, 330px);
-    aspect-ratio: auto;
-  }
-
-  #projects .project-media.has-shot picture {
-    height: auto;
-  }
-
-  #projects .project-media.has-shot img {
-    max-height: min(40svh, 330px);
-    width: 100%;
-    height: auto;
-  }
-
-  #projects .project-slot:first-child .project-card .project-media.has-shot {
-    max-height: min(30svh, 260px);
-    height: auto;
-  }
 }
 
 @media (min-width: 900px) {
-  #projects .project-card:has(.has-shot) {
-    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-    grid-template-rows: auto 1fr;
-  }
-
-  #projects .project-card:has(.has-shot) .card-content {
-    flex-direction: column;
-  }
-
-  /* Projects runs a wider column; its cards stay on the shared type scale (max-width in --u). */
-  #projects {
-    --col-max: 1240px;
-    --col-gutter: 140px;
-    --col-fit: 177;
-  }
-
-  #projects .project-card,
-  #projects .project-card:has(.has-shot) {
-    max-width: calc(96 * var(--u));
-  }
-
-  #projects .project-card .card-title {
-    padding: calc(1.6 * var(--u)) calc(2.2 * var(--u)) calc(1.2 * var(--u));
-  }
-
-  #projects .project-card .card-content,
-  #projects .project-card:has(.has-shot) .card-content {
-    padding: calc(1.4 * var(--u)) calc(2.2 * var(--u)) calc(1.6 * var(--u));
-  }
-
-  #projects .project-card .card-links {
-    gap: calc(1.8 * var(--u));
-  }
-
   .case-lede {
     max-width: calc(90 * var(--u));
   }
@@ -518,12 +177,185 @@
   .case-body {
     max-width: calc(76 * var(--u));
   }
+}
 
-  #projects .project-card .project-media {
-    max-height: min(46svh, 460px);
+/* Home project cards (docs/PROJECT-CARDS.md): the screenshot first and big, then title, a one-line pitch and the same
+   pill buttons as the hero. Phone: stacked. Laptop: screenshot left, details right. The title link stretches over the
+   whole card; the buttons and the case-study link sit above it. */
+#projects .project-slot {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.25rem;
+  padding-block: 1.25rem;
+}
+
+#projects .project-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  overflow: clip;
+  border: 1px solid var(--section-accent);
+  border-radius: 16px;
+  background: #0b3e4b;
+  color: var(--sec-fg);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  cursor: pointer;
+}
+
+#projects .project-card:hover {
+  outline: 2px solid var(--section-accent);
+  outline-offset: -2px;
+}
+
+#projects .project-card .project-media {
+  aspect-ratio: auto;
+  border: 0;
+  background: #08333e;
+}
+
+#projects .project-card .project-media:not(.has-shot) {
+  aspect-ratio: 16/10;
+}
+
+#projects .project-card .project-media.has-shot picture {
+  display: block;
+}
+
+#projects .project-card .project-media.has-shot img {
+  width: 100%;
+  height: auto;
+  max-height: min(46svh, 34rem);
+  object-fit: cover;
+  object-position: top;
+}
+
+#projects .project-card .schematic {
+  color: var(--sec-fg);
+}
+
+#projects .project-card .diagram-label {
+  fill: var(--section-accent);
+}
+
+#projects .card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 1.1rem 1.25rem 1.25rem;
+}
+
+#projects .card-title {
+  margin: 0;
+}
+
+#projects .card-title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+#projects .card-blurb {
+  margin: 0;
+  line-height: 1.45;
+}
+
+#projects .card-stack {
+  margin: 0;
+  color: var(--section-accent);
+}
+
+#projects .card-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+#projects .card-case {
+  position: relative;
+  z-index: 2;
+  color: var(--sec-fg);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+#projects .card-case:hover {
+  color: var(--section-accent);
+}
+
+@media (max-width: 899px) {
+  #projects .card-stack {
+    display: none;
   }
 
+  #projects .project-slot:first-child .project-media.has-shot img {
+    max-height: min(32svh, 18rem);
+  }
+
+  #projects .card-actions .button {
+    flex: 1 1 auto;
+  }
+}
+
+@media (min-width: 900px) {
+  /* Projects runs a wider column than the other sections, so the screenshot can be large. */
+  #projects {
+    --col-max: 1240px;
+    --col-gutter: 140px;
+    --col-fit: 177;
+  }
+
+  #projects .project-card {
+    grid-template-columns: minmax(0, 1fr) 19rem;
+  }
+
+  #projects .project-card .project-media {
+    border-right: 1px solid var(--section-accent);
+  }
+
+  /* When the details column is taller than the screenshot, the screenshot fills the card height (cropped from the top). */
   #projects .project-card .project-media.has-shot {
-    max-height: min(46svh, 460px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  #projects .project-card .project-media.has-shot picture {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+  }
+
+  #projects .project-card .project-media.has-shot img {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  /* The screenshot is as tall as the screen allows (the first slot also holds the section heading), but never shorter
+     than the details column (about 28rem), so it always fills the card. */
+  #projects .project-card .project-media.has-shot img {
+    max-height: max(calc(100svh - 9rem), 30rem);
+  }
+
+  #projects .project-slot:first-child .project-media.has-shot img {
+    max-height: max(calc(100svh - 17rem), 30rem);
+  }
+
+  #projects .card-info {
+    justify-content: center;
+    gap: 0.8rem;
+    padding: 1.75rem;
+  }
+
+  #projects .card-actions {
+    flex-direction: column;
+    align-items: stretch;
+    align-self: stretch;
   }
 }

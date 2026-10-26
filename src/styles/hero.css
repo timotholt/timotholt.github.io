@@ -100,15 +100,6 @@
   padding-inline: max(60px, calc((100% - 1000px) / 2));
 }
 
-.hero .hero-actions .button {
-  min-height: 3.15em;
-  border-radius: 999px;
-  gap: 0.7em;
-  padding-inline: 1.43em;
-  text-transform: none;
-  letter-spacing: 0;
-}
-
 .hero .hero-actions .button:focus-visible {
   outline: 2px solid var(--sec-fg);
   outline-offset: 3px;

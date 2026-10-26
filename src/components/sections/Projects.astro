@@ -19,18 +19,18 @@ const target = (p: (typeof projects)[number]) => p.data.demo ?? p.data.repo;
           </div>
         </div>}
           <article class="project-card">
-          <h3 class="card-title">
-            <a href={target(project)} target="_blank" rel="noopener noreferrer">{project.data.title}<span aria-hidden="true">↗</span>
-            </a>
-          </h3>
           <ProjectMedia slug={project.id} title={project.data.title} />
-          <div class="card-content">
-            <p class="project-function">{project.data.summary}</p>
-            <p class="card-stack label">{[project.data.year, ...project.data.stack].join(' · ')}</p>
-            <div class="card-links label">
-              {project.data.demo && <a href={project.data.demo} target="_blank" rel="noopener noreferrer">Live site ↗</a>}
-              <a href={project.data.repo} target="_blank" rel="noopener noreferrer">Repository ↗</a>
-              <a href={`/projects/${project.id}/`} target="_blank" rel="noopener">Case study ↗</a></div>
+          <div class="card-info">
+            <h3 class="card-title h3"><a href={target(project)} target="_blank" rel="noopener noreferrer">{project.data.title}</a></h3>
+            <p class="card-blurb">{project.data.tagline ?? project.data.summary}</p>
+            <p class="card-stack label">{project.data.stack.slice(0, 3).join(' · ')}</p>
+            <div class="card-actions">
+              {project.data.demo
+                ? <a class="button button-pill button-ai" href={project.data.demo} target="_blank" rel="noopener noreferrer">Open live site <span aria-hidden="true">↗</span></a>
+                : <a class="button button-pill button-ai" href={project.data.repo} target="_blank" rel="noopener noreferrer">View code <span aria-hidden="true">↗</span></a>}
+              {project.data.demo && <a class="button button-pill button-outline" href={project.data.repo} target="_blank" rel="noopener noreferrer">View code <span aria-hidden="true">↗</span></a>}
+            </div>
+            <a class="card-case" href={`/projects/${project.id}/`} target="_blank" rel="noopener">How it's built →</a>
           </div>
         </article>
       </div>

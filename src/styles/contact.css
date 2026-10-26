@@ -12,6 +12,16 @@
   letter-spacing: 0.02em;
 }
 
+/* Rounded, sentence-case button: the hero's buttons and the project cards' buttons. */
+.button-pill {
+  min-height: 3.15em;
+  border-radius: 999px;
+  gap: 0.7em;
+  padding-inline: 1.43em;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
 .button-muted {
   background: transparent;
   color: var(--ink);
