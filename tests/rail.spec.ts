@@ -274,3 +274,18 @@ test('the address bar follows the section being read, and deep links still work'
   const top = await page.locator('#awards').evaluate(s => Math.round(s.getBoundingClientRect().top));
   expect(Math.abs(top)).toBeLessThanOrEqual(2);
 });
+
+test('each dot tooltip names the same place the readout shows when you land there', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  const dots = page.locator('.rail-dot');
+  const titles = await dots.evaluateAll(d => d.map(x => x.getAttribute('data-title')));
+  expect(titles[0]).toBe('Home');
+  await expect(page.locator('#rail-section')).toHaveText('Home');
+  for (const i of [1, titles.length - 1]) {
+    await dots.nth(i).click();
+    await expect(dots.nth(i)).toHaveClass(/current/);
+    await expect(page.locator('#rail-section')).toHaveText(titles[i]!);
+  }
+  for (const title of titles) expect(title, 'tooltips use short names').not.toMatch(/·/);
+});

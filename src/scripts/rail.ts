@@ -18,6 +18,13 @@ gsap.registerPlugin(ScrollTrigger);
 // Slot starts are untransformed: the anchor is a sibling of each animated object.
 export const LANDING_OFFSET = 0;
 const slots = gsap.utils.toArray<HTMLElement>(".feature-slot");
+// One short name per screen, shared by the dot tooltip and the readout so they never disagree.
+const railLabels = slots.map(
+  (slot) =>
+    slot.dataset.railLabel ||
+    slot.closest("section")?.getAttribute("data-section-label") ||
+    "",
+);
 const railFill = document.querySelector<HTMLElement>(".rail-fill");
 const railDots = document.querySelector<HTMLElement>(".rail-dots");
 const percent = document.querySelector<HTMLElement>("#scroll-percent");
@@ -40,7 +47,7 @@ const dots = slots.map((slot, i) => {
     "aria-label",
     slot.dataset.milestone || `Milestone ${i + 1}`,
   );
-  dot.dataset.title = slot.dataset.milestone || "";
+  dot.dataset.title = railLabels[i];
   dot.dataset.index = String(i);
   const key = slot
     .closest("section")
@@ -131,8 +138,7 @@ export function updateRail() {
     ),
   );
   if (railLabel)
-    railLabel.textContent =
-      slotSections[current]?.getAttribute("data-section-label") || "Contact";
+    railLabel.textContent = railLabels[current];
   updateChrome(slotSections[current]);
   updateUrl(slotSections[current]);
   // The readout rides the fill tip (the 'thumb'), held just inside the rail's ends so it is never clipped.
