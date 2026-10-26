@@ -205,3 +205,18 @@ test('reversing mid-glide and holding a key both settle exactly on a page', asyn
   for (let k = 0; k < 20; k++) { await page.keyboard.press('ArrowDown'); await page.waitForTimeout(30); }
   await expect.poll(onAPage, { timeout: 5000 }).toBeTruthy();
 });
+
+for (const viewport of [{ width: 1000, height: 560 }, { width: 1280, height: 720 }, { width: 1440, height: 900 }]) {
+  test(`the header rule stops short of the rail readout at ${viewport.width}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    await page.waitForTimeout(600);
+    const g = await page.evaluate(() => {
+      const h = document.querySelector('.site-header')!; const r = document.querySelector('.rail-readout')!.getBoundingClientRect();
+      const b = h.getBoundingClientRect(); const hero = document.querySelector('.hero-copy, .hero')!.getBoundingClientRect();
+      return { ruleRight: b.right, ruleWidth: parseFloat(getComputedStyle(h).borderBottomWidth), readoutLeft: r.left, ruleLeft: b.left };
+    });
+    expect(g.ruleWidth).toBeGreaterThan(0);
+    expect(g.ruleRight).toBeLessThan(g.readoutLeft - 8);
+  });
+}
