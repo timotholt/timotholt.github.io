@@ -1,4 +1,13 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+// Scroll-glide tests wait on state, not wall-clock time, so a busy machine only makes them slower, never red.
+const SETTLE = { timeout: 10_000 };
+async function ready(page: Page) {
+  await page.goto('/');
+  await page.evaluate(() => document.fonts.ready);
+  await expect(page.locator('.rail-dot').first()).toBeAttached();
+}
+const scrollTop = (page: Page) => page.evaluate(() => Math.round(scrollY));
 
 for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 }]) {
   test(`rail milestones ${viewport.width}`, async ({ page }) => {
@@ -169,41 +178,38 @@ test('every section band, including the first and last, fits inside the rail', a
 
 test('arrow keys move exactly one page, smoothly, without stutter', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/');
-  await page.waitForTimeout(600);
+  await ready(page);
   const tops = await page.$$eval('.feature-slot', s => s.map(x => Math.round(x.getBoundingClientRect().top + scrollY)));
   await page.keyboard.press('ArrowDown');
-  await expect.poll(() => page.evaluate(() => Math.round(scrollY)), { timeout: 3000 }).toBe(tops[1]);
+  await expect.poll(() => scrollTop(page), SETTLE).toBe(tops[1]);
   await page.keyboard.press('ArrowDown');
-  await expect.poll(() => page.evaluate(() => Math.round(scrollY)), { timeout: 3000 }).toBe(tops[2]);
+  await expect.poll(() => scrollTop(page), SETTLE).toBe(tops[2]);
   await page.keyboard.press('ArrowUp');
-  await expect.poll(() => page.evaluate(() => Math.round(scrollY)), { timeout: 3000 }).toBe(tops[1]);
+  await expect.poll(() => scrollTop(page), SETTLE).toBe(tops[1]);
 });
 
 test('buffered arrow presses glide several pages and land exactly on one', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/');
-  await page.waitForTimeout(600);
+  await ready(page);
   const tops = await page.$$eval('.feature-slot', s => s.map(x => Math.round(x.getBoundingClientRect().top + scrollY)));
   for (let k = 0; k < 3; k++) { await page.keyboard.press('ArrowDown'); await page.waitForTimeout(60); }
-  await expect.poll(() => page.evaluate(() => Math.round(scrollY)), { timeout: 4000 }).toBe(tops[3]);
+  await expect.poll(() => scrollTop(page), SETTLE).toBe(tops[3]);
 });
 
 test('reversing mid-glide and holding a key both settle exactly on a page', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/');
-  await page.waitForTimeout(600);
+  await ready(page);
   const tops = await page.$$eval('.feature-slot', s => s.map(x => Math.round(x.getBoundingClientRect().top + scrollY)));
   const onAPage = () => page.evaluate(t => t.includes(Math.round(scrollY)), tops);
   for (let k = 0; k < 3; k++) { await page.keyboard.press('ArrowDown'); await page.waitForTimeout(40); }
   await page.waitForTimeout(150);
   await page.keyboard.press('ArrowUp');
-  await expect.poll(onAPage, { timeout: 4000 }).toBeTruthy();
-  const afterReverse = await page.evaluate(() => Math.round(scrollY));
+  await expect.poll(onAPage, SETTLE).toBeTruthy();
+  const afterReverse = await scrollTop(page);
   expect(afterReverse).toBeLessThan(tops[3]);
   // A held key (auto-repeat) never runs more than MAX_LEAD pages past where the glide was when released.
   for (let k = 0; k < 20; k++) { await page.keyboard.press('ArrowDown'); await page.waitForTimeout(30); }
-  await expect.poll(onAPage, { timeout: 5000 }).toBeTruthy();
+  await expect.poll(onAPage, SETTLE).toBeTruthy();
 });
 
 for (const viewport of [{ width: 1000, height: 560 }, { width: 1280, height: 720 }, { width: 1440, height: 900 }]) {
@@ -241,17 +247,18 @@ test('on laptops the rail is the scrollbar: native bar hidden, dragging the rail
 
 test('menu links glide to their section instead of jumping', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/');
-  await page.waitForTimeout(600);
-  const target = await page.locator('#experience').evaluate(s => Math.round(s.getBoundingClientRect().top + scrollY));
+  await ready(page);
+  const sectionTop = () => page.locator('#experience').evaluate(s => Math.round(s.getBoundingClientRect().top + scrollY));
+  const target = await sectionTop();
+  // Record the scroll position on every frame, so the check doesn't depend on sampling at a lucky moment.
+  await page.evaluate(() => { const w = window as unknown as { ys: number[] }; w.ys = []; const tick = () => { w.ys.push(Math.round(scrollY)); requestAnimationFrame(tick); }; tick(); });
   await page.locator('.site-header nav a[href="/#experience"]').click();
-  // Partway through the glide the page is between the start and the section (an animation, not a jump)...
-  await page.waitForTimeout(120);
-  const mid = await page.evaluate(() => Math.round(scrollY));
-  expect(mid).toBeGreaterThan(0);
-  expect(mid).toBeLessThan(target);
-  // ...and it lands exactly on the section.
-  await expect.poll(() => page.evaluate(() => Math.round(scrollY)), { timeout: 4000 }).toBe(target);
+  // It lands exactly on the section...
+  await expect.poll(() => scrollTop(page), SETTLE).toBe(target);
+  expect(await scrollTop(page)).toBe(await sectionTop());
+  // ...and got there through in-between positions (an animation, not a jump).
+  const between = await page.evaluate(t => new Set((window as unknown as { ys: number[] }).ys.filter(y => y > 0 && y < t)).size, target);
+  expect(between).toBeGreaterThan(2);
 });
 
 test('the address bar follows the section being read, and deep links still work', async ({ page }) => {
