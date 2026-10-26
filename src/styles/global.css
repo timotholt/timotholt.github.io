@@ -309,8 +309,10 @@ body:has(.color-section) .site-header{color:var(--home-fg);border-color:var(--ho
 .progress-rail .rail-band{border-radius:999px;border-block:2px solid transparent;background-clip:padding-box}
 .progress-rail .rail-readout{border-radius:999px;padding:4px 10px}
 .rail-dot:after{border-radius:999px;padding:3px 9px}
-/* Soft snap: stopping near the top of a page settles onto it; fast scrolling stays free. */
-html{scroll-snap-type:y proximity}
+/* Hard snap: wherever scrolling stops, it settles onto the nearest page (every page is one screen tall). */
+html{scroll-snap-type:y mandatory}
+/* The short footer below the last page gets its own snap point so it stays reachable. */
+.site-footer{scroll-snap-align:end}
 .feature-slot{scroll-snap-align:start}
 @media(prefers-reduced-motion:reduce){html{scroll-snap-type:none}}
 /* The header overlays the hero instead of pushing the page down, so every page starts on a whole pixel (snap + rail landing agree). */

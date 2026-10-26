@@ -133,3 +133,25 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1000, height: 560
     expect(atBottom.railBottom - atBottom.bottom).toBeLessThanOrEqual(2);
   });
 }
+
+test('stopping halfway between pages settles onto a page', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.mouse.move(700, 450);
+  const top = await page.locator('.feature-slot').nth(4).evaluate(s => s.getBoundingClientRect().top + scrollY);
+  await page.evaluate(y => window.scrollTo(0, y + 450), top);
+  await page.mouse.wheel(0, 1);
+  await expect.poll(() => page.evaluate(() => {
+    const tops = [...document.querySelectorAll<HTMLElement>('.feature-slot')].map(s => s.getBoundingClientRect().top + scrollY);
+    return Math.min(...tops.map(t => Math.abs(t - scrollY)));
+  }), { timeout: 3000 }).toBeLessThanOrEqual(2);
+});
+
+test('the footer is still reachable with hard snap', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+  await page.waitForTimeout(800);
+  const footer = await page.locator('.site-footer').boundingBox();
+  expect(footer!.y + footer!.height).toBeLessThanOrEqual(900 + 1);
+});
