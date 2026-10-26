@@ -102,7 +102,7 @@ function updateRail() {
   const span = Math.max(1, targets[seg + 1] - targets[seg]);
   const progress = scrollY <= first ? 0 : scrollY >= last ? 1 : Math.min(1, (seg + (scrollY - targets[seg]) / span) / Math.max(1, targets.length - 1));
   if (railFill) railFill.style.transform = `scaleY(${progress})`;
-  if (percent) percent.textContent = `${String(Math.round(progress * 100)).padStart(3, '0')}%`;
+  if (percent) percent.textContent = `${Math.round(progress * 100)}%`;
   let current = 0;
   targets.forEach((target, i) => { if (scrollY >= target - 2) current = i; });
   if (chosen >= 0 && Math.abs(scrollY - targets[chosen]) <= 2) current = chosen;
