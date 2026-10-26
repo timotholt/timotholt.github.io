@@ -1,0 +1,130 @@
+.site-header nav {
+  font-family: "JetBrains Mono", monospace;
+  display: flex;
+  gap: clamp(12px, 2.4vw, 34px);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.site-header nav a:hover {
+  color: var(--accent);
+}
+
+.site-footer a:hover {
+  color: var(--accent);
+}
+
+.site-header.wrap {
+  width: min(1000px, calc(100% - 120px));
+}
+
+.site-footer.wrap {
+  width: min(1000px, calc(100% - 120px));
+}
+
+body:has(.color-section) .site-header {
+  color: var(--home-fg);
+  border-color: var(--home-fg);
+}
+
+body:has(.color-section) .site-header nav a:hover {
+  color: var(--home-accent);
+}
+
+/* Hero cleanup: no header mark, plain rounded photo, readable contact info, one alignment. */
+.site-header {
+  height: 80px;
+  border-bottom: 1px solid var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  justify-content: flex-end;
+}
+
+/* The short footer below the last page gets its own snap point so it stays reachable. */
+.site-footer {
+  font-family: "JetBrains Mono", monospace;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid var(--ink);
+  padding-block: 24px;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--muted);
+  scroll-snap-align: end;
+}
+
+@media (max-width: 899px) {
+  .site-header.wrap {
+    width: calc(100% - 118px);
+    margin-left: 18px;
+    margin-right: 100px;
+  }
+
+  .site-footer.wrap {
+    width: calc(100% - 118px);
+    margin-left: 18px;
+    margin-right: 100px;
+  }
+}
+
+@media (max-width: 740px) {
+  .site-header {
+    height: auto;
+    min-height: 68px;
+    flex-wrap: wrap;
+    padding-block: 13px;
+    gap: 10px;
+  }
+
+  .site-header nav {
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 10px;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 767px) {
+  .site-header {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  /* The header overlays the hero instead of pushing the page down, so every page starts on a whole pixel (snap + rail landing agree). */
+  /* Header rule: spans the content column and always stops short of the rail and its readout. */
+  body > .site-header {
+    position: absolute;
+    top: 0;
+    z-index: 5;
+    margin-inline: auto;
+    width: auto;
+    margin: 0;
+    left: max(60px, calc((100% - 1000px) / 2));
+    right: max(190px, calc((100% - 1000px) / 2));
+  }
+
+  /* Header rule: spans the content column and always stops short of the rail and its readout. */
+  body > .site-header.wrap {
+    width: auto;
+    margin: 0;
+    left: max(60px, calc((100% - 1000px) / 2));
+    right: max(190px, calc((100% - 1000px) / 2));
+  }
+
+  /* Laptop header: with no logo mark, the menu sits at the left so it never meets the rail readout at the top right. */
+  .site-header {
+    min-height: 0;
+    height: auto;
+    padding-block: clamp(8px, 2svh, 22px);
+    justify-content: flex-start;
+    border-bottom: 1px solid var(--home-fg);
+  }
+
+  body:has(.color-section) .site-header {
+    border-bottom: 1px solid var(--home-fg);
+  }
+}

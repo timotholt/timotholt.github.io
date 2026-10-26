@@ -1,0 +1,377 @@
+.hero-title span {
+  color: var(--accent);
+  margin-inline: 8px;
+}
+
+.scene-letter {
+  display: inline-block;
+  white-space: pre;
+  transform-style: preserve-3d;
+}
+
+.scene-word {
+  display: inline-block;
+  transform-style: preserve-3d;
+  white-space: nowrap;
+}
+
+.hero .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  max-width: 900px;
+}
+
+.portrait canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.portrait-unit {
+  max-width: 100%;
+  position: relative;
+  width: min(43svh, 420px);
+  margin: 8px auto 8px;
+}
+
+.hero-title {
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  max-width: 900px;
+  margin-inline: auto;
+  font-size: clamp(25px, 3vw, 38px);
+  margin-bottom: 9px;
+}
+
+.hero-pitch {
+  color: var(--muted);
+  max-width: 900px;
+  margin-inline: auto;
+  font-size: clamp(14px, 1.5vw, 18px);
+  line-height: 1.35;
+  margin-bottom: 10px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  max-width: 900px;
+  margin-inline: auto;
+  margin-top: 12px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 40%) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 60px);
+  padding-block: 16px;
+  min-height: var(--slot-h);
+}
+
+.hero .portrait-unit {
+  width: 100%;
+  max-width: 460px;
+  margin: 0;
+}
+
+.hero .portrait {
+  width: 100%;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+}
+
+.hero .hero-title {
+  font-size: clamp(23px, 2.4vw, 34px);
+  margin: 0 0 12px;
+}
+
+.hero .hero-pitch {
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.35;
+  margin: 0 0 14px;
+  color: var(--muted);
+}
+
+.hero .hero-actions {
+  margin: 18px 0 0;
+}
+
+.color-section .hero-pitch {
+  color: var(--sec-fg);
+}
+
+.color-section .portrait {
+  background: var(--sec-bg);
+  border-color: var(--sec-fg);
+}
+
+.color-section.hero h1 {
+  text-shadow: none;
+}
+
+.color-section.hero h1 .accent {
+  color: var(--section-accent);
+}
+
+/* The hero is a full-width colored row; inset its content to the same column as other sections. */
+.hero.color-section {
+  padding-inline: max(60px, calc((100% - 1000px) / 2));
+}
+
+.hero .hero-actions .button {
+  min-height: 44px;
+  border-radius: 999px;
+  gap: 10px;
+  padding-inline: 20px;
+  text-transform: none;
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+.hero .hero-actions .button:focus-visible {
+  outline: 2px solid var(--sec-fg);
+  outline-offset: 3px;
+}
+
+.hero h1 {
+  perspective: 1400px;
+  position: relative;
+  z-index: 2;
+  text-shadow:
+    3px 3px var(--paper),
+    -3px -3px var(--paper);
+  margin: 0 0 12px;
+  text-align: left;
+  white-space: normal;
+  font-size: clamp(62px, 6.7vw, 104px);
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+}
+
+.portrait {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--surface);
+  border: 1px solid var(--ink);
+  border: 0 !important;
+  border-radius: 18px;
+  overflow: hidden;
+  clip-path: none;
+}
+
+.portrait img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+  display: block;
+}
+
+.hero .contact-list {
+  font-size: clamp(17px, min(1.5vw, 2.4svh), 20px);
+}
+
+@media (max-width: 899px) {
+  .portrait-unit {
+    width: min(34svh, 280px);
+  }
+
+  .hero-pitch {
+    font-size: 13px;
+  }
+
+  .hero-title {
+    font-size: 20px;
+  }
+
+  .hero-actions .button {
+    min-height: 35px;
+    padding: 6px 8px;
+  }
+
+  .hero .eyebrow {
+    font-size: 9px;
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    gap: 12px;
+    padding-block: 8px;
+  }
+
+  .hero .portrait-unit {
+    width: min(30svh, 240px);
+    align-self: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(46px, 12vw, 72px);
+    margin: 0 0 3px;
+  }
+
+  .hero .hero-title {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+  .hero .hero-pitch {
+    font-size: 13px;
+    margin-bottom: 7px;
+  }
+
+  .hero .contact-list {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .hero .contact-list a {
+    min-height: 44px;
+    padding: 2px 0;
+  }
+
+  .hero .contact-list .contact-item {
+    min-height: 44px;
+    padding: 2px 0;
+  }
+
+  .hero .contact-list small {
+    display: inline;
+    margin: 0 7px 0 0;
+    font-size: 9px;
+  }
+
+  .hero .hero-actions {
+    margin-top: 8px;
+  }
+
+  .hero .hero-actions .button {
+    min-height: 44px;
+    padding: 7px 9px;
+    font-size: 12px;
+    padding-inline: 13px;
+    gap: 7px;
+  }
+}
+
+@media (max-width: 740px) {
+  .hero {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 767px) {
+  .portrait-unit {
+    margin-top: 35px;
+  }
+
+  .hero-title {
+    font-size: 23px;
+  }
+
+  /* Phones: keep content clear of the right-hand progress rail. */
+  /* Phones: symmetric content margins that clear the rail, readout only while scrolling. */
+  .hero.wrap {
+    width: auto;
+    margin-left: 42px;
+    margin-right: 42px;
+  }
+
+  .hero.color-section {
+    padding-inline: 42px;
+  }
+
+  .wrap.hero {
+    margin: 0;
+  }
+
+  .hero .portrait-unit {
+    align-self: flex-start;
+  }
+
+  .hero .contact-list {
+    font-size: 17px;
+  }
+
+  .hero .contact-list a {
+    min-height: 40px;
+  }
+
+  .hero .contact-list .contact-item {
+    min-height: 40px;
+  }
+
+  .hero .hero-pitch {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .hero .hero-actions .button {
+    font-size: 13px;
+    padding: 9px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-actions .button {
+    font-size: 11px;
+  }
+
+  .hero {
+    gap: 7px;
+  }
+
+  .hero .portrait-unit {
+    width: min(27svh, 210px);
+  }
+
+  .hero h1 {
+    font-size: clamp(43px, 11.5vw, 55px);
+  }
+
+  .hero .hero-title {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 768px) {
+  /* Laptop hero scales with the tighter of width and height so short windows keep the buttons well clear of the bottom. */
+  .hero .portrait-unit {
+    width: min(100%, 52svh, 460px);
+  }
+
+  .hero h1 {
+    font-size: clamp(44px, min(7vw, 11svh), 110px);
+  }
+
+  .hero .hero-title {
+    font-size: clamp(18px, min(2.1vw, 3.4svh), 30px);
+  }
+
+  .hero .hero-pitch {
+    font-size: clamp(14px, min(1.3vw, 2.2svh), 18px);
+  }
+
+  .hero .contact-list a {
+    min-height: clamp(32px, 6svh, 46px);
+  }
+
+  .hero .contact-list .contact-item {
+    min-height: clamp(32px, 6svh, 46px);
+  }
+}

@@ -1,0 +1,12 @@
+:root {
+  color-scheme: light;
+  --paper: #f2f0eb;
+  --surface: #e9e6df;
+  --ink: #191917;
+  --muted: #62615b;
+  --rule: #c8c5bd;
+  --accent: #ff4f00;
+  --grid: rgba(37, 36, 32, 0.045);
+  --slot-h: 100svh;
+  --brand: #e8541c;
+}

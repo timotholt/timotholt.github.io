@@ -1,0 +1,244 @@
+.rail-track {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.rail-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+.rail-dot.passed {
+  background: var(--accent);
+}
+
+#rail-section {
+  font-size: 9px;
+  color: var(--ink);
+}
+
+.milestone-anchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.progress-rail {
+  position: fixed;
+  z-index: 50;
+  left: auto;
+  right: 1.75rem;
+  top: 12px;
+  height: calc(100svh - 24px);
+  width: 2px;
+  pointer-events: none;
+}
+
+.rail-dots {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.rail-dot {
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.rail-dot:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  box-sizing: border-box;
+  width: 11px;
+  height: 11px;
+  transform: translate(-50%, -50%);
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper);
+}
+
+.rail-dot.current:before {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.rail-dot:hover:after {
+  opacity: 1;
+}
+
+.rail-dot:focus-visible:after {
+  opacity: 1;
+}
+
+.rail-readout {
+  position: absolute;
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  white-space: nowrap;
+  padding: 3px 5px;
+  background: var(--paper);
+  color: var(--accent);
+  font:
+    500 12px "JetBrains Mono",
+    monospace;
+  transform: translateY(-50%);
+  border: 1px solid var(--rule);
+  left: auto;
+  right: 13px;
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.rail-band {
+  position: absolute;
+  left: 50%;
+  width: 22px;
+  transform: translateX(-50%);
+  background: color-mix(in srgb, var(--band) 80%, transparent);
+  pointer-events: none;
+  transition: background 0.25s;
+}
+
+.rail-band.current {
+  background: var(--band);
+}
+
+.progress-rail .rail-fill {
+  background: #14110f;
+}
+
+.progress-rail .rail-band.current {
+  width: 22px;
+  background: var(--band);
+  outline: 1px solid #14110f;
+}
+
+.progress-rail .rail-dot {
+  color: var(--dot-fg);
+}
+
+.progress-rail .rail-dot::before {
+  background: transparent;
+  border-color: var(--dot-fg);
+}
+
+.progress-rail .rail-dot.current::before {
+  background: var(--dot-fg);
+  border-color: var(--dot-fg);
+}
+
+.progress-rail .rail-track {
+  background: #f4f1ea;
+  outline: 1px solid #14110f;
+  border-radius: 999px;
+}
+
+.progress-rail .rail-band {
+  width: 18px;
+  background: var(--band);
+  transition: width 0.25s;
+  outline: none;
+  border-radius: 999px;
+  border-block: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.rail-dot:after {
+  content: attr(data-title);
+  position: absolute;
+  right: 29px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  font:
+    500 10px "JetBrains Mono",
+    monospace;
+  opacity: 0;
+  pointer-events: none;
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+
+/* Rail readout hierarchy: the section name leads and is large; the percentage is a small secondary note. */
+.progress-rail .rail-readout {
+  background: #14110f;
+  color: #f4f1ea;
+  border-color: #f4f1ea;
+  border-radius: 999px;
+  padding: 4px 10px;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.progress-rail .rail-readout #rail-section {
+  color: #f4f1ea;
+  order: -1;
+  font:
+    700 15px/1.2 Archivo,
+    sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.progress-rail .rail-readout #scroll-percent {
+  font:
+    500 11px/1.2 "JetBrains Mono",
+    monospace;
+  opacity: 0.75;
+}
+
+@media (max-width: 899px) {
+  .rail-readout {
+    right: 13px;
+    font-size: 10px;
+  }
+
+  .rail-readout #rail-section {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 767px) {
+  .rail-readout #rail-section {
+    font-size: 8px;
+  }
+
+  .progress-rail .rail-readout {
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .progress-rail.is-scrolling .rail-readout {
+    opacity: 1;
+  }
+
+  .progress-rail .rail-readout #rail-section {
+    font-size: 13px;
+  }
+
+  .progress-rail .rail-readout #scroll-percent {
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,210 @@
+#education {
+  display: flex;
+  align-items: center;
+}
+
+.cred-list {
+  list-style: none;
+  margin: 32px 0 0;
+  padding: 0;
+  max-width: 960px;
+  font-family: Archivo, sans-serif;
+}
+
+.cred-item {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 28px;
+  padding: 26px 0;
+  border-top: 1px solid var(--section-accent);
+}
+
+.cred-item:last-child {
+  border-bottom: 1px solid var(--section-accent);
+}
+
+.cred-year {
+  font:
+    700 clamp(26px, 2.6vw, 34px)/1.05 Archivo,
+    sans-serif;
+  letter-spacing: -0.03em;
+  color: var(--section-accent);
+}
+
+.cred-body h3 {
+  position: relative;
+  margin: 0 0 6px;
+  font:
+    700 clamp(24px, 2.6vw, 34px)/1.1 Archivo,
+    sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.cred-body h3:before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  top: 0.42em;
+  width: 8px;
+  height: 8px;
+  background: var(--section-accent);
+}
+
+.cred-what {
+  margin: 0;
+  font:
+    500 clamp(17px, 1.5vw, 20px)/1.45 Archivo,
+    sans-serif;
+}
+
+.cred-meta {
+  margin: 6px 0 0;
+  font:
+    600 clamp(17px, 1.5vw, 20px)/1.45 Archivo,
+    sans-serif;
+}
+
+.cred-section {
+  display: flex;
+  align-items: center;
+}
+
+.cred-section > .wrap {
+  min-width: 0;
+}
+
+/* GPA inline in the credential title, in the section accent. */
+.cred-gpa-inline {
+  white-space: nowrap;
+}
+
+/* Job history: each page is one full slot; jobs centered, list styling shared with Awards/Education. */
+.job-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.job-list .cred-item:last-child {
+  border-bottom: 1px solid var(--section-accent);
+}
+
+.page-mark {
+  font-size: 0.5em;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--section-accent);
+  vertical-align: 0.35em;
+}
+
+/* One spacing and heading scale for every credential-style list (Work History, Awards, Education). */
+/* Credential and job dividers: section text color at one shared strength, so every list reads the same. */
+.cred-list .cred-item {
+  padding-block: 34px;
+  border-color: color-mix(in srgb, var(--sec-fg) 35%, transparent);
+}
+
+/* Credential and job dividers: section text color at one shared strength, so every list reads the same. */
+.cred-list .cred-item:last-child {
+  border-color: color-mix(in srgb, var(--sec-fg) 35%, transparent);
+}
+
+@media (max-width: 767px) {
+  .cred-list {
+    margin-top: 16px;
+  }
+
+  .cred-body h3:before {
+    left: -18px;
+    width: 7px;
+    height: 7px;
+  }
+
+  .cred-item {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    padding: 9px 0 9px 16px;
+  }
+
+  .cred-year {
+    font-size: 17px;
+  }
+
+  .cred-body h3 {
+    font-size: 18px;
+    margin-bottom: 3px;
+  }
+
+  .cred-what {
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .cred-meta {
+    font-size: 14px;
+    margin-top: 3px;
+  }
+
+  .cred-section .section-heading {
+    margin-bottom: 6px;
+  }
+
+  .cred-list .cred-item {
+    padding-block: 12px;
+  }
+
+  #experience h2 {
+    font-size: clamp(28px, 8vw, 40px);
+  }
+
+  .cred-section h2 {
+    font-size: clamp(28px, 8vw, 40px);
+  }
+
+  .job-page .section-heading {
+    margin-bottom: 6px;
+  }
+}
+
+@media (min-width: 768px) {
+  /* Year column fits ranges (2014–2016); shared by Awards and Education so titles align. */
+  .cred-item {
+    grid-template-columns: 200px minmax(0, 1fr);
+  }
+
+  /* Laptop/desktop: list sections (Work History, Education, Awards) scale type and spacing by the tighter of width and height,
+   so short windows (e.g. 1280x720) keep breathing room; big screens keep the original sizes. */
+  #experience h2 {
+    font-size: clamp(30px, min(5vw, 8svh), 72px);
+  }
+
+  /* Laptop/desktop: list sections (Work History, Education, Awards) scale type and spacing by the tighter of width and height,
+   so short windows (e.g. 1280x720) keep breathing room; big screens keep the original sizes. */
+  .cred-section h2 {
+    font-size: clamp(30px, min(5vw, 8svh), 72px);
+  }
+
+  .cred-list .cred-year {
+    font-size: clamp(18px, min(2.6vw, 3.8svh), 34px);
+  }
+
+  .cred-list .cred-body h3 {
+    font-size: clamp(18px, min(2.6vw, 3.8svh), 34px);
+  }
+
+  .cred-list .cred-what {
+    font-size: clamp(14px, min(1.5vw, 2.2svh), 20px);
+  }
+
+  .cred-list .cred-meta {
+    font-size: clamp(14px, min(1.5vw, 2.2svh), 20px);
+  }
+
+  .cred-list .cred-item {
+    padding-block: clamp(8px, 2.6svh, 34px);
+  }
+
+  .cred-list {
+    margin-top: clamp(12px, 3svh, 32px);
+  }
+}

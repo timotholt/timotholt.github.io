@@ -1,0 +1,184 @@
+main {
+  position: relative;
+  isolation: isolate;
+}
+
+.band .trace-via {
+  background: var(--surface);
+}
+
+.accent {
+  color: var(--accent);
+}
+
+.eyebrow {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.section h2 em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.band {
+  background: var(--surface);
+}
+
+.not-found h1 {
+  font-size: clamp(65px, 9vw, 130px);
+  letter-spacing: -0.08em;
+  margin: 40px 0 20px;
+  overflow-wrap: anywhere;
+}
+
+.next-work {
+  margin-top: 75px;
+  font:
+    600 24px Archivo,
+    sans-serif;
+}
+
+.next-work a {
+  border-bottom: 2px solid var(--accent);
+}
+
+.not-found {
+  min-height: 65vh;
+  padding-block: 100px;
+}
+
+.not-found p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 20px;
+}
+
+.trace-section {
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
+
+.trace-via {
+  position: absolute;
+  top: 26px;
+  width: 11px;
+  height: 11px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  background: var(--paper);
+  transform: translate(-50%, -50%);
+  transition:
+    background 0.3s,
+    box-shadow 0.3s;
+  display: none !important;
+}
+
+.wrap {
+  margin-inline: auto;
+  width: min(1000px, calc(100% - 120px));
+}
+
+.section-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.section-heading {
+  align-items: end;
+  justify-content: space-between;
+  gap: 40px;
+  display: block;
+  margin-bottom: 18px;
+}
+
+.section-heading p {
+  color: var(--muted);
+  margin: 0;
+  max-width: 700px;
+  margin-top: 8px;
+}
+
+.section h2 {
+  margin-bottom: 0;
+  font-size: clamp(44px, 5vw, 72px);
+}
+
+/* Keep the rail readout clear of narrow content and settle row entrances at a slot start. */
+.section {
+  padding-block: 0;
+  border-top: 0;
+}
+
+.color-section .section-label {
+  color: var(--section-accent);
+  fill: var(--section-accent);
+}
+
+.color-section h2 .accent {
+  color: var(--section-accent);
+  fill: var(--section-accent);
+}
+
+.color-section h2 em {
+  color: var(--section-accent);
+  fill: var(--section-accent);
+}
+
+.color-section .section-heading p {
+  color: var(--sec-fg);
+}
+
+.feature-slot {
+  position: relative;
+  height: var(--slot-h);
+  min-height: var(--slot-h);
+  max-height: var(--slot-h);
+  overflow: clip;
+  scroll-snap-align: start;
+}
+
+@media (max-width: 899px) {
+  .section h2 {
+    font-size: clamp(38px, 10vw, 57px);
+  }
+
+  .wrap {
+    width: calc(100% - 118px);
+    margin-left: 18px;
+    margin-right: 100px;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Phones: keep content clear of the right-hand progress rail. */
+  /* Phones: symmetric content margins that clear the rail, readout only while scrolling. */
+  .wrap {
+    width: auto;
+    margin-left: 42px;
+    margin-right: 42px;
+  }
+}
+
+/* Every section is a full-width row that owns its background; content sits in an inner .wrap. */
+.color-section {
+  position: relative;
+  isolation: isolate;
+  background: var(--sec-bg);
+  color: var(--sec-fg);
+  --muted: var(--sec-fg);
+  --rule: var(--section-accent);
+  --ink: var(--sec-fg);
+  --accent: var(--section-accent);
+  width: 100%;
+  margin-inline: 0;
+}
