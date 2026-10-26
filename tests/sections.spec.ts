@@ -168,16 +168,18 @@ test('on a short phone no screen clips its content; a screen grows instead', asy
   expect(clipped).toEqual([]);
 });
 
-// Between 768 and 899px the hero stacks under the overlaid laptop header; the photo once slid under the menu.
-for (const viewport of [{ width: 768, height: 700 }, { width: 840, height: 540 }, { width: 899, height: 900 }]) {
-  test(`stacked hero starts below the header at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+// One layout switch at 900px: below it the phone layout (no header, photo above the name), from 900 the laptop layout.
+// (Replaces a 768–899px header-clearance test: that hybrid band no longer exists.)
+for (const [width, laptop] of [[899, false], [900, true]] as const) {
+  test(`${width}px uses the ${laptop ? 'laptop' : 'phone'} layout`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.setViewportSize(viewport);
+    await page.setViewportSize({ width, height: 800 });
     await page.goto('/');
-    const g = await page.evaluate(() => ({
-      header: document.querySelector('.site-header')!.getBoundingClientRect().bottom,
-      photo: document.querySelector('.hero .portrait-unit')!.getBoundingClientRect().top,
-    }));
-    expect(g.photo).toBeGreaterThan(g.header + 8);
+    const g = await page.evaluate(() => {
+      const photo = document.querySelector('.hero .portrait-unit')!.getBoundingClientRect();
+      const name = document.querySelector('.hero h1')!.getBoundingClientRect();
+      return { header: getComputedStyle(document.querySelector('.site-header')!).display !== 'none', beside: name.left >= photo.right - 1 };
+    });
+    expect(g).toEqual({ header: laptop, beside: laptop });
   });
 }

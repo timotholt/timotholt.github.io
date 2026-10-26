@@ -72,7 +72,7 @@
   color: var(--section-accent);
 }
 
-@media (max-width: 767px) {
+@media (max-width: 899px) {
   .proof-grid {
     grid-template-columns: 1fr;
   }

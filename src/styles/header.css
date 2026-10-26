@@ -69,31 +69,13 @@ body:has(.color-section) .site-header nav a:hover {
   }
 }
 
-@media (max-width: 740px) {
-  .site-header {
-    height: auto;
-    min-height: 68px;
-    flex-wrap: wrap;
-    padding-block: 13px;
-    gap: 10px;
-  }
-
-  .site-header nav {
-    order: 3;
-    width: 100%;
-    justify-content: space-between;
-    font-size: 10px;
-    gap: 8px;
-  }
-}
-
-@media (max-width: 767px) {
+@media (max-width: 899px) {
   .site-header {
     display: none;
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   /* The header overlays the hero instead of pushing the page down, so every page starts on a whole pixel (snap + rail landing agree). */
   /* Header rule: spans the content column and always stops short of the rail and its readout. */
   body > .site-header {

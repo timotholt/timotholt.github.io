@@ -40,4 +40,5 @@ Screenshot URLs carry a content hash, so updated images show immediately.
 
 - No hover effects that move or resize anything (a test enforces it).
 - Only two fonts: Archivo and JetBrains Mono.
+- One layout breakpoint: phone layout below 900px, laptop layout from 900px. Size small phones fluidly (`clamp()`), not with extra breakpoints.
 - Never commit secrets; the repo is public.

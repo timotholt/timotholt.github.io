@@ -4,7 +4,7 @@ import { targets } from './state';
 // Press the bare track to jump there; drag anywhere (including from a dot) to scrub. A press on a dot without
 // moving stays a click and jumps to that milestone.
 const rail = document.querySelector<HTMLElement>('.progress-rail');
-const railIsScrollbar = matchMedia('(min-width: 768px) and (pointer: fine)');
+const railIsScrollbar = matchMedia('(min-width: 900px) and (pointer: fine)');
 
 // Dots sit in equal cells (half a cell of inset at each end), so map the pointer onto dot space first:
 // the first dot's center is progress 0 and the last dot's center is progress 1, exactly like the fill.

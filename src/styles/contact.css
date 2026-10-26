@@ -93,7 +93,7 @@
   color: var(--muted);
   margin-top: 25px;
   margin: 14px 0 16px;
-  font-size: clamp(14px, 1.5vw, 18px);
+  font-size: clamp(13px, calc(13px + (100vw - 375px) * 0.0095), clamp(14px, 1.5vw, 18px));
   line-height: 1.35;
 }
 
@@ -223,15 +223,9 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 899px) {
   .contact-section .contact-list {
     font-size: 17px;
-  }
-}
-
-@media (max-width: 480px) {
-  .contact-section .wrap > p {
-    font-size: 13px;
   }
 }
 

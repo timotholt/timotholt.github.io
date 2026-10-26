@@ -222,7 +222,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 899px) {
   .rail-readout #rail-section {
     font-size: 8px;
   }
@@ -246,7 +246,7 @@
 }
 
 /* Laptop/desktop with a mouse or trackpad: the rail replaces the native scrollbar (see rail-drag.ts). */
-@media (min-width: 768px) and (pointer: fine) {
+@media (min-width: 900px) and (pointer: fine) {
   html {
     scrollbar-width: none;
   }

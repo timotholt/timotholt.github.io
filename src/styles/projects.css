@@ -109,7 +109,7 @@
 }
 
 .case-study h1 {
-  font-size: clamp(65px, 9vw, 130px);
+  font-size: clamp(56.25px, calc(56.25px + (100vw - 375px) * 0.083), clamp(65px, 9vw, 130px));
   letter-spacing: -0.08em;
   margin: 40px 0 20px;
   overflow-wrap: anywhere;
@@ -482,9 +482,9 @@
   }
 }
 
-@media (max-width: 740px) {
+@media (max-width: 899px) {
   .case-specs .spec-table {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
   .case-grid {
@@ -498,7 +498,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 899px) {
   #projects .project-card:has(.has-shot) .spec-table {
     display: none;
   }
@@ -547,21 +547,7 @@
   }
 }
 
-@media (max-width: 480px) {
-  .case-specs .spec-table {
-    grid-template-columns: 1fr;
-  }
-
-  .case-study h1 {
-    font-size: clamp(55px, 15vw, 75px);
-  }
-
-  .card-content {
-    padding: 22px;
-  }
-}
-
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   #projects .project-card:has(.has-shot) {
     grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
     grid-template-rows: auto 1fr;

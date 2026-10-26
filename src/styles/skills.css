@@ -93,7 +93,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 899px) {
   :is(#skills, #process) > .wrap {
     width: auto;
     margin-left: 42px;

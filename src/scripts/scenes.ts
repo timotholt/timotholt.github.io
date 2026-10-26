@@ -240,8 +240,8 @@ mm.add("(prefers-reduced-motion: reduce)", () => {
 });
 mm.add(
   {
-    desktop: "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
-    mobile: "(max-width: 767px) and (prefers-reduced-motion: no-preference)",
+    desktop: "(min-width: 900px) and (prefers-reduced-motion: no-preference)",
+    mobile: "(max-width: 899px) and (prefers-reduced-motion: no-preference)",
   },
   (context) => {
     const mobile = !!context.conditions?.mobile;
