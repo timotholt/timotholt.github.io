@@ -35,6 +35,7 @@ const person = {
     <script type="application/ld+json" set:html={JSON.stringify(person)} />
   </head>
   <body style={`--home-bg:${sectionByKey.contact.bg};--home-fg:${sectionByKey.contact.fg};--home-accent:${sectionByKey.contact.accent}`}>
+    <canvas class="grid-glow" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header wrap">
       
@@ -42,5 +43,6 @@ const person = {
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer wrap"><span>© {new Date().getFullYear()} {contact.name}</span><a href={contact.emailHref}>{contact.email}</a><a href={contact.phoneHref}>{contact.phone}</a></footer>
+    <script src="../scripts/grid.ts"></script>
   </body>
 </html>

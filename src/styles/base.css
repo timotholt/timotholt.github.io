@@ -53,6 +53,8 @@ body {
     linear-gradient(var(--grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid) 1px, transparent 1px);
   background-size: 40px 40px;
+  /* Fixed to the viewport so the lines line up with the hover squares in .grid-glow (scripts/grid.ts). */
+  background-attachment: fixed;
   max-width: 100%;
   overflow-x: clip;
 }
@@ -74,4 +76,14 @@ html {
    (Case-study pages have no slots; with snap on, the footer was their only snap point and they opened scrolled to the bottom.) */
 html:has(.feature-slot) {
   scroll-snap-type: y mandatory;
+}
+
+/* Hover squares over the background grid (scripts/grid.ts). Above sections, below the header and rail; never takes clicks. */
+.grid-glow {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
 }

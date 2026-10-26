@@ -173,6 +173,13 @@ main {
   position: relative;
   isolation: isolate;
   background: var(--sec-bg);
+  /* Subtle grid in the section's own text color, fixed to the viewport like the paper grid in base.css. */
+  --grid: color-mix(in srgb, var(--sec-fg) 7%, transparent);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-attachment: fixed;
   color: var(--sec-fg);
   --muted: var(--sec-fg);
   --rule: var(--section-accent);
