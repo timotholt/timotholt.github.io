@@ -31,9 +31,9 @@ async function openChat(page: Page) {
 test('hero button opens the labelled chat panel; Escape closes it', async ({ page }) => {
   await openChat(page);
   const panel = page.locator('#ask-ai');
-  // The panel must always disclose that answers are AI-generated and may be imperfect.
-  await expect(panel).toContainText(/AI-generated.*may be imperfect/);
-  await expect(panel).toContainText('logged anonymously');
+  // The panel must always make clear the answers come from an AI, not from Tim.
+  await expect(panel.locator('#chat-title')).toHaveText("Ask Tim's AI");
+  await expect(panel.locator('.chat-msg-ai').first()).toContainText("Tim's AI assistant");
   await expect(panel.locator('.chat-chip')).toHaveCount(4);
   await expect(page.locator('#chat-input')).toBeFocused();
   await page.keyboard.press('Escape');

@@ -20,7 +20,9 @@ Status: **approved 2026-10-23; built on `feat/ask-ai`.** Deploy steps: `docs/DEP
    ever reaches the DOM — `textContent` only). Links to case studies are added by
    our code from the topic table, not by the model.
 5. After each answer: up to two **follow-up chips** for that topic.
-6. Under the input: "Questions are logged anonymously by topic to improve answers."
+6. Under the input: "Questions are logged anonymously by topic to improve answers." (Removed 2026-10-26 at Tim's request, along with the
+   "AI-generated — may be imperfect" header line; the title "Ask Tim's AI" and the
+   greeting still say it is an AI.)
 7. Limits are visible: "3 of 30 questions left", 500-char counter.
 
 Phone chip handling: chips sit in one horizontally scrolling row (never wrap over

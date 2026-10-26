@@ -10,7 +10,6 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
     <img class="chat-avatar" src="/headshot.jpg" alt="" width="40" height="40" />
     <div class="chat-title-block">
       <h2 id="chat-title">Ask Tim's AI</h2>
-      <p class="chat-label"><span class="chat-dot" aria-hidden="true"></span>AI-generated · may be imperfect</p>
     </div>
     <button class="chat-close" type="button" aria-label="Close chat">✕</button>
   </header>
@@ -29,7 +28,6 @@ const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
     <button class="chat-send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
   </form>
   <p class="chat-meta"><span class="chat-count">0/{limits.maxChars}</span><span class="chat-left">{limits.maxTurns} questions left</span></p>
-  <p class="chat-privacy">Questions are logged anonymously by topic to improve answers.</p>
   <div class="chat-turnstile"></div>
 </dialog>
 <script src="../scripts/chat.ts"></script>
