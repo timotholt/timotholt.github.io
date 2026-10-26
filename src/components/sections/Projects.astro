@@ -24,7 +24,7 @@ const projects = (await getCollection('projects')).filter(p => p.data.featured).
           <ProjectMedia slug={project.id} title={project.data.title} />
           <div class="card-content">
             <p class="project-function">{project.data.summary}</p>
-            <p class="card-stack">{project.data.stack.join(' · ')}</p>
+            <p class="card-stack">{[project.data.year, ...project.data.stack].join(' · ')}</p>
             <div class="card-links">
               <a href={`/projects/${project.id}/`} target="_blank" rel="noopener">Case study ↗</a>
               <a href={project.data.repo} target="_blank" rel="noopener noreferrer">Repository ↗</a>

@@ -1,6 +1,8 @@
 export const contact = {
   name: 'Tim Otholt',
-  title: 'Agentic AI Engineer',
+  title: 'AI Software Engineer',
+  openTo: 'Open to internships, apprenticeships and junior roles · available now',
+  resumeHref: '/Timothy_Otholt_Resume.pdf',
   phone: '(408) 406-1832',
   phoneHref: 'tel:+14084061832',
   email: 'timotholt@gmail.com',

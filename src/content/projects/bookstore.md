@@ -5,6 +5,7 @@ category: Full-stack product
 stack: [Rust, Axum, Askama, HTMX, PostgreSQL]
 repo: https://github.com/timotholt/bookstore
 demo: https://www.chantelscorner.com/
+year: "2026"
 order: 3
 problem: A shopping experience needs product browsing, accounts, and cart state without making every interaction depend on a large client bundle.
 approach: Used Rust and Axum for server routes, Askama templates for rendering, HTMX for focused interactions, and PostgreSQL for persistent accounts and carts.

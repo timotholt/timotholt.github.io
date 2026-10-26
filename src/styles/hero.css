@@ -375,3 +375,10 @@
     min-height: clamp(32px, 6svh, 46px);
   }
 }
+
+/* "Open to …" line: the one-glance answer to "is he looking, and for what?" */
+.hero .hero-open {
+  margin: 0 0 12px;
+  color: var(--section-accent);
+  font: 600 clamp(14px, min(1.3vw, 2.2svh), 18px) / 1.35 Archivo, sans-serif;
+}

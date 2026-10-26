@@ -5,6 +5,7 @@ category: AI-assisted engineering
 stack: [Python, Firmware, Specification workflows]
 repo: https://github.com/timotholt/firmware-calgen
 demo: https://timotholt.com/firmware-calgen/
+year: "2026"
 order: 2
 problem: Firmware calibration values can be error-prone when engineers copy them from documents into code by hand.
 approach: Designed a spec-to-constants demonstration that emphasizes traceability, gated changes, and human review for a power-electronics scenario.

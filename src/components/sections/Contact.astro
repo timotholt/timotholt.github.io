@@ -9,11 +9,14 @@ import ContactList from '../ContactList.astro';
     <h2>Let's make something<br />
       <em>work</em>
     </h2>
-    <p>Hiring for AI engineering, forward deployed, or firmware work? I'd like to hear about it.</p>
+    <p>Hiring an intern or junior engineer for AI, software or firmware work? I can start now.</p>
     <div class="contact-identity">
       <strong>{contact.name}</strong>
       <span>{contact.title}</span>
     </div>
     <ContactList />
+    <div class="contact-actions">
+      <a class="button button-outline" href={contact.resumeHref} target="_blank" rel="noopener">Download my résumé (PDF) <span aria-hidden="true">↗</span></a>
+    </div>
   </div>
 </section>

@@ -4,6 +4,7 @@ summary: Give AI coding tools a way to inspect JavaScript logs while they work.
 category: AI tooling
 stack: [JavaScript, MCP, Developer tools]
 repo: https://github.com/timotholt/mcp-logger
+year: "2025"
 order: 4
 problem: An AI assistant cannot diagnose browser or JavaScript failures well when runtime logs are invisible to it.
 approach: Created an MCP server callable from JavaScript so AI tools can monitor logs during development.
