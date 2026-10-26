@@ -2,6 +2,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { updateRail } from "./rail";
 import { readerIndex, setRestoreIndex } from "./state";
+import { glideToY } from "./keys";
 
 function splitText(el: HTMLElement, byWord = false) {
   const nodes: Text[] = [];
@@ -273,6 +274,7 @@ document
       if (!target) return;
       event.preventDefault();
       history.pushState(null, "", `#${id}`);
-      target.scrollIntoView({ behavior: "instant", block: "start" });
+      // Glide there with the same spring as the arrow keys (instant under reduced motion).
+      glideToY(target.getBoundingClientRect().top + scrollY);
     });
   });

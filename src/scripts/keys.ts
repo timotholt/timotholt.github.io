@@ -34,7 +34,7 @@ function stepGlide(now: number) {
   scrollTo({ top: glide.pos, behavior: "instant" });
   glide.raf = requestAnimationFrame(stepGlide);
 }
-function glideTo(index: number) {
+export function glideTo(index: number) {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduced) {
     stopGlide();
@@ -105,3 +105,9 @@ for (const type of ["wheel", "touchstart", "pointerdown"] as const)
     },
     { passive: true },
   );
+
+// Glide to the page that starts at (or nearest to) a document y position, e.g. a section from a menu link.
+export function glideToY(y: number) {
+  if (!targets.length) return;
+  glideTo(nearestIndex(y));
+}

@@ -238,3 +238,18 @@ test('on laptops the rail is the scrollbar: native bar hidden, dragging the rail
   expect(Number(percent!.replace('%', ''))).toBeGreaterThanOrEqual(45);
   expect(Number(percent!.replace('%', ''))).toBeLessThanOrEqual(55);
 });
+
+test('menu links glide to their section instead of jumping', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.waitForTimeout(600);
+  const target = await page.locator('#experience').evaluate(s => Math.round(s.getBoundingClientRect().top + scrollY));
+  await page.locator('.site-header nav a[href="/#experience"]').click();
+  // Partway through the glide the page is between the start and the section (an animation, not a jump)...
+  await page.waitForTimeout(120);
+  const mid = await page.evaluate(() => Math.round(scrollY));
+  expect(mid).toBeGreaterThan(0);
+  expect(mid).toBeLessThan(target);
+  // ...and it lands exactly on the section.
+  await expect.poll(() => page.evaluate(() => Math.round(scrollY)), { timeout: 4000 }).toBe(target);
+});
