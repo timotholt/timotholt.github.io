@@ -4,7 +4,7 @@ summary: "A library of four SolidJS tree components: a basic tree, a virtualized
 category: Interface engineering
 stack: [SolidJS, TanStack Query, TanStack Virtual, Supabase, TypeScript]
 repo: https://github.com/timotholt/solid-tree
-demo: https://timotholt.github.io/solid-tree/
+demo: https://timotholt.com/solid-tree/
 order: 1
 problem: Large hierarchical interfaces need to stay responsive and usable by keyboard, even when data loads or changes asynchronously.
 approach: Built a headless tree API with virtualization, async and realtime sources, multi-select, rename, checkboxes, drag-and-drop, and Supabase record locking.

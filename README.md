@@ -1,24 +1,43 @@
-# timotholt.com — Phase 1
+# timotholt.com
 
-Static Astro portfolio. Content is drafted for Tim's review. No chat worker is included.
+Tim Otholt's portfolio: a static Astro site on GitHub Pages (live at https://timotholt.com) with an
+"Ask my AI" chat served by a Cloudflare Worker that calls Claude.
 
 ## Run locally
 
 ```sh
 npm ci
-npm run dev
+npm run dev        # http://localhost:4321
+npm run build      # static site in dist/
+npx astro check    # type check (0 errors expected)
+npm test           # Playwright suite (layout, rail, motion, links, chat)
 ```
 
-Open the URL Astro prints (normally `http://localhost:4321`). Verify with `npm run build` and `npx astro check`.
+## Where things live
 
-## Edit content
+| What | Where |
+|---|---|
+| Page composition | `src/pages/index.astro` (one component per section) |
+| Sections | `src/components/sections/*.astro` |
+| Content (jobs, skills, education, awards, highlights, contact) | `src/data/*.ts` |
+| Projects (cards + case-study pages) | `src/content/projects/*.md`, one file per project |
+| Project screenshots | `public/projects/<slug>-desktop.webp` and `<slug>-phone.webp` |
+| Section colors (page + rail) | `src/data/sections.ts` |
+| Styles | `src/styles/*.css`, imported in order by `global.css` |
+| Scroll rail, keyboard glide, scenes | `src/scripts/` (`rail.ts`, `rail-drag.ts`, `keys.ts`, `scenes.ts`, `chrome.ts`, `state.ts`) |
+| Chat UI | `src/components/ChatPanel.astro`, `src/scripts/chat.ts`, `src/styles/chat.css` |
+| Chat Worker | `worker/` (see `docs/DEPLOY-CHAT.md`); its knowledge is `docs/persona.md` |
 
-Each featured project is one Markdown file in `src/content/projects/`. Frontmatter controls the home-page card, case-study sections, repository, optional live demo, and display order. Adding a file creates `/projects/<slug>/` at build time. The home page copy is in `src/pages/index.astro`.
+Adding a project means adding one Markdown file in `src/content/projects/` (plus optional screenshots).
+Every section is exactly one screen tall (`--slot-h`); the rail gets one dot per screen.
 
-## Tim review checklist
+## Deploy
 
-- TODO(tim): Approve the six featured projects and all draft copy, especially the Galaxy Demo description and outcome. Confirm a public year for each project; the datasheets currently direct readers to the repository.
-- TODO(tim): Add approved project media as `public/projects/<slug>.png`, `.jpg`, `.webp`, or `.mp4`. Until then, project-specific schematics appear on cards and case studies.
-- TODO(tim): Publish and verify live demo URLs for Firmware CalGen, MCP Logger, and Galaxy Demo. Their case studies currently link to repositories only.
+Pushing to `main` runs the GitHub Actions workflow, which builds and publishes `dist/` to GitHub Pages.
+Screenshot URLs carry a content hash, so updated images show immediately.
 
-The deploy workflow runs checks and publishes `dist/` to GitHub Pages when pushed to `main`. Local implementation does not configure Pages, push, or change DNS.
+## House rules
+
+- No hover effects that move or resize anything (a test enforces it).
+- Only two fonts: Archivo and JetBrains Mono.
+- Never commit secrets; the repo is public.

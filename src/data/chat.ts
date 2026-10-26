@@ -57,7 +57,7 @@ export const topics: Topic[] = [
     pattern: /book ?store|chantel|axum|htmx|\brust\b/i,
     answer: "I built Chantel's Corner, a live online bookstore with 30,000 books, end to end with AI coding agents: Rust, Axum, Askama, HTMX and PostgreSQL.",
     followUps: ['Show me a project', "What's Tim's AI experience?"],
-    link: { href: '/projects/bookstore/', text: 'Bookstore case study' },
+    link: { href: '/projects/bookstore/', text: "Chantel's Corner case study" },
   },
   {
     key: 'calgen',

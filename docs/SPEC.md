@@ -1,5 +1,10 @@
 # timotholt.com — Build Spec
 
+> **Status (2026-10-25):** this is the original Phase 1/2 build spec, kept for history. The site has since
+> evolved well past it (full-color one-screen sections, right-hand scroll rail, Work History/Education/Awards
+> lists, live chat). The README describes the current structure; the code and tests are the source of truth.
+
+
 Owner: Tim Otholt (GitHub `timotholt`). Builder: Codex.
 Goal: personal portfolio for a Forward Deployed Engineer / AI Engineer job search,
 with an "Ask Tim" AI persona chat as the headline feature.

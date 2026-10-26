@@ -19,5 +19,4 @@ export function projectMedia(slug: string) {
   return null;
 }
 
-// TODO(tim): Add an approved public/headshot.jpg to enable the optional hero portrait.
 export const hasHeadshot = existsSync(join(root, 'headshot.jpg'));

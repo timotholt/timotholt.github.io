@@ -10,5 +10,3 @@ approach: Created an MCP server callable from JavaScript so AI tools can monitor
 outcome: A public developer-tooling repository that makes runtime feedback available in an AI-assisted workflow.
 ---
 The tool focuses on shortening the loop between a runtime error and a useful fix.
-
-TODO(tim): Add a live demo URL when one is published and verified.
