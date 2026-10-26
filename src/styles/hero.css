@@ -330,12 +330,11 @@
 }
 
 @media (min-width: 900px) {
-  /* Side-by-side laptop hero (900px+; narrower windows stack) scales as one picture: the content box is the
-     1000px column, narrowed by short windows, and every size inside is a share of that box (cqi), so text and
-     column grow together and line breaks match at every window size. */
+  /* Side-by-side laptop hero (900px+; narrower windows stack) is its own size container on the shared scale
+     (docs/TYPE-SCALE.md): its content box is the section column, narrowed by short windows. */
   .hero.color-section {
     container-type: inline-size;
-    padding-inline: max(60px, calc((100% - min(1000px, 143svh)) / 2));
+    padding-inline: max(calc(var(--col-gutter) / 2), calc((100% - min(var(--col-max), calc(var(--col-fit) * 1svh))) / 2));
     gap: 6%;
   }
 
@@ -345,29 +344,28 @@
   }
 
   .hero h1 {
-    font-size: 9.9cqi;
+    font-size: var(--fs-display);
   }
 
   .hero .hero-title {
-    font-size: 3cqi;
+    font-size: var(--fs-h3);
   }
 
   .hero .hero-mantra {
-    font-size: 2.4cqi;
+    font-size: var(--fs-lead);
   }
 
   .hero .hero-pitch {
-    font-size: 1.8cqi;
+    font-size: var(--fs-body);
     text-wrap: pretty;
   }
 
   .hero .contact-list {
-    font-size: max(16px, 2cqi);
+    font-size: max(16px, var(--fs-body-l));
   }
 
   .hero .contact-list a,
   .hero .contact-list .contact-item {
-    min-height: 4.6cqi;
-    white-space: nowrap;
+    min-height: calc(4.6 * var(--u));
   }
 }

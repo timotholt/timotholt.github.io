@@ -94,3 +94,43 @@
     font-size: 34px;
   }
 }
+
+@media (min-width: 900px) {
+  #highlights .hl-slot {
+    gap: var(--sp-3);
+  }
+
+  #highlights h2 {
+    font-size: var(--fs-display);
+  }
+
+  #highlights .hl-proofs h2 {
+    font-size: var(--fs-h2);
+  }
+
+  .hl-copy {
+    max-width: calc(76 * var(--u));
+    font-size: var(--fs-body-l);
+  }
+
+  .proof-grid {
+    gap: var(--sp-2);
+  }
+
+  .proof-card {
+    padding: calc(2.4 * var(--u));
+    gap: calc(0.4 * var(--u));
+  }
+
+  .proof-value {
+    font-size: var(--fs-h2);
+  }
+
+  .proof-label {
+    font-size: var(--fs-body-l);
+  }
+
+  .proof-card small {
+    font-size: var(--fs-small);
+  }
+}

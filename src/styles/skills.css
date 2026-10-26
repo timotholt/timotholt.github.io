@@ -30,7 +30,6 @@
 
 :is(#skills, #process) > .wrap {
   position: relative;
-  width: min(1000px, calc(100% - 120px));
   margin-inline: auto;
 }
 
@@ -125,5 +124,46 @@
   .skill-tags li {
     font-size: 11px;
     padding: 3px 9px;
+  }
+}
+
+@media (min-width: 900px) {
+  :is(#skills, #process) .skill-slot {
+    gap: var(--sp-3);
+  }
+
+  :is(#skills, #process) h2 {
+    font-size: var(--fs-h2);
+  }
+
+  .skill-grid {
+    gap: var(--sp-2);
+  }
+
+  .skill-card {
+    padding: calc(2.4 * var(--u));
+  }
+
+  .skill-card h3 {
+    font-size: var(--fs-h3);
+  }
+
+  .skill-years {
+    font-size: var(--fs-small);
+    margin-top: calc(0.6 * var(--u));
+  }
+
+  .skill-summary {
+    margin: calc(1.4 * var(--u)) 0;
+    font-size: var(--fs-body);
+  }
+
+  .skill-tags {
+    gap: calc(0.6 * var(--u));
+  }
+
+  .skill-tags li {
+    font-size: var(--fs-small);
+    padding: 0.3em 0.85em;
   }
 }

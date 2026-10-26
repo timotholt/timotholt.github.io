@@ -167,44 +167,50 @@
 }
 
 @media (min-width: 900px) {
-  /* Year column fits ranges (2014–2016); shared by Awards and Education so titles align. */
-  .cred-item {
-    grid-template-columns: 200px minmax(0, 1fr);
-  }
-
-  /* Laptop/desktop: list sections (Work History, Education, Awards) scale type and spacing by the tighter of width and height,
-   so short windows (e.g. 1280x720) keep breathing room; big screens keep the original sizes. */
-  #experience h2 {
-    font-size: clamp(30px, min(5vw, 8svh), 72px);
-  }
-
-  /* Laptop/desktop: list sections (Work History, Education, Awards) scale type and spacing by the tighter of width and height,
-   so short windows (e.g. 1280x720) keep breathing room; big screens keep the original sizes. */
-  .cred-section h2 {
-    font-size: clamp(30px, min(5vw, 8svh), 72px);
-  }
-
-  .cred-list .cred-year {
-    font-size: clamp(18px, min(2.6vw, 3.8svh), 34px);
-  }
-
-  .cred-list .cred-body h3 {
-    font-size: clamp(18px, min(2.6vw, 3.8svh), 34px);
-  }
-
-  .cred-list .cred-what {
-    font-size: clamp(14px, min(1.5vw, 2.2svh), 20px);
-  }
-
-  .cred-list .cred-meta {
-    font-size: clamp(14px, min(1.5vw, 2.2svh), 20px);
-  }
-
-  .cred-list .cred-item {
-    padding-block: clamp(8px, 2.6svh, 34px);
+  /* List pages run taller than the hero, so their column narrows sooner on short windows. */
+  #experience,
+  .cred-section {
+    --col-fit: 119;
   }
 
   .cred-list {
-    margin-top: clamp(12px, 3svh, 32px);
+    max-width: calc(96 * var(--u));
+  }
+
+  /* Year column fits ranges (2014–2016); shared by Awards and Education so titles align. Sizes follow the shared scale. */
+  .cred-item {
+    grid-template-columns: calc(20 * var(--u)) minmax(0, 1fr);
+    gap: calc(2.8 * var(--u));
+  }
+
+  #experience h2,
+  .cred-section h2 {
+    font-size: var(--fs-h2);
+  }
+
+  .cred-list .cred-year,
+  .cred-list .cred-body h3 {
+    font-size: var(--fs-h3);
+  }
+
+  .cred-list .cred-body h3 {
+    margin-bottom: calc(0.6 * var(--u));
+  }
+
+  .cred-list .cred-meta {
+    margin-top: calc(0.6 * var(--u));
+  }
+
+  .cred-list .cred-what,
+  .cred-list .cred-meta {
+    font-size: var(--fs-body-l);
+  }
+
+  .cred-list .cred-item {
+    padding-block: calc(2.4 * var(--u));
+  }
+
+  .cred-list {
+    margin-top: calc(2.7 * var(--u));
   }
 }

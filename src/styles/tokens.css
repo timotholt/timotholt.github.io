@@ -10,3 +10,25 @@
   --slot-h: 100svh;
   --brand: #e8541c;
 }
+
+/* Laptop/desktop type scale (docs/TYPE-SCALE.md): every size is a share of the section column (--u = 1% of a
+   1000px-equivalent column), so text and column grow together. Redeclared on .wrap so a section's own --u applies. */
+:root {
+  --u: 1cqi;
+  --col-max: 1000px;
+  --col-gutter: 120px;
+  --col-fit: 143;
+}
+
+:where(:root, .wrap) {
+  --fs-display: calc(9.9 * var(--u));
+  --fs-h2: calc(7 * var(--u));
+  --fs-h3: calc(3.4 * var(--u));
+  --fs-lead: calc(2.4 * var(--u));
+  --fs-body-l: max(13px, calc(2 * var(--u)));
+  --fs-body: max(14px, calc(1.8 * var(--u)));
+  --fs-small: max(10px, calc(1.3 * var(--u)));
+  --sp-1: calc(1 * var(--u));
+  --sp-2: calc(2 * var(--u));
+  --sp-3: calc(3 * var(--u));
+}

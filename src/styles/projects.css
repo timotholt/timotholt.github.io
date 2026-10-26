@@ -561,8 +561,35 @@
     display: grid;
   }
 
-  #projects > .wrap {
-    width: min(1240px, calc(100% - 140px));
+  /* Projects runs a wider column; --u keeps its type on the shared 1000px-equivalent scale. */
+  #projects {
+    --col-max: 1240px;
+    --col-gutter: 140px;
+    --col-fit: 177;
+    --u: calc(100cqi / 124);
+  }
+
+  #projects .project-card,
+  #projects .project-card:has(.has-shot) {
+    max-width: calc(96 * var(--u));
+  }
+
+  #projects .project-card .card-title {
+    padding: calc(1.6 * var(--u)) calc(2.2 * var(--u)) calc(1.2 * var(--u));
+    font-size: var(--fs-h3);
+  }
+
+  #projects .project-card .card-content,
+  #projects .project-card:has(.has-shot) .card-content {
+    padding: calc(1.4 * var(--u)) calc(2.2 * var(--u)) calc(1.6 * var(--u));
+  }
+
+  #projects .project-function {
+    font-size: var(--fs-body);
+  }
+
+  #projects .card-stack {
+    font-size: var(--fs-small);
   }
 
   #projects .project-card .project-media {

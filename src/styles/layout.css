@@ -181,3 +181,19 @@ main {
   width: 100%;
   margin-inline: 0;
 }
+
+@media (min-width: 900px) {
+  /* Each section column is the size container for the shared type scale; short windows narrow it so a slot still fits. */
+  .color-section > .wrap {
+    container-type: inline-size;
+    width: min(var(--col-max), calc(100% - var(--col-gutter)), calc(var(--col-fit) * 1svh));
+  }
+
+  .section h2 {
+    font-size: var(--fs-h2);
+  }
+
+  .section-heading {
+    margin-bottom: calc(1.8 * var(--u));
+  }
+}
