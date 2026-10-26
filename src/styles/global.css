@@ -349,3 +349,5 @@ html{scroll-snap-type:y mandatory}
 @media(max-width:767px){.progress-rail .rail-readout #rail-section{font-size:13px}.progress-rail .rail-readout #scroll-percent{font-size:10px}}
 /* Laptop header: with no logo mark, the menu sits at the left so it never meets the rail readout at the top right. */
 @media(min-width:768px){.site-header{justify-content:flex-start}}
+/* Snap pauses during a keyboard glide (the glide lands exactly on a page). */
+html.key-gliding{scroll-snap-type:none}

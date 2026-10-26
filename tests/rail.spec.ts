@@ -179,3 +179,29 @@ test('arrow keys move exactly one page, smoothly, without stutter', async ({ pag
   await page.keyboard.press('ArrowUp');
   await expect.poll(() => page.evaluate(() => Math.round(scrollY)), { timeout: 3000 }).toBe(tops[1]);
 });
+
+test('buffered arrow presses glide several pages and land exactly on one', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.waitForTimeout(600);
+  const tops = await page.$$eval('.feature-slot', s => s.map(x => Math.round(x.getBoundingClientRect().top + scrollY)));
+  for (let k = 0; k < 3; k++) { await page.keyboard.press('ArrowDown'); await page.waitForTimeout(60); }
+  await expect.poll(() => page.evaluate(() => Math.round(scrollY)), { timeout: 4000 }).toBe(tops[3]);
+});
+
+test('reversing mid-glide and holding a key both settle exactly on a page', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.waitForTimeout(600);
+  const tops = await page.$$eval('.feature-slot', s => s.map(x => Math.round(x.getBoundingClientRect().top + scrollY)));
+  const onAPage = () => page.evaluate(t => t.includes(Math.round(scrollY)), tops);
+  for (let k = 0; k < 3; k++) { await page.keyboard.press('ArrowDown'); await page.waitForTimeout(40); }
+  await page.waitForTimeout(150);
+  await page.keyboard.press('ArrowUp');
+  await expect.poll(onAPage, { timeout: 4000 }).toBeTruthy();
+  const afterReverse = await page.evaluate(() => Math.round(scrollY));
+  expect(afterReverse).toBeLessThan(tops[3]);
+  // A held key (auto-repeat) never runs more than MAX_LEAD pages past where the glide was when released.
+  for (let k = 0; k < 20; k++) { await page.keyboard.press('ArrowDown'); await page.waitForTimeout(30); }
+  await expect.poll(onAPage, { timeout: 5000 }).toBeTruthy();
+});
