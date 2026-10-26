@@ -1,0 +1,19 @@
+---
+import { sectionByKey, sectionStyle } from '../../data/sections';
+import { processPages } from '../../data/process';
+---
+<section id="process" class="section trace-section color-section skills-section" data-section-key="process" data-section-label={sectionByKey.process.label} style={sectionStyle('process')}>
+  <div class="wrap">{processPages.map((steps, p) => <div class="feature-slot skill-slot" data-milestone={`How I build · ${steps.map(s => s.title).join(', ')}`}>
+      <div class="section-heading">
+        <h2>How I build with AI <span class="page-mark">({p + 1}/{processPages.length})</span>
+        </h2>
+      </div>
+      <div class="skill-grid">{steps.map(step => <article class="skill-card">
+          <h3>{step.title}</h3>
+          <p class="skill-years">{step.years}</p>
+          <p class="skill-summary">{step.summary}</p>
+          <ul class="skill-tags">{step.tags.map(tag => <li>{tag}</li>)}</ul>
+        </article>)}</div>
+    </div>
+      )}</div>
+</section>

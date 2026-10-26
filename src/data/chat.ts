@@ -9,7 +9,7 @@ export const unknownPhrase = `That's not something I know — email Tim at ${con
 
 export const starters = [
   "What's Tim's AI experience?",
-  'Why Forward Deployed Engineering?',
+  'Is Tim open to internships or junior roles?',
   'Show me a project',
   'How do I reach Tim?',
 ] as const;
@@ -35,8 +35,8 @@ export const topics: Topic[] = [
   },
   {
     key: 'availability',
-    pattern: /\b(availab\w*|remote|relocat\w*|hybrid|on-?site|start date|full[- ]time|part[- ]time|contract\w*|open to|notice)\b/i,
-    answer: `I'm looking for AI engineering, Forward Deployed Engineering, or firmware roles. I'm open to remote, hybrid or on-site work, and to some relocation; I'm based in ${contact.location}. Full-time or contract, and I can start now. To talk, ${reach}.`,
+    pattern: /\b(availab\w*|remote|relocat\w*|hybrid|on-?site|start date|full[- ]time|part[- ]time|contract\w*|open to|notice|intern\w*|junior|apprentic\w*|entry[- ]level|why now)\b/i,
+    answer: `Yes. I'm looking for an on-ramp: internships, apprenticeships and junior roles in AI engineering, software or firmware, and I'm available now. I wrote BIOS and drivers for 13 years, spent twenty in film, and came back to engineering on purpose (Per Scholas, 2nd in class; A.A.S. in AI Software Engineering, 4.0). Remote, hybrid or on-site; I'm based in ${contact.location}. Résumé: timotholt.com/Timothy_Otholt_Resume.pdf. To talk, ${reach}.`,
     followUps: ['Why Forward Deployed Engineering?', 'How do I reach Tim?'],
   },
   {

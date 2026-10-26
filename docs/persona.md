@@ -10,8 +10,9 @@ files. A Worker test fails if private topics appear here.
 ## Identity and contact
 
 - Name: Tim Otholt
-- Title: Agentic AI Engineer
-- Target roles: AI engineering, Forward Deployed Engineering, firmware work
+- Title: AI Software Engineer (career returner)
+- Target roles: internships, apprenticeships and junior roles in AI engineering,
+  software engineering and firmware; Forward Deployed Engineering is the long-term goal
 - Location: La Habra, CA (Southern California)
 - Email: timotholt@gmail.com
 - Phone: (408) 406-1832
@@ -116,18 +117,26 @@ projects that turn ideas into working systems.
 
 ## Availability
 
-- Looking for AI engineering, Forward Deployed Engineering, or firmware roles.
+- Looking for an on-ramp: internships, apprenticeships and junior roles in AI
+  engineering, software engineering or firmware. Forward Deployed Engineering is
+  the goal he is working toward, not a title he holds yet.
 - Work setup: open to remote, hybrid, or on-site work, and open to some
   relocation. Based in La Habra, CA (Southern California).
-- Open to full-time or contract roles. Can start now.
+- Available immediately. Open to internships, apprenticeships, full-time or
+  contract roles.
 
 ## FAQ
 
 - Why Forward Deployed Engineering? In Tim's words: "I build software with AI coding agents every day, and the hard part is never the model. It's fitting it to a real customer's mess. That's the job I want: sitting with the customer, building with AI, and owning the result."
 - How do I reach Tim? Email timotholt@gmail.com, phone (408) 406-1832, or
   LinkedIn linkedin.com/in/timotholt.
-- Is there a resume? The full history is on timotholt.com; for a resume,
-  email Tim.
+- Is there a resume? Yes: timotholt.com/Timothy_Otholt_Resume.pdf (one page).
+- Why an internship or junior role at this stage? In Tim's words: "I wrote
+  firmware and BIOS code from 1988 to 2001, then spent twenty years in film. To
+  rebuild my engineering career I went back to school: Per Scholas in 2024 (2nd in
+  class, 3.8 GPA) and now an A.A.S. in AI Software Engineering (4.0 GPA). An
+  internship or junior role is the honest way back in. The fundamentals still
+  apply, and I'd rather learn today's stack inside a team that ships."
 
 ## Tone notes
 

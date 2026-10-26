@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { sections } from '../src/data/sections';
 
-const order = ['contact', 'highlights', 'projects', 'skills', 'jobs', 'education', 'awards', 'contact'];
+const order = ['contact', 'highlights', 'projects', 'process', 'skills', 'jobs', 'education', 'awards', 'contact'];
 
 const rgb = (css: string) => (css.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
 const hexRgb = (hex: string) => [1, 3, 5].map(offset => parseInt(hex.slice(offset, offset + 2), 16));
@@ -128,7 +128,7 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 
 }
 
 for (const viewport of [{ width: 375, height: 812 }, { width: 1000, height: 560 }, { width: 1280, height: 720 }, { width: 1440, height: 900 }]) {
-  test(`Highlights and Skills pages fit their slot at ${viewport.width}`, async ({ page }) => {
+  test(`Highlights, How I build and Skills pages fit their slot at ${viewport.width}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
@@ -138,7 +138,8 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1000, height: 560 
       const cards = [...s.querySelectorAll<HTMLElement>('.proof-card,.skill-card')];
       return { cards: cards.length, top: kids[0].offsetTop, bottom: Math.max(...kids.map(k => k.offsetTop + k.offsetHeight), ...cards.map(c => c.offsetTop + c.offsetHeight)), height: s.clientHeight, overflowX: Math.max(0, ...cards.map(c => c.offsetLeft + c.offsetWidth)) - s.clientWidth };
     }));
-    expect(slots.map(s => s.cards)).toEqual([0, 4, 2, 2]);
+    // Highlights intro + proof cards, then How I build (2 pages), then Skills (2 pages).
+    expect(slots.map(s => s.cards)).toEqual([0, 4, 2, 2, 2, 2]);
     for (const s of slots) {
       const room = viewport.width >= 768 ? 24 : 0;
       expect(s.top).toBeGreaterThanOrEqual(room);

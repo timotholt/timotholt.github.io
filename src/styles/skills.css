@@ -1,12 +1,12 @@
 /* Highlights + Skills: soft rounded cards on the section color; type scales with viewport height so each slot fits one screen. */
-#skills .skill-slot {
+:is(#skills, #process) .skill-slot {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: clamp(14px, 3svh, 32px);
 }
 
-#skills h2 {
+:is(#skills, #process) h2 {
   margin: 0;
   line-height: 0.95;
   letter-spacing: -0.04em;
@@ -21,20 +21,20 @@
   padding: clamp(12px, 2.6svh, 28px) clamp(16px, 2vw, 28px);
 }
 
-#skills {
+:is(#skills, #process) {
   padding-block: 0;
   min-height: 0;
   display: block;
   border: 0;
 }
 
-#skills > .wrap {
+:is(#skills, #process) > .wrap {
   position: relative;
   width: min(1000px, calc(100% - 120px));
   margin-inline: auto;
 }
 
-#skills .section-heading {
+:is(#skills, #process) .section-heading {
   margin: 0;
 }
 
@@ -86,7 +86,7 @@
 }
 
 @media (max-width: 899px) {
-  #skills > .wrap {
+  :is(#skills, #process) > .wrap {
     width: calc(100% - 118px);
     margin-left: 18px;
     margin-right: 100px;
@@ -94,7 +94,7 @@
 }
 
 @media (max-width: 767px) {
-  #skills > .wrap {
+  :is(#skills, #process) > .wrap {
     width: auto;
     margin-left: 42px;
     margin-right: 42px;
@@ -104,7 +104,7 @@
     grid-template-columns: 1fr;
   }
 
-  #skills h2 {
+  :is(#skills, #process) h2 {
     font-size: clamp(28px, 8vw, 40px);
   }
 
