@@ -148,3 +148,22 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1000, height: 560 
     }
   });
 }
+
+// A friend's iPhone (Chrome, larger text) clipped the hero top and bottom: slots were a fixed screen tall with centered content.
+test('on a short phone no screen clips its content; a screen grows instead', async ({ page }) => {
+  // Reduced motion shows every item at its landed position (scenes start items off to the side).
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 375, height: 560 });
+  await page.goto('/');
+  await page.evaluate(() => document.fonts.ready);
+  const clipped = await page.evaluate(() => [...document.querySelectorAll<HTMLElement>('.feature-slot')].flatMap(slot => {
+    const box = slot.getBoundingClientRect();
+    if (box.height < innerHeight - 1) return [`${slot.dataset.milestone} shorter than a screen`];
+    const out = [...slot.querySelectorAll<HTMLElement>('*')].filter(e => {
+      const r = e.getBoundingClientRect();
+      return r.width > 0 && r.height > 0 && getComputedStyle(e).visibility !== 'hidden' && (r.top < box.top - 1 || r.bottom > box.bottom + 1);
+    });
+    return out.length ? [`${slot.dataset.milestone}: ${out.length} elements outside`] : [];
+  }));
+  expect(clipped).toEqual([]);
+});
