@@ -3,6 +3,8 @@ import { sectionByKey, sectionStyle } from '../../data/sections';
 import ProjectMedia from '../ProjectMedia.astro';
 import { getCollection } from 'astro:content';
 const projects = (await getCollection('projects')).filter(p => p.data.featured).sort((a,b) => a.data.order - b.data.order);
+// A card opens the real thing: the live site, or the repository when there is none.
+const target = (p: (typeof projects)[number]) => p.data.demo ?? p.data.repo;
 ---
 <section id="projects" class="section trace-section color-section" data-section-key="projects" data-section-label={sectionByKey.projects.label} style={sectionStyle('projects')}>
   <div class="wrap">
@@ -13,12 +15,12 @@ const projects = (await getCollection('projects')).filter(p => p.data.featured).
           {i === 0 && <div class="project-intro">
           <div class="section-heading">
             <h2>Built to work</h2>
-            <p>{projects.length} projects across interface, firmware, product, and portfolio engineering. Each has a closer look inside.</p>
+            <p>{projects.length} projects across interfaces, firmware, e-commerce and AI tooling. Click one to open it.</p>
           </div>
         </div>}
           <article class="project-card">
           <h3 class="card-title">
-            <a href={`/projects/${project.id}/`} target="_blank" rel="noopener">{project.data.title}<span aria-hidden="true">↗</span>
+            <a href={target(project)} target="_blank" rel="noopener noreferrer">{project.data.title}<span aria-hidden="true">↗</span>
             </a>
           </h3>
           <ProjectMedia slug={project.id} title={project.data.title} />
@@ -26,13 +28,12 @@ const projects = (await getCollection('projects')).filter(p => p.data.featured).
             <p class="project-function">{project.data.summary}</p>
             <p class="card-stack">{[project.data.year, ...project.data.stack].join(' · ')}</p>
             <div class="card-links">
-              <a href={`/projects/${project.id}/`} target="_blank" rel="noopener">Case study ↗</a>
+              {project.data.demo && <a href={project.data.demo} target="_blank" rel="noopener noreferrer">Live site ↗</a>}
               <a href={project.data.repo} target="_blank" rel="noopener noreferrer">Repository ↗</a>
-              {project.data.demo && <a href={project.data.demo} target="_blank" rel="noopener noreferrer">Live demo ↗</a>}</div>
+              <a href={`/projects/${project.id}/`} target="_blank" rel="noopener">Case study ↗</a></div>
           </div>
         </article>
       </div>
       ))}</div>
-    <p class="project-note">Live demo links will appear after Tim confirms public URLs. Every project has a repository and a case study.</p>
   </div>
 </section>

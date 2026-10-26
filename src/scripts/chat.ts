@@ -101,7 +101,7 @@ function setup(dialog: HTMLDialogElement) {
     a.className = 'chat-link';
     a.href = link.href;
     a.textContent = `${link.text} ↗`;
-    if (link.href.startsWith('/projects/')) { a.target = '_blank'; a.rel = 'noopener'; }
+    if (/^https?:/.test(link.href)) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
     log.append(a);
   }
 

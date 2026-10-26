@@ -135,7 +135,7 @@ describe('model request', () => {
     const h = harness({ reply: 'solid-tree is four SolidJS tree components.' });
     const reply = await send(h, ask('Tell me about solid-tree'));
     expect(reply.text).toBe('solid-tree is four SolidJS tree components.');
-    expect(reply.done).toMatchObject({ topic: 'solid-tree', turnsLeft: limits.maxTurns - 1, link: { href: '/projects/solid-tree/' } });
+    expect(reply.done).toMatchObject({ topic: 'solid-tree', turnsLeft: limits.maxTurns - 1, link: { href: 'https://timotholt.com/solid-tree/' } });
     expect(reply.done?.followUps).toHaveLength(2);
     expect(h.logged).toEqual([{ indexes: ['solid-tree'], blobs: ['solid-tree', 'answered', ''], doubles: [1] }]);
   });

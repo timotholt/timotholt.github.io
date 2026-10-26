@@ -42,25 +42,25 @@ projects that turn ideas into working systems.
 - Film, live production and AV
 - Electronic music production (Ableton Live)
 
-## Projects (each has a public repository and a case study on timotholt.com)
+## Projects (each has a public repository; point people to the live site first)
 
 - solid-tree — a library of four SolidJS tree components: a basic tree, a
   virtualized tree for huge datasets, a bring-your-own-database tree, and a
   Supabase tree with automatic multi-user leaf locking. Headless API with
   virtualization, async and realtime sources, multi-select, rename, checkboxes,
   drag-and-drop. Stack: SolidJS, TanStack Query, TanStack Virtual, Supabase,
-  TypeScript. Live demo: timotholt.github.io/solid-tree. Case study: timotholt.com/projects/solid-tree/
+  TypeScript. Live demo: timotholt.com/solid-tree/. Code: github.com/timotholt/solid-tree
 - Firmware CalGen — turns calibration specs into traceable firmware constants
   with review gates, for a power-electronics scenario. It is a demonstration,
   not deployed in production hardware. Stack: Python, firmware, specification
-  workflows. Case study: timotholt.com/projects/firmware-calgen/
+  workflows. Live demo: timotholt.com/firmware-calgen/. Code: github.com/timotholt/firmware-calgen
 - Bookstore (Chantel's Corner) — a live online bookstore with 30,000 books,
   built end to end with AI coding agents. Server-rendered with PostgreSQL-backed
   accounts and carts. Stack: Rust, Axum, Askama, HTMX, PostgreSQL. Live site:
-  chantelscorner.com. Case study: timotholt.com/projects/bookstore/
+  chantelscorner.com. Code: github.com/timotholt/bookstore
 - MCP Logger — an MCP server that lets AI coding tools inspect JavaScript logs
   while they work, shortening the loop between a runtime error and a fix.
-  Stack: JavaScript, MCP. Case study: timotholt.com/projects/mcp-logger/
+  Stack: JavaScript, MCP. Code: github.com/timotholt/mcp-logger
 - This chatbot — "Ask my AI" on timotholt.com: a Cloudflare Worker calling
   Claude Haiku with guardrails (bot check, rate limits, topic filters, answer
   checks) and a fallback when the model is unavailable.

@@ -47,7 +47,7 @@ test('streams an answer, then shows follow-up chips, a case-study link and the t
   await page.locator('.chat-chip', { hasText: 'Show me a project' }).click();
   await expect(page.locator('.chat-msg-ai').last()).toHaveText('I built solid-tree.');
   await expect(page.locator('.chat-chip')).toHaveText(topics.find(t => t.key === 'solid-tree')!.followUps);
-  await expect(page.locator('.chat-link')).toHaveAttribute('href', '/projects/solid-tree/');
+  await expect(page.locator('.chat-link')).toHaveAttribute('href', 'https://timotholt.com/solid-tree/');
   await expect(page.locator('.chat-left')).toHaveText(`${limits.maxTurns - 1} questions left`);
   expect(bodies[0]).toMatchObject({ messages: [{ role: 'user', content: 'Show me a project' }] });
 

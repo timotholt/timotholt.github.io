@@ -9,6 +9,6 @@ year: "2026"
 order: 2
 problem: Firmware calibration values can be error-prone when engineers copy them from documents into code by hand.
 approach: Designed a spec-to-constants demonstration that emphasizes traceability, gated changes, and human review for a power-electronics scenario.
-outcome: A public demonstration of a reviewable firmware workflow. It is a demo, not a claim of deployment in production hardware.
+outcome: A working public demo of a reviewable firmware workflow, built around a realistic power-electronics scenario rather than shipped hardware.
 ---
-The project connects Tim's firmware background with current spec-driven software workflows.
+It brings 13 years of BIOS and firmware work together with today's spec-driven, AI-assisted workflow.

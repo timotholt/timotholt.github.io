@@ -11,4 +11,4 @@ problem: A shopping experience needs product browsing, accounts, and cart state 
 approach: Used Rust and Axum for server routes, Askama templates for rendering, HTMX for focused interactions, and PostgreSQL for persistent accounts and carts.
 outcome: Live at chantelscorner.com, with a 30,000-book catalog imported and converted into PostgreSQL.
 ---
-The repository documents the implementation and is the source for current feature status.
+The store is live and taking visitors; the full source is public on GitHub.

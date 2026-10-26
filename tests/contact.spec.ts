@@ -39,7 +39,9 @@ test('outbound links open in a new tab; phone, email and in-page links do not', 
   }
 });
 
-test('clicking anywhere on a project card opens its case study in a new tab', async ({ page, context }) => {
+// A recruiter asked for the real project, not a write-up: cards open the live site (or the repo when there is none).
+test('clicking anywhere on a project card opens the live project in a new tab', async ({ page, context }) => {
+  await context.route('https://timotholt.com/solid-tree/**', route => route.fulfill({ body: 'solid-tree demo', contentType: 'text/html' }));
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   const card = page.locator('.project-card').first();
@@ -48,8 +50,7 @@ test('clicking anywhere on a project card opens its case study in a new tab', as
   // Click the middle of the screenshot by position: the stretched title link covers the card, which is the point.
   const box = (await card.locator('.project-media').boundingBox())!;
   const [popup] = await Promise.all([context.waitForEvent('page'), page.mouse.click(box.x + box.width / 2, box.y + box.height / 2)]);
-  await popup.waitForLoadState();
-  expect(popup.url()).toMatch(/\/projects\/[^/]+\/$/);
+  await popup.waitForURL('https://timotholt.com/solid-tree/');
 });
 
 test('no hover rule moves or resizes anything', async ({ page }) => {
