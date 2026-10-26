@@ -345,3 +345,5 @@ html{scroll-snap-type:y proximity}
 .progress-rail .rail-readout #rail-section{order:-1;font:700 15px/1.2 Archivo,sans-serif;letter-spacing:-.01em}
 .progress-rail .rail-readout #scroll-percent{font:500 11px/1.2 'JetBrains Mono',monospace;opacity:.75}
 @media(max-width:767px){.progress-rail .rail-readout #rail-section{font-size:13px}.progress-rail .rail-readout #scroll-percent{font-size:10px}}
+/* Laptop header: with no logo mark, the menu sits at the left so it never meets the rail readout at the top right. */
+@media(min-width:768px){.site-header{justify-content:flex-start}}

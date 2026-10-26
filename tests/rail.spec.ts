@@ -108,3 +108,28 @@ test('stopping near the top of a page snaps onto it', async ({ page }) => {
   await page.mouse.wheel(0, 1);
   await expect.poll(() => page.evaluate(y => Math.abs(scrollY - y), top), { timeout: 3000 }).toBeLessThanOrEqual(2);
 });
+
+for (const viewport of [{ width: 1440, height: 900 }, { width: 1000, height: 560 }]) {
+  test(`the readout rides the fill tip from the very top to the very bottom at ${viewport.width}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    await page.waitForTimeout(800);
+    const measure = () => page.evaluate(() => {
+      const rail = document.querySelector('.progress-rail .rail-track')!.getBoundingClientRect();
+      const tip = rail.top + rail.height * Number(getComputedStyle(document.querySelector('.rail-fill')!).transform.split(',')[3] ?? 0);
+      const r = document.querySelector('.rail-readout')!.getBoundingClientRect();
+      return { railTop: rail.top, railBottom: rail.bottom, tip, top: r.top, bottom: r.bottom, center: (r.top + r.bottom) / 2 };
+    });
+    const atTop = await measure();
+    expect(atTop.top - atTop.railTop).toBeLessThanOrEqual(2);
+    const mid = await page.evaluate(() => document.documentElement.scrollHeight / 2);
+    await page.evaluate(y => window.scrollTo({ top: y, behavior: 'instant' }), mid);
+    await page.waitForTimeout(600);
+    const middle = await measure();
+    expect(Math.abs(middle.center - middle.tip)).toBeLessThanOrEqual(2);
+    await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+    await page.waitForTimeout(600);
+    const atBottom = await measure();
+    expect(atBottom.railBottom - atBottom.bottom).toBeLessThanOrEqual(2);
+  });
+}

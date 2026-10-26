@@ -118,8 +118,12 @@ function updateRail() {
     document.documentElement.style.backgroundColor = sectionByKey[key].bg;
     document.body.style.backgroundColor = sectionByKey[key].bg;
   }
-  const headerBottom = document.querySelector('.site-header')?.getBoundingClientRect().bottom ?? 0;
-  if (readout) readout.style.top = `${Math.max(24, headerBottom + 18, Math.min(innerHeight - 35, progress * innerHeight))}px`;
+  // The readout rides the fill tip (the 'thumb'), held just inside the rail's ends so it is never clipped.
+  if (readout && railFill) {
+    const railH = railFill.parentElement?.clientHeight || innerHeight;
+    const half = readout.offsetHeight / 2;
+    readout.style.top = `${Math.max(half, Math.min(railH - half, progress * railH))}px`;
+  }
 }
 dots.forEach((dot, i) => dot.addEventListener('click', () => {
   chosen = i;
