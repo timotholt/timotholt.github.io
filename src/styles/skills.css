@@ -113,11 +113,11 @@
 
 @media (min-width: 900px) {
   :is(#skills, #process) .skill-slot {
-    gap: var(--sp-3);
+    gap: calc(3 * var(--u));
   }
 
   .skill-grid {
-    gap: var(--sp-2);
+    gap: calc(2 * var(--u));
   }
 
   .skill-card {

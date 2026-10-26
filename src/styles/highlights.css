@@ -79,7 +79,7 @@
 
 @media (min-width: 900px) {
   #highlights .hl-slot {
-    gap: var(--sp-3);
+    gap: calc(3 * var(--u));
   }
 
   .hl-copy {
@@ -87,7 +87,7 @@
   }
 
   .proof-grid {
-    gap: var(--sp-2);
+    gap: calc(2 * var(--u));
   }
 
   .proof-card {
