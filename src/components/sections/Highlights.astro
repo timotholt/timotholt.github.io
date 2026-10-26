@@ -5,7 +5,7 @@ import { proofs } from '../../data/highlights';
 <section id="highlights" class="color-section hl-section" data-section-key="highlights" data-section-label={sectionByKey.highlights.label} style={sectionStyle('highlights')}>
   <div id="about" class="wrap">
     <div class="feature-slot hl-slot hl-intro" data-milestone="Highlights">
-      <h2>From firmware to<br />
+      <h2 class="display">From firmware to<br />
         <em>what's next</em>
       </h2>
       <div class="hl-copy">
@@ -16,9 +16,9 @@ import { proofs } from '../../data/highlights';
     <div class="feature-slot hl-slot hl-proofs" data-milestone="Proof points">
       <h2>Highlights</h2>
       <ul class="proof-grid">{proofs.map(proof => <li class="proof-card">
-          <span class="proof-value" data-count={proof.count}>{proof.value}</span>
+          <span class="proof-value h2" data-count={proof.count}>{proof.value}</span>
           <span class="proof-label">{proof.label}</span>
-          <small>{proof.detail}</small>
+          <small class="label">{proof.detail}</small>
         </li>)}</ul>
     </div>
   </div>

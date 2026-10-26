@@ -93,10 +93,9 @@
   padding: 0;
   background: var(--sec-bg);
   color: var(--sec-fg);
-  font:
-    400 var(--fs-ui-xl)/1.5 Archivo,
-    Arial,
-    sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  font-family: Archivo, Arial, sans-serif;
   border-radius: 24px;
   border: 1px solid color-mix(in srgb, var(--section-accent) 30%, transparent);
   box-shadow:
@@ -135,21 +134,19 @@
 
 .chat-head h2 {
   margin: 0;
-  font:
-    800 var(--fs-ui-display)/1 Archivo,
-    sans-serif;
-  font-size: var(--fs-ui-title);
+  font-weight: 800;
+  line-height: 1;
+  font-family: Archivo, sans-serif;
   letter-spacing: -0.03em;
 }
 
 .chat-label {
   margin: 6px 0 0;
-  font:
-    500 var(--fs-ui)/1.4 "JetBrains Mono",
-    monospace;
+  font-weight: 500;
+  line-height: 1.4;
+  font-family: "JetBrains Mono", monospace;
   display: block;
   margin-top: 4px;
-  font-size: var(--fs-ui-sm);
   color: color-mix(in srgb, var(--sec-fg) 75%, transparent);
 }
 
@@ -174,7 +171,6 @@
   border: 0;
   border-radius: 50%;
   background: color-mix(in srgb, var(--sec-fg) 10%, transparent);
-  font-size: var(--fs-ui-xl);
 }
 
 .chat-log {
@@ -213,18 +209,17 @@
 
 .chat-note {
   margin: 0;
-  font:
-    500 var(--fs-ui)/1.4 "JetBrains Mono",
-    monospace;
+  font-weight: 500;
+  line-height: 1.4;
+  font-family: "JetBrains Mono", monospace;
   color: var(--section-accent);
   padding: 0 6px;
 }
 
 .chat-link {
   align-self: flex-start;
-  font:
-    500 var(--fs-ui-md) "JetBrains Mono",
-    monospace;
+  font-weight: 500;
+  font-family: "JetBrains Mono", monospace;
   color: var(--section-accent);
   text-underline-offset: 3px;
   padding: 6px 12px;
@@ -248,9 +243,9 @@
 .chat-chip {
   flex: none;
   color: var(--sec-fg);
-  font:
-    500 var(--fs-ui-md)/1.2 Archivo,
-    sans-serif;
+  font-weight: 500;
+  line-height: 1.2;
+  font-family: Archivo, sans-serif;
   white-space: nowrap;
   cursor: pointer;
   min-height: 34px;
@@ -268,9 +263,8 @@
   border: 0;
   background: transparent;
   color: var(--section-accent);
-  font:
-    500 var(--fs-ui) "JetBrains Mono",
-    monospace;
+  font-weight: 500;
+  font-family: "JetBrains Mono", monospace;
   cursor: pointer;
   border-radius: 999px;
 }
@@ -300,9 +294,9 @@
   min-width: 0;
   resize: none;
   color: var(--sec-fg);
-  font:
-    400 var(--fs-ui-xl)/1.4 Archivo,
-    sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+  font-family: Archivo, sans-serif;
   min-height: 40px;
   max-height: 120px;
   padding: 9px 0;
@@ -316,9 +310,8 @@
 }
 
 .chat-send {
-  font:
-    700 var(--fs-ui-md) Archivo,
-    sans-serif;
+  font-weight: 700;
+  font-family: Archivo, sans-serif;
   text-transform: uppercase;
   cursor: pointer;
   min-width: 0;
@@ -353,21 +346,19 @@
   justify-content: space-between;
   gap: 12px;
   margin: 0;
-  font:
-    400 var(--fs-ui) "JetBrains Mono",
-    monospace;
+  font-weight: 400;
+  font-family: "JetBrains Mono", monospace;
   color: var(--section-accent);
   padding: 4px 22px 0;
 }
 
 .chat-privacy {
   margin: 0;
-  font:
-    400 var(--fs-ui)/1.4 Archivo,
-    sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+  font-family: Archivo, sans-serif;
   color: var(--sec-fg);
   padding: 2px 22px 14px;
-  font-size: var(--fs-ui-sm);
   opacity: 0.7;
 }
 
@@ -379,10 +370,6 @@
 }
 
 @media (max-width: 899px) {
-  .chat-form textarea {
-    font-size: var(--fs-ui-base);
-  }
-
   .chat {
     inset: 0;
     width: 100%;
@@ -418,7 +405,9 @@
 
 /* Cleanup: one font in the chat chrome; starter chips wrap instead of clipping mid-word. */
 .chat-label {
-  font: 500 var(--fs-ui-lg)/1.35 Archivo, sans-serif;
+  font-weight: 500;
+  line-height: 1.35;
+  font-family: Archivo, sans-serif;
   margin-top: 3px;
 }
 
@@ -435,7 +424,6 @@
 }
 
 .chat-chip {
-  font-size: var(--fs-ui-lg);
   white-space: normal;
   text-align: left;
 }
@@ -443,11 +431,15 @@
 .chat-chips-toggle {
   align-self: flex-end;
   min-height: 28px;
-  font: 500 var(--fs-ui-md)/1.2 Archivo, sans-serif;
+  font-weight: 500;
+  line-height: 1.2;
+  font-family: Archivo, sans-serif;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
 .chat-meta {
-  font: 500 var(--fs-ui-md)/1.3 Archivo, sans-serif;
+  font-weight: 500;
+  line-height: 1.3;
+  font-family: Archivo, sans-serif;
 }

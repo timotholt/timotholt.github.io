@@ -26,8 +26,8 @@ const target = (p: (typeof projects)[number]) => p.data.demo ?? p.data.repo;
           <ProjectMedia slug={project.id} title={project.data.title} />
           <div class="card-content">
             <p class="project-function">{project.data.summary}</p>
-            <p class="card-stack">{[project.data.year, ...project.data.stack].join(' · ')}</p>
-            <div class="card-links">
+            <p class="card-stack label">{[project.data.year, ...project.data.stack].join(' · ')}</p>
+            <div class="card-links label">
               {project.data.demo && <a href={project.data.demo} target="_blank" rel="noopener noreferrer">Live site ↗</a>}
               <a href={project.data.repo} target="_blank" rel="noopener noreferrer">Repository ↗</a>
               <a href={`/projects/${project.id}/`} target="_blank" rel="noopener">Case study ↗</a></div>

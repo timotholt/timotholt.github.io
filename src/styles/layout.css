@@ -13,7 +13,6 @@ main {
 
 .eyebrow {
   font-family: "JetBrains Mono", monospace;
-  font-size: var(--fs-ui);
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -30,7 +29,6 @@ main {
 }
 
 .not-found h1 {
-  font-size: var(--fs-giant);
   letter-spacing: -0.08em;
   margin: 40px 0 20px;
   overflow-wrap: anywhere;
@@ -38,9 +36,8 @@ main {
 
 .next-work {
   margin-top: 75px;
-  font:
-    600 var(--fs-lead) Archivo,
-    sans-serif;
+  font-weight: 600;
+  font-family: Archivo, sans-serif;
 }
 
 .next-work a {
@@ -54,7 +51,6 @@ main {
 
 .not-found p:not(.eyebrow) {
   color: var(--muted);
-  font-size: var(--fs-body-l);
 }
 
 .trace-section {
@@ -85,7 +81,6 @@ main {
 
 .section-label {
   font-family: "JetBrains Mono", monospace;
-  font-size: var(--fs-ui);
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -110,7 +105,6 @@ main {
 
 .section h2 {
   margin-bottom: 0;
-  font-size: var(--fs-h2);
 }
 
 /* Keep the rail readout clear of narrow content and settle row entrances at a slot start. */
@@ -186,23 +180,17 @@ main {
 }
 
 @media (min-width: 900px) {
-  /* Each section column is the size container for the shared type scale; short windows narrow it so a slot still fits. */
+  /* Every section column follows the same rule as the root type size (type.css): short windows narrow it so a slot still fits. */
   .color-section > .wrap {
-    container-type: inline-size;
     width: min(var(--col-max), calc(100% - var(--col-gutter)), calc(var(--col-fit) * 1svh));
   }
 
-  /* Case studies and the 404 page are their own column on the same scale. */
-  .case-study,
-  .not-found {
-    container-type: inline-size;
-  }
-
   .section-heading {
-    margin-bottom: calc(1.8 * var(--u));
+    margin-bottom: calc(1.4 * var(--u));
   }
 
   .section-heading p {
-    font-size: var(--fs-body);
+    max-width: calc(80 * var(--u));
   }
+
 }

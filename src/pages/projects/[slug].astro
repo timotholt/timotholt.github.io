@@ -12,15 +12,15 @@ const { Content } = await render(project);
 ---
 <Base title={`${project.data.title} — Tim Otholt`} description={project.data.summary}>
   <article class="case-study wrap">
-    <a class="back-link" href="/#projects">← INDEX / ALL PROJECTS</a>
+    <a class="back-link label" href="/#projects">← INDEX / ALL PROJECTS</a>
     
     <h1>{project.data.title}</h1>
-    <p class="case-lede">{project.data.summary}</p>
+    <p class="case-lede h3">{project.data.summary}</p>
     <div class="case-links"><a class="button button-primary" href={project.data.repo} target="_blank" rel="noopener noreferrer">View repository ↗</a>{project.data.demo && <a class="button button-muted" href={project.data.demo} target="_blank" rel="noopener noreferrer">Live demo ↗</a>}</div>
-    <div class="case-specs"><dl class="spec-table"><div><dt>CLASS</dt><dd>{project.data.category}</dd></div><div><dt>YEAR</dt><dd>See repository</dd></div><div><dt>ROLE</dt><dd>Builder</dd></div><div><dt>STATUS</dt><dd>{project.data.status ?? (project.data.demo ? 'Public demo' : 'Public repository')}</dd></div><div><dt>STACK</dt><dd>{project.data.stack.join(' / ')}</dd></div></dl></div>
+    <div class="case-specs"><dl class="spec-table label"><div><dt>CLASS</dt><dd>{project.data.category}</dd></div><div><dt>YEAR</dt><dd>See repository</dd></div><div><dt>ROLE</dt><dd>Builder</dd></div><div><dt>STATUS</dt><dd>{project.data.status ?? (project.data.demo ? 'Public demo' : 'Public repository')}</dd></div><div><dt>STACK</dt><dd>{project.data.stack.join(' / ')}</dd></div></dl></div>
     <div class="case-visual"><ProjectMedia slug={project.id} title={project.data.title} eager /></div>
-    <div class="case-grid"><section><span class="section-label">1.0 / THE PROBLEM</span><h2>What needed solving</h2><p>{project.data.problem}</p></section><section><span class="section-label">2.0 / THE APPROACH</span><h2>How Tim approached it</h2><p>{project.data.approach}</p></section><section><span class="section-label">3.0 / THE OUTCOME</span><h2>Where it stands</h2><p>{project.data.outcome}</p></section></div>
+    <div class="case-grid"><section><span class="section-label label">1.0 / THE PROBLEM</span><h2 class="h3">What needed solving</h2><p>{project.data.problem}</p></section><section><span class="section-label label">2.0 / THE APPROACH</span><h2 class="h3">How Tim approached it</h2><p>{project.data.approach}</p></section><section><span class="section-label label">3.0 / THE OUTCOME</span><h2 class="h3">Where it stands</h2><p>{project.data.outcome}</p></section></div>
     <div class="case-body"><Content /></div>
-    <div class="next-work"><a href="/#projects">← Project index</a></div>
+    <div class="next-work lead"><a href="/#projects">← Project index</a></div>
   </article>
 </Base>

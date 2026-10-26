@@ -2,7 +2,6 @@
   font-family: "JetBrains Mono", monospace;
   display: flex;
   gap: clamp(12px, 2.4vw, 34px);
-  font-size: var(--fs-ui);
   text-transform: uppercase;
 }
 
@@ -49,7 +48,6 @@ body:has(.color-section) .site-header nav a:hover {
   gap: 20px;
   border-top: 1px solid var(--ink);
   padding-block: 24px;
-  font-size: var(--fs-ui);
   text-transform: uppercase;
   color: var(--muted);
   scroll-snap-align: end;

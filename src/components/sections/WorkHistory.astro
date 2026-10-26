@@ -7,7 +7,7 @@ import CredentialItem from '../CredentialItem.astro';
   <div class="wrap">
     <span class="trace-via" aria-hidden="true"></span>{jobPages.map((page, p) => <div class="feature-slot job-page" data-milestone={page.label}>
       <div class="section-heading">
-        <h2>Work History <span class="page-mark">({p + 1}/{jobPages.length})</span>
+        <h2>Work History <span class="page-mark h3">({p + 1}/{jobPages.length})</span>
         </h2>
       </div>
       <div class="cred-list job-list">{page.jobs.map(job => <CredentialItem tag="article" rowClass="job-row" year={job.date} title={job.role} meta={job.company} what={job.detail} metaFirst />)}</div>

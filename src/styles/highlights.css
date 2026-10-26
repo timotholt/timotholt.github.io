@@ -8,13 +8,8 @@
 
 #highlights h2 {
   margin: 0;
-  font-size: var(--fs-display);
   line-height: 0.95;
   letter-spacing: -0.04em;
-}
-
-#highlights .hl-proofs h2 {
-  font-size: var(--fs-h2);
 }
 
 #highlights h2 em {
@@ -24,7 +19,6 @@
 
 .hl-copy {
   max-width: 760px;
-  font-size: var(--fs-body-l);
   line-height: 1.5;
 }
 
@@ -53,22 +47,22 @@
 }
 
 .proof-value {
-  font:
-    800 var(--fs-h2)/1 Archivo,
-    sans-serif;
+  font-weight: 800;
+  line-height: 1;
+  font-family: Archivo, sans-serif;
   letter-spacing: -0.04em;
 }
 
 .proof-label {
-  font:
-    600 var(--fs-body-l)/1.25 Archivo,
-    sans-serif;
+  font-weight: 600;
+  line-height: 1.25;
+  font-family: Archivo, sans-serif;
 }
 
 .proof-card small {
-  font:
-    500 var(--fs-small)/1.45 "JetBrains Mono",
-    monospace;
+  font-weight: 500;
+  line-height: 1.45;
+  font-family: "JetBrains Mono", monospace;
   color: var(--section-accent);
 }
 

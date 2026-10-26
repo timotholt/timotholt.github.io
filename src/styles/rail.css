@@ -17,7 +17,6 @@
 }
 
 #rail-section {
-  font-size: var(--fs-ui-xs);
   color: var(--ink);
 }
 
@@ -98,9 +97,8 @@
   padding: 3px 5px;
   background: var(--paper);
   color: var(--accent);
-  font:
-    500 var(--fs-ui-md) "JetBrains Mono",
-    monospace;
+  font-weight: 500;
+  font-family: "JetBrains Mono", monospace;
   transform: translateY(-50%);
   border: 1px solid var(--rule);
   left: auto;
@@ -174,9 +172,9 @@
   background: #14110f;
   border: 1px solid #f4f1ea;
   color: #f4f1ea;
-  font:
-    700 var(--fs-ui-lg)/1.2 Archivo,
-    sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  font-family: Archivo, sans-serif;
   letter-spacing: -0.01em;
   opacity: 0;
   pointer-events: none;
@@ -198,35 +196,27 @@
 .progress-rail .rail-readout #rail-section {
   color: #f4f1ea;
   order: -1;
-  font:
-    700 var(--fs-ui-xl)/1.2 Archivo,
-    sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  font-family: Archivo, sans-serif;
   letter-spacing: -0.01em;
 }
 
 .progress-rail .rail-readout #scroll-percent {
-  font:
-    500 var(--fs-ui)/1.2 "JetBrains Mono",
-    monospace;
+  font-weight: 500;
+  line-height: 1.2;
+  font-family: "JetBrains Mono", monospace;
   opacity: 0.75;
 }
 
 @media (max-width: 899px) {
   .rail-readout {
     right: 13px;
-    font-size: var(--fs-ui-sm);
   }
 
-  .rail-readout #rail-section {
-    font-size: var(--fs-ui-2xs);
-  }
 }
 
 @media (max-width: 899px) {
-  .rail-readout #rail-section {
-    font-size: var(--fs-ui-2xs);
-  }
-
   .progress-rail .rail-readout {
     opacity: 0;
     transition: opacity 0.25s;
@@ -236,13 +226,6 @@
     opacity: 1;
   }
 
-  .progress-rail .rail-readout #rail-section {
-    font-size: var(--fs-ui-lg);
-  }
-
-  .progress-rail .rail-readout #scroll-percent {
-    font-size: var(--fs-ui-sm);
-  }
 }
 
 /* Laptop/desktop with a mouse or trackpad: the rail replaces the native scrollbar (see rail-drag.ts). */

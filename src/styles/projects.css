@@ -30,7 +30,6 @@
 
 .diagram-label {
   font-family: "JetBrains Mono", monospace;
-  font-size: var(--fs-ui);
   letter-spacing: 1px;
   fill: var(--accent);
 }
@@ -46,7 +45,6 @@
 }
 
 .project-card h3 span {
-  font-size: var(--fs-body-l);
   color: var(--accent);
   letter-spacing: 0;
 }
@@ -54,7 +52,6 @@
 .spec-table {
   font-family: "JetBrains Mono", monospace;
   margin: 25px 0 0;
-  font-size: var(--fs-ui-sm);
   line-height: 1.45;
 }
 
@@ -82,9 +79,7 @@
   border-top: 1px solid var(--ink);
   padding-top: 16px;
   margin-top: 15px;
-  font:
-    var(--fs-small) "JetBrains Mono",
-    monospace;
+  font-family: "JetBrains Mono", monospace;
   text-transform: uppercase;
 }
 
@@ -100,7 +95,6 @@
   font-family: "JetBrains Mono", monospace;
   display: inline-block;
   margin-bottom: 80px;
-  font-size: var(--fs-ui);
   color: var(--muted);
 }
 
@@ -109,14 +103,12 @@
 }
 
 .case-study h1 {
-  font-size: var(--fs-giant);
   letter-spacing: -0.08em;
   margin: 40px 0 20px;
   overflow-wrap: anywhere;
 }
 
 .case-lede {
-  font-size: var(--fs-h3);
   line-height: 1.3;
   max-width: 900px;
   color: var(--muted);
@@ -174,7 +166,6 @@
 }
 
 .case-grid h2 {
-  font-size: var(--fs-h3);
   margin-bottom: 16px;
 }
 
@@ -233,14 +224,12 @@
 }
 
 .project-card h3 {
-  font-size: var(--fs-h3);
   margin-bottom: 5px;
 }
 
 .project-function {
   color: var(--muted);
   min-height: 0;
-  font-size: var(--fs-body);
   margin-bottom: 5px;
 }
 
@@ -260,7 +249,6 @@
 .project-note {
   margin-top: 23px;
   color: var(--muted);
-  font-size: var(--fs-small);
   max-width: 900px;
   margin-inline: auto;
   display: none;
@@ -359,7 +347,6 @@
 #projects .project-card .card-title {
   margin: 0;
   padding: 16px 22px 12px;
-  font-size: var(--fs-h3);
 }
 
 #projects .project-card .card-title a {
@@ -397,15 +384,14 @@
 #projects .project-function {
   min-height: 0;
   margin: 0 0 8px;
-  font-size: var(--fs-body);
   line-height: 1.45;
 }
 
 #projects .card-stack {
   margin: 0 0 4px;
-  font:
-    500 var(--fs-small)/1.5 "JetBrains Mono",
-    monospace;
+  font-weight: 500;
+  line-height: 1.5;
+  font-family: "JetBrains Mono", monospace;
   color: var(--section-accent);
 }
 
@@ -471,9 +457,6 @@
     display: none;
   }
 
-  .project-intro .section-heading p {
-    font-size: var(--fs-small);
-  }
 }
 
 @media (max-width: 899px) {
@@ -550,12 +533,11 @@
     display: grid;
   }
 
-  /* Projects runs a wider column; --u keeps its type on the shared 1000px-equivalent scale. */
+  /* Projects runs a wider column; its cards stay on the shared type scale (max-width in --u). */
   #projects {
     --col-max: 1240px;
     --col-gutter: 140px;
     --col-fit: 177;
-    --u: calc(100cqi / 124);
   }
 
   #projects .project-card,
@@ -574,6 +556,14 @@
 
   #projects .project-card .card-links {
     gap: calc(1.8 * var(--u));
+  }
+
+  .case-lede {
+    max-width: calc(90 * var(--u));
+  }
+
+  .case-body {
+    max-width: calc(76 * var(--u));
   }
 
   #projects .project-card .project-media {

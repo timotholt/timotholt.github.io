@@ -10,7 +10,6 @@
   margin: 0;
   line-height: 0.95;
   letter-spacing: -0.04em;
-  font-size: var(--fs-h2);
 }
 
 .skill-card {
@@ -45,23 +44,22 @@
 
 .skill-card h3 {
   margin: 0;
-  font:
-    800 var(--fs-h3)/1.05 Archivo,
-    sans-serif;
+  font-weight: 800;
+  line-height: 1.05;
+  font-family: Archivo, sans-serif;
   letter-spacing: -0.03em;
 }
 
 .skill-years {
-  font:
-    500 var(--fs-small)/1.45 "JetBrains Mono",
-    monospace;
+  font-weight: 500;
+  line-height: 1.45;
+  font-family: "JetBrains Mono", monospace;
   color: var(--section-accent);
   margin: 6px 0 0;
 }
 
 .skill-summary {
   margin: clamp(8px, 1.6svh, 14px) 0;
-  font-size: var(--fs-body);
   line-height: 1.45;
 }
 
@@ -79,9 +77,9 @@
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--section-accent) 55%, transparent);
   background: color-mix(in srgb, var(--section-accent) 10%, transparent);
-  font:
-    500 var(--fs-small)/1.3 "JetBrains Mono",
-    monospace;
+  font-weight: 500;
+  line-height: 1.3;
+  font-family: "JetBrains Mono", monospace;
 }
 
 @media (max-width: 899px) {

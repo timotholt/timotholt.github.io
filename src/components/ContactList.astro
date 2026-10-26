@@ -8,6 +8,6 @@ const items = [
   { label: 'Location', value: contact.location, path: 'M12 22s8-7 8-13a8 8 0 0 0-16 0c0 6 8 13 8 13Z M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z' },
 ];
 ---
-<ul class="contact-list" aria-label="Contact information">
+<ul class="contact-list lead" aria-label="Contact information">
   {items.map(item => <li>{item.href ? <a href={item.href} aria-label={`${item.label}: ${item.value}`} {...(item.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}><svg viewBox="0 0 24 24" aria-hidden="true"><path d={item.path}/></svg><span>{item.value}</span></a> : <span class="contact-item" aria-label={`${item.label}: ${item.value}`}><svg viewBox="0 0 24 24" aria-hidden="true"><path d={item.path}/></svg><span>{item.value}</span></span>}</li>)}
 </ul>
