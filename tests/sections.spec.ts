@@ -183,3 +183,12 @@ for (const [width, laptop] of [[899, false], [900, true]] as const) {
     expect(g).toEqual({ header: laptop, beside: laptop });
   });
 }
+
+// With site-wide hard snap, a case study's only snap point was the footer, so it opened scrolled to the bottom.
+test('a case-study page opens at the top and scrolls freely', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/projects/solid-tree/');
+  await page.waitForTimeout(800);
+  expect(await page.evaluate(() => scrollY)).toBe(0);
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollSnapType)).toBe('none');
+});

@@ -64,10 +64,14 @@ body:has(.color-section) {
 }
 
 /* GSAP owns all scene states. Without JS the original page remains a normal document. */
-/* Hard snap: wherever scrolling stops, it settles onto the nearest page (every page is one screen tall). */
 html {
   max-width: 100%;
   overflow-x: clip;
   scroll-padding-top: 0;
+}
+
+/* Hard snap, only on pages built from one-screen slots: wherever scrolling stops, it settles onto the nearest page.
+   (Case-study pages have no slots; with snap on, the footer was their only snap point and they opened scrolled to the bottom.) */
+html:has(.feature-slot) {
   scroll-snap-type: y mandatory;
 }

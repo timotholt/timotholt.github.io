@@ -55,7 +55,7 @@ html.key-gliding {
     transition-duration: 0.01ms !important;
   }
 
-  html {
+  html:has(.feature-slot) {
     scroll-snap-type: none;
   }
   .project-card {
