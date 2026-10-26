@@ -1,4 +1,4 @@
-// "How I build with AI": the working method, each step backed by something checkable on this site.
+// "How Tim builds with AI": the working method, each step backed by something checkable on this site.
 export const processSteps = [
   {
     title: 'Spec first',
@@ -9,19 +9,19 @@ export const processSteps = [
   {
     title: 'Agents in parallel',
     years: 'Claude Code + Codex',
-    summary: 'I split the work and run AI coding agents side by side on separate tasks, keeping them out of each other’s files, while I direct and decide.',
+    summary: 'Tim splits the work and runs AI coding agents side by side on separate tasks, keeping them out of each other’s files, while directing and deciding.',
     tags: ['Claude Code', 'OpenAI Codex', 'Task splitting'],
   },
   {
     title: 'Gate everything',
     years: 'Nothing ships red',
-    summary: 'No change goes live until the gate is green: nearly 60 browser tests on this site, plus a 51-screenshot pixel diff whenever I refactor.',
+    summary: 'No change goes live until the gate is green: nearly 60 browser tests on this site, plus a 51-screenshot pixel diff on every refactor.',
     tags: ['Playwright', 'Pixel diff', 'CI deploys'],
   },
   {
     title: 'Review every change',
     years: 'Human in the loop',
-    summary: 'I read what the agents produce and catch what tests miss: a 2px overlap, a stale image cache, a CSS rule that quietly came back to life.',
+    summary: 'Tim reads what the agents produce and catches what tests miss: a 2px overlap, a stale image cache, a CSS rule that quietly came back to life.',
     tags: ['Code review', 'Debugging', 'Root causes'],
   },
 ];

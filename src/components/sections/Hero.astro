@@ -14,15 +14,15 @@ import ContactList from '../ContactList.astro';
       <span class="name-tim">Tim</span> <span class="name-otholt">Otholt</span>
     </h1>
     <p class="hero-title">{contact.title}</p>
-    <p class="hero-open">{contact.openTo}</p>
-    <p class="hero-pitch">BIOS that shipped in millions of PCs → software built with AI coding agents.</p>
+    <p class="hero-mantra">{contact.mantra}</p>
+    <p class="hero-pitch">{contact.whyHire}</p>
     <ContactList />
     <div class="hero-actions">
       <button class="button button-ai" type="button" data-open-chat aria-haspopup="dialog" aria-controls="ask-ai">
         <svg class="ai-icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/>
           <path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8z"/>
-        </svg>Chat with my AI</button>
+        </svg>Chat with Tim's AI</button>
       <a class="button button-outline" href={contact.resumeHref} target="_blank" rel="noopener">Résumé (PDF) <span aria-hidden="true">↗</span>
       </a>
     </div>

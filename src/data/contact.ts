@@ -1,7 +1,8 @@
 export const contact = {
   name: 'Tim Otholt',
   title: 'AI Software Engineer',
-  openTo: 'Open to internships, apprenticeships and junior roles · available now',
+  mantra: 'Solves real business problems by building shippable AI solutions, fast.',
+  whyHire: 'Builds with AI 4–8 hours a day and is genuinely excited about where it is going.',
   resumeHref: '/Timothy_Otholt_Resume.pdf',
   phone: '(408) 406-1832',
   phoneHref: 'tel:+14084061832',
