@@ -1,0 +1,29 @@
+---
+import { sectionByKey, sectionStyle } from '../../data/sections';
+import { contact } from '../../data/contact';
+import ContactList from '../ContactList.astro';
+---
+<section class="hero wrap trace-section feature-slot color-section" data-section-key="contact" data-section-label={sectionByKey.contact.label} style={sectionStyle('contact')} data-milestone="Home" aria-labelledby="hero-title">
+  <div class="portrait-unit">
+    <div class="portrait">
+      <img src="/headshot.jpg" alt="Tim Otholt" width="900" height="900" />
+    </div>
+  </div>
+  <div class="hero-copy">
+    <h1 id="hero-title">
+      <span class="name-tim">Tim</span> <span class="name-otholt">Otholt</span>
+    </h1>
+    <p class="hero-title">{contact.title}</p>
+    <p class="hero-pitch">BIOS that shipped in millions of PCs → software built with AI coding agents.</p>
+    <ContactList />
+    <div class="hero-actions">
+      <button class="button button-ai" type="button" data-open-chat aria-haspopup="dialog" aria-controls="ask-ai">
+        <svg class="ai-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/>
+          <path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8z"/>
+        </svg>Chat with my AI</button>
+      <a class="button button-outline" href="#projects">View my work <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,25 @@
+---
+import { sectionByKey, sectionStyle } from '../../data/sections';
+import { proofs } from '../../data/highlights';
+---
+<section id="highlights" class="color-section hl-section" data-section-key="highlights" data-section-label={sectionByKey.highlights.label} style={sectionStyle('highlights')}>
+  <div id="about" class="wrap">
+    <div class="feature-slot hl-slot hl-intro" data-milestone="Highlights">
+      <h2>From firmware to<br />
+        <em>what's next</em>
+      </h2>
+      <div class="hl-copy">
+        <p>I started in low-level engineering, then spent two decades leading production and AV work. Today I bring that mix of technical depth and real-world delivery to AI-assisted software and full-stack products.</p>
+        <p>I'm studying AI Software Engineering at Maestro College and building public projects that turn ideas into working systems.</p>
+      </div>
+    </div>
+    <div class="feature-slot hl-slot hl-proofs" data-milestone="Proof points">
+      <h2>Highlights</h2>
+      <ul class="proof-grid">{proofs.map(proof => <li class="proof-card">
+          <span class="proof-value" data-count={proof.count}>{proof.value}</span>
+          <span class="proof-label">{proof.label}</span>
+          <small>{proof.detail}</small>
+        </li>)}</ul>
+    </div>
+  </div>
+</section>

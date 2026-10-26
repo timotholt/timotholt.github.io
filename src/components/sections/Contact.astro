@@ -1,0 +1,19 @@
+---
+import { sectionByKey, sectionStyle } from '../../data/sections';
+import { contact } from '../../data/contact';
+import ContactList from '../ContactList.astro';
+---
+<section id="contact" class="section contact-section trace-section feature-slot color-section" data-section-key="contact" data-section-label={sectionByKey.contact.label} style={sectionStyle('contact')} data-milestone="Contact">
+  <div class="wrap">
+    <span class="trace-via" aria-hidden="true"></span>
+    <h2>Let's make something<br />
+      <em>work</em>
+    </h2>
+    <p>Hiring for AI engineering, forward deployed, or firmware work? I'd like to hear about it.</p>
+    <div class="contact-identity">
+      <strong>{contact.name}</strong>
+      <span>{contact.title}</span>
+    </div>
+    <ContactList />
+  </div>
+</section>
