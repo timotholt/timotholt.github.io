@@ -9,7 +9,7 @@ const still = matchMedia("(prefers-reduced-motion: reduce)");
 if (canvas) {
   const ctx = canvas.getContext("2d")!;
   const TILE = 40; // matches background-size in base.css and layout.css
-  const MAX_ALPHA = 0.22;
+  const MAX_ALPHA = 0.14;
   const FADE = 0.012; // per frame; a lit square fades out in about 1.3s
   const NEIGHBORS = [
     [0, 0, 1],
