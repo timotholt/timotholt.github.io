@@ -1,0 +1,19 @@
+---
+// A row of overlapping round photo thumbnails with a label, all one link: shows there are real photos behind it
+// before anyone clicks. Thumbnails are decorative; the link's accessible name says what it opens.
+interface Props {
+  href: string;
+  label: string;
+  photos: string[];
+  total?: number;
+}
+const { href, label, photos, total = photos.length } = Astro.props;
+const more = total - photos.length;
+---
+<a class="photo-stack" href={href} target="_blank" rel="noopener" aria-label={`${label}, ${total} photos`}>
+  <span class="photo-stack-faces" aria-hidden="true">
+    {photos.map(src => <img class="photo-stack-face" src={src} alt="" width="160" height="160" loading="lazy" decoding="async" />)}
+    {more > 0 && <span class="photo-stack-face photo-stack-more label">+{more}</span>}
+  </span>
+  <span class="photo-stack-label label">{label} <span aria-hidden="true">↗</span></span>
+</a>

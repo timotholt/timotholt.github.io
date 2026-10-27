@@ -222,3 +222,19 @@ test('highlight numbers visibly count up after their cards land', async ({ page 
   expect([...seen].filter(v => v > 0 && v < 30000).length).toBeGreaterThan(5);
   await expect.poll(() => page.locator('.proof-value').nth(2).textContent()).toBe('30,000');
 });
+
+test('the field photo stack is one named link to the PDF and every thumbnail loads', async ({ page }) => {
+  await page.goto('/');
+  const stack = page.locator('.photo-stack');
+  await expect(stack).toHaveCount(1);
+  await expect(stack).toHaveAttribute('href', '/Timothy_Otholt_Cabling_Work.pdf');
+  await expect(stack).toHaveAccessibleName('Field photos, 9 photos');
+  await expect(stack.locator('.photo-stack-more')).toHaveText('+5');
+  const faces = stack.locator('img.photo-stack-face');
+  await expect(faces).toHaveCount(4);
+  for (const img of await faces.all()) {
+    await img.scrollIntoViewIfNeeded();
+    await expect.poll(() => img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth)).toBeGreaterThan(0);
+  }
+  expect((await page.request.get('/Timothy_Otholt_Cabling_Work.pdf')).ok()).toBe(true);
+});

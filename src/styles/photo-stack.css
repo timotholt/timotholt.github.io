@@ -1,0 +1,62 @@
+/* Photo stack (src/components/PhotoStack.astro): overlapping round thumbnails + label, one link.
+   Sizes ride the type scale (--u) so the stack grows with the column like the text around it. */
+.photo-stack {
+  --face: calc(9.6 * var(--u));
+  /* The ring is the card surface, so each circle reads as cut out of the one beside it. */
+  --face-ring: color-mix(in srgb, var(--sec-fg) 8%, var(--sec-bg));
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(2.4 * var(--u));
+  margin-top: calc(1.6 * var(--u));
+  border-radius: 999px;
+}
+
+.photo-stack:focus-visible {
+  outline: 2px solid var(--section-accent);
+  outline-offset: 4px;
+}
+
+.photo-stack-faces {
+  display: flex;
+}
+
+.photo-stack-face {
+  flex: none;
+  width: var(--face);
+  height: var(--face);
+  border-radius: 50%;
+  border: 2px solid var(--face-ring);
+  object-fit: cover;
+  background: var(--face-ring);
+}
+
+.photo-stack-face + .photo-stack-face {
+  margin-left: calc(var(--face) * -0.3);
+}
+
+.photo-stack-more {
+  display: grid;
+  place-items: center;
+  font-weight: 500;
+  color: var(--sec-bg);
+  background: var(--section-accent);
+}
+
+.photo-stack-label {
+  font-weight: 500;
+  border-bottom: 2px solid var(--section-accent);
+}
+
+/* Color only: no hover may move or resize anything. */
+.photo-stack:hover .photo-stack-label {
+  border-bottom-color: var(--sec-fg);
+}
+
+@media (min-width: 900px) {
+  .photo-stack {
+    --face: calc(4 * var(--u));
+    gap: calc(1.2 * var(--u));
+    margin-top: calc(0.6 * var(--u));
+  }
+}
