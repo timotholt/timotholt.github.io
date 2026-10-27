@@ -27,6 +27,7 @@ npm test           # Playwright suite (layout, rail, motion, links, chat)
 | Scroll rail, keyboard glide, scenes | `src/scripts/` (`rail.ts`, `rail-drag.ts`, `keys.ts`, `scenes.ts`, `chrome.ts`, `state.ts`) |
 | Chat UI | `src/components/ChatPanel.astro`, `src/scripts/chat.ts`, `src/styles/chat.css` |
 | Chat Worker | `worker/` (see `docs/DEPLOY-CHAT.md`); its knowledge is `docs/persona.md` |
+| Field cabling photo sheet (job attachment) | Source `docs/cabling-work/cabling-work.html`; `npm run build:cabling` writes `public/Timothy_Otholt_Cabling_Work.pdf` and `.png` (300 DPI). Photos must have GPS stamps blurred before they go in `docs/cabling-work/img/` |
 
 Adding a project means adding one Markdown file in `src/content/projects/` (plus optional screenshots).
 Every section is exactly one screen tall (`--slot-h`); the rail gets one dot per screen.

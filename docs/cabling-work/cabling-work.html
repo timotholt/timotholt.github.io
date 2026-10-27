@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Timothy Otholt — Field Cabling Work</title>
+<style>
+  @page { size: 8.5in 11in; margin: 0; }
+  :root { --ink: #1b1f24; --muted: #5b6470; --accent: #1f4e79; --rule: #d8dde3; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 816px; height: 1056px; background: #fff; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    padding: 34px 36px 26px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  header { border-bottom: 2px solid var(--accent); padding-bottom: 10px; }
+  .top { display: flex; justify-content: space-between; align-items: baseline; }
+  h1 { font-size: 25px; font-weight: 700; letter-spacing: -0.2px; }
+  h1 span { color: var(--accent); font-weight: 500; }
+  .contact { font-size: 10.5px; color: var(--muted); text-align: right; line-height: 1.45; }
+  .role { font-size: 12.5px; color: var(--accent); font-weight: 600; margin-top: 3px; }
+  .summary { font-size: 11.5px; line-height: 1.45; margin-top: 7px; }
+  .summary b { font-weight: 700; }
+  section h2 {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px;
+    color: var(--accent); margin-bottom: 6px;
+  }
+  .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  figure { display: flex; flex-direction: column; gap: 4px; }
+  figure img { width: 100%; object-fit: cover; border-radius: 3px; border: 1px solid var(--rule); display: block; }
+  .hero img { height: 282px; }
+  .strip img { height: 188px; }
+  figcaption { font-size: 9.5px; line-height: 1.35; color: var(--muted); }
+  figcaption b { color: var(--ink); }
+  footer {
+    margin-top: auto; border-top: 1px solid var(--rule); padding-top: 7px;
+    font-size: 9px; color: var(--muted); display: flex; justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="top">
+      <h1>Timothy Otholt <span>· Field Cabling Work</span></h1>
+      <div class="contact">timotholt@gmail.com · (408) 406-1832<br>timotholt.com · linkedin.com/in/timotholt</div>
+    </div>
+    <div class="role">Ventel Telephone · Contractor for AT&amp;T · Southern California · 2023–2025</div>
+    <p class="summary">Upgraded fiber-optic network routers (<b>Fujitsu HSN8300NA</b>) at <b>22 AT&amp;T cell sites</b> without interrupting service. Racked and installed units, pulled cable, ran fiber jumpers up to 100 ft, and wired <b>−48 VDC</b> power from the site DC plant.</p>
+  </header>
+
+  <section>
+    <h2>Rack install</h2>
+    <div class="row hero">
+      <figure><img src="img/before.jpg" style="object-position: 50% 30%"><figcaption><b>Before.</b> Existing Ciena 3930 rack ahead of the upgrade.</figcaption></figure>
+      <figure><img src="img/after.jpg" style="object-position: 50% 45%"><figcaption><b>After.</b> Fujitsu HSN8300NA installed under the Ciena 3930 and DC fuse panel; fiber dressed and bundled.</figcaption></figure>
+      <figure><img src="img/onsite.jpg" style="object-position: 50% 30%"><figcaption><b>Another site.</b> Indoor AT&amp;T equipment room, with another finished 8300 install.</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>Fiber jumpers · routed, dressed, labeled</h2>
+    <div class="row strip">
+      <figure><img src="img/fiber1.jpg" style="object-position: 50% 55%"><figcaption>Each jumper labeled by system, number, route, connector type and length.</figcaption></figure>
+      <figure><img src="img/fiber2.jpg" style="object-position: 50% 40%"><figcaption>Labeled jumpers patched into the media hand-off panel.</figcaption></figure>
+      <figure><img src="img/fiber3.jpg" style="object-position: 50% 45%"><figcaption>Mule tape pull line for a 35 ft cable run, tagged DAFI/EMUX to LTE.</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>−48 VDC power &amp; grounding</h2>
+    <div class="row strip">
+      <figure><img src="img/dc1.jpg" style="object-position: 50% 50%"><figcaption>DC plant: new feeds landed on breaker positions 25 and 26.</figcaption></figure>
+      <figure><img src="img/ground.jpg" style="object-position: 50% 45%"><figcaption>#6 AWG chassis ground run from the 8300 to the master ground bar.</figcaption></figure>
+      <figure><img src="img/dc3.jpg" style="object-position: 50% 40%"><figcaption>Both feeds checked with a meter before power-up.</figcaption></figure>
+    </div>
+  </section>
+
+  <footer><span></span><span>timotholt.com</span></footer>
+</body>
+</html>

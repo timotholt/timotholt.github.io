@@ -57,6 +57,12 @@
   font-family: Archivo, sans-serif;
 }
 
+.cred-link {
+  font-weight: 600;
+  white-space: nowrap;
+  border-bottom: 2px solid var(--section-accent);
+}
+
 .cred-meta {
   margin: 6px 0 0;
   font-weight: 600;

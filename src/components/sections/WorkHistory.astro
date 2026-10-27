@@ -10,7 +10,7 @@ import CredentialItem from '../CredentialItem.astro';
         <h2>Work History <span class="page-mark h3">({p + 1}/{jobPages.length})</span>
         </h2>
       </div>
-      <div class="cred-list job-list">{page.jobs.map(job => <CredentialItem tag="article" rowClass="job-row" year={job.date} title={job.role} meta={job.company} what={job.detail} metaFirst />)}</div>
+      <div class="cred-list job-list">{page.jobs.map(job => <CredentialItem tag="article" rowClass="job-row" year={job.date} title={job.role} meta={job.company} what={job.detail} link={job.link} metaFirst />)}</div>
     </div>
       )}</div>
 </section>
