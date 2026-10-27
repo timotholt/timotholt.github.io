@@ -16,11 +16,12 @@
 }
 
 .photo-stack-faces {
+  /* Previews anchor to the row, not their circle, so a preview never hangs past the card's edge. */
+  position: relative;
   display: flex;
 }
 
 .photo-stack-face {
-  position: relative;
   flex: none;
   width: var(--face);
   height: var(--face);
@@ -60,14 +61,13 @@
   border-bottom-color: var(--sec-fg);
 }
 
-/* Hover preview: a larger copy of the photo above its circle. It sits in place from the start (hidden) and only
+/* Hover preview: a larger copy of the photo above the circle row. It sits in place from the start (hidden) and only
    fades in, so nothing moves; it never takes the pointer, so the whole row stays one click target. */
 .photo-stack-preview {
   position: absolute;
   z-index: 5;
   bottom: calc(100% + 10px);
-  left: 50%;
-  translate: -50% 0;
+  left: 0;
   width: 180px;
   height: auto;
   max-width: none;
@@ -82,10 +82,6 @@
 
 /* Only where a mouse can hover; phones keep tap-to-open. */
 @media (hover: hover) and (pointer: fine) {
-  .photo-stack-face:hover {
-    z-index: 5;
-  }
-
   .photo-stack-face:hover .photo-stack-preview {
     opacity: 1;
     visibility: visible;

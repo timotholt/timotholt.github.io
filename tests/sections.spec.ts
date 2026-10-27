@@ -253,3 +253,22 @@ test('hovering a photo circle shows its preview, and moving off hides it', async
   await page.mouse.move(5, 5);
   await expect(preview).toBeHidden();
 });
+
+for (const width of [390, 720, 1000, 1440]) {
+  test(`every photo preview stays inside its card at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await page.evaluate(() => scrollTo(0, document.querySelector('.hl-proofs')!.getBoundingClientRect().top + scrollY));
+    await page.waitForTimeout(2500);
+    const card = await page.locator('.proof-card', { has: page.locator('.photo-stack') }).boundingBox();
+    const faces = page.locator('.photo-stack-face:has(.photo-stack-preview)');
+    for (let i = 0; i < await faces.count(); i++) {
+      await faces.nth(i).hover();
+      const preview = faces.nth(i).locator('.photo-stack-preview');
+      await expect(preview).toBeVisible();
+      const box = (await preview.boundingBox())!;
+      expect(box.x, `preview ${i} left edge`).toBeGreaterThanOrEqual(card!.x);
+      expect(box.x + box.width, `preview ${i} right edge`).toBeLessThanOrEqual(card!.x + card!.width);
+    }
+  });
+}
