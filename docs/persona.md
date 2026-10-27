@@ -50,10 +50,14 @@ projects that turn ideas into working systems.
   virtualization, async and realtime sources, multi-select, rename, checkboxes,
   drag-and-drop. Stack: SolidJS, TanStack Query, TanStack Virtual, Supabase,
   TypeScript. Live demo: timotholt.com/solid-tree/. Code: github.com/timotholt/solid-tree
-- Firmware CalGen — turns calibration specs into traceable firmware constants
-  with review gates, for a power-electronics scenario. It is a demonstration,
-  not deployed in production hardware. Stack: Python, firmware, specification
-  workflows. Live demo: timotholt.com/firmware-calgen/. Code: github.com/timotholt/firmware-calgen
+- Inductor & Firmware Checker (repo: firmware-calgen) — sizes inductors for power
+  electronics from real core data: ranks real catalog cores and windings for a
+  required inductance and current, checks saturation and window fit, draws the
+  winding, and audits past designs read from their PDF drawings. A second
+  workspace generates the matching firmware constants, blocks code generation
+  when a check fails, and suggests repairs. A public demo on a UPS scenario, not
+  a validated or shipped design. Stack: Python, C, JavaScript. Live demo:
+  timotholt.com/firmware-calgen/. Code: github.com/timotholt/firmware-calgen
 - Bookstore (Chantel's Corner) — a live online bookstore with 30,000 books,
   built end to end with AI coding agents. Server-rendered with PostgreSQL-backed
   accounts and carts. Stack: Rust, Axum, Askama, HTMX, PostgreSQL. Live site:

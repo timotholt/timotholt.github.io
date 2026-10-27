@@ -95,7 +95,7 @@ test('resizing within a layout keeps the reader on the same settled milestone', 
   await page.goto('/');
   const dots = page.locator('.rail-dot');
   const labels = await dots.evaluateAll(d => d.map(x => x.getAttribute('aria-label')));
-  const index = labels.indexOf('Firmware CalGen');
+  const index = labels.indexOf('Inductor & Firmware Checker');
   await dots.nth(index).click();
   await page.waitForTimeout(1500);
   for (const [width, height] of [[1280, 720], [1100, 800], [1440, 900]]) {

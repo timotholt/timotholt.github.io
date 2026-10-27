@@ -313,17 +313,18 @@
 
   #projects .project-card .project-media.has-shot img {
     flex: 1 1 auto;
-    min-height: 0;
+    /* A minimum beats a maximum: the screenshot always reaches the bottom of the details column, and the
+       screen-height cap below only limits it when the screenshot itself is the taller of the two. */
+    min-height: 100%;
   }
 
-  /* The screenshot is as tall as the screen allows (the first slot also holds the section heading), but never shorter
-     than the details column (about 28rem), so it always fills the card. */
+  /* The screenshot is as tall as the screen allows; the first slot also holds the section heading. */
   #projects .project-card .project-media.has-shot img {
-    max-height: max(calc(100svh - 9rem), 30rem);
+    max-height: calc(100svh - 9rem);
   }
 
   #projects .project-slot:first-child .project-media.has-shot img {
-    max-height: max(calc(100svh - 17rem), 30rem);
+    max-height: calc(100svh - 17rem);
   }
 
   #projects .card-info {

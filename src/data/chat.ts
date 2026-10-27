@@ -67,10 +67,10 @@ export const topics: Topic[] = [
   },
   {
     key: 'calgen',
-    pattern: /calgen|calibration/i,
-    answer: 'Firmware CalGen turns calibration specs into traceable firmware constants with review gates, for a power-electronics scenario. It is a demonstration, not deployed in production hardware.',
+    pattern: /calgen|calibration|inductor|magnetics|winding|firmware checker/i,
+    answer: "The Inductor & Firmware Checker sizes inductors for power electronics from real core data: it ranks real cores and windings for a required inductance and current, checks saturation and window fit, and draws the winding. A second workspace generates the matching firmware constants and shows which ones break when a requirement changes. It's a public demo, not a shipped design.",
     followUps: ['Tell me about the firmware background', 'Show me a project'],
-    link: { href: 'https://timotholt.com/firmware-calgen/', text: 'Firmware CalGen demo' },
+    link: { href: 'https://timotholt.com/firmware-calgen/', text: 'Inductor & Firmware Checker demo' },
   },
   {
     key: 'mcp-logger',
@@ -88,7 +88,7 @@ export const topics: Topic[] = [
   {
     key: 'projects',
     pattern: /\b(projects?|portfolio|built|build|repos?|github|demo|show me|case stud\w*)\b/i,
-    answer: "Four public projects: solid-tree (SolidJS tree components), Firmware CalGen (spec-to-firmware constants with review gates), Chantel's Corner bookstore (Rust, HTMX, PostgreSQL), and MCP Logger (runtime logs for AI coding tools). Three run live; click any project card on this page to open it.",
+    answer: "Four public projects: solid-tree (SolidJS tree components), the Inductor & Firmware Checker (sizes inductors from real core data, then checks the firmware constants that depend on them), Chantel's Corner bookstore (Rust, HTMX, PostgreSQL), and MCP Logger (runtime logs for AI coding tools). Three run live; click any project card on this page to open it.",
     followUps: ['Tell me about solid-tree', 'Tell me about the bookstore'],
     link: { href: '/#projects', text: 'All projects' },
   },
@@ -96,7 +96,7 @@ export const topics: Topic[] = [
     key: 'firmware',
     pattern: /firmware|\bbios\b|drivers?|assembly|embedded|phoenix|low[- ]level|hardware|fastboot/i,
     answer: 'Tim wrote motherboard BIOS at Phoenix Technologies that shipped in millions of PCs, and invented FastBoot and Save-To-Disk. Then Windows drivers and firmware at Quantum, AMD, Metalithic and Spruce, and DVD firmware for six NUON systems at VM Labs.',
-    followUps: ['Why an internship?', 'Tell me about Firmware CalGen'],
+    followUps: ['Why an internship?', 'Tell me about the Inductor & Firmware Checker'],
   },
   {
     key: 'telecom',

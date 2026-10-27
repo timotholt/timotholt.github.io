@@ -23,7 +23,7 @@ const recruiter = [
   'What is he studying right now?',
   'Has he led teams?',
   'What was the AT&T work?',
-  'Is Firmware CalGen used in production?',
+  'Is the Inductor & Firmware Checker used in production?',
   'Does Tim have Kubernetes experience?',
   'What awards has he won?',
   'Can I see a live demo of something?',
