@@ -59,6 +59,13 @@
   font-family: Archivo, sans-serif;
 }
 
+.proof-link {
+  align-self: flex-start;
+  font-weight: 600;
+  font-family: "JetBrains Mono", monospace;
+  border-bottom: 2px solid var(--section-accent);
+}
+
 .proof-card small {
   font-weight: 500;
   line-height: 1.45;

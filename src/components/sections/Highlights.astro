@@ -19,6 +19,7 @@ import { proofs } from '../../data/highlights';
           <span class="proof-value h2" data-count={proof.count}>{proof.value}</span>
           <span class="proof-label">{proof.label}</span>
           <small class="label">{proof.detail}</small>
+          {proof.link && <a class="proof-link label" href={proof.link.href} target="_blank" rel="noopener">{proof.link.label} <span aria-hidden="true">↗</span></a>}
         </li>)}</ul>
     </div>
   </div>
