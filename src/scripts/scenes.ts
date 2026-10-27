@@ -106,22 +106,20 @@ function profileScene(mobile: boolean) {
     if (!el) return;
     const target = Number(el.dataset.count);
     const decimal = el.dataset.count?.includes(".") ? 1 : 0;
-    const counter = { value: 0 };
-    gsap.to(counter, {
-      value: target,
-      ease: "none",
-      scrollTrigger: {
-        trigger: slot,
-        start: "top 95%",
-        end: "top 35%",
-        scrub: 0.6,
-      },
-      onUpdate: () => {
-        el.textContent = counter.value.toLocaleString("en-US", {
-          minimumFractionDigits: decimal,
-          maximumFractionDigits: decimal,
-        });
-      },
+    // Driven straight from scroll progress, not a scrubbed tween: a breakpoint change rebuilds the scenes,
+    // and a rebuilt tween sat at 0 until the next scroll, leaving the numbers stuck part-way.
+    const render = (progress: number) => {
+      el.textContent = (target * progress).toLocaleString("en-US", {
+        minimumFractionDigits: decimal,
+        maximumFractionDigits: decimal,
+      });
+    };
+    ScrollTrigger.create({
+      trigger: slot,
+      start: "top 95%",
+      end: "top 35%",
+      onUpdate: (self) => render(self.progress),
+      onRefresh: (self) => render(self.progress),
     });
   });
 }

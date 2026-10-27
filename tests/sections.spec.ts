@@ -192,3 +192,18 @@ test('a case-study page opens at the top and scrolls freely', async ({ page }) =
   expect(await page.evaluate(() => scrollY)).toBe(0);
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollSnapType)).toBe('none');
 });
+
+test('highlight numbers finish counting after the window crosses the phone/laptop breakpoint', async ({ page }) => {
+  const values = () => page.$$eval('.proof-value', els => els.map(e => e.textContent));
+  const final = ['Millions', '22', '30,000', '4.0'];
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.evaluate(() => scrollTo(0, document.querySelector('.hl-proofs')!.getBoundingClientRect().top + scrollY));
+  await expect.poll(values).toEqual(final);
+  for (const width of [800, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    // Let the scenes rebuild and the reader settle back on the slot before reading the numbers.
+    await page.waitForTimeout(2000);
+    expect(await values()).toEqual(final);
+  }
+});
