@@ -23,14 +23,12 @@ const target = (p: (typeof projects)[number]) => p.data.demo ?? p.data.repo;
           <div class="card-info">
             <h3 class="card-title h3"><a href={target(project)} target="_blank" rel="noopener noreferrer">{project.data.title}</a></h3>
             <p class="card-blurb">{project.data.tagline ?? project.data.summary}</p>
-            <p class="card-stack label">{project.data.stack.slice(0, 3).join(' · ')}</p>
             <div class="card-actions">
               {project.data.demo
-                ? <a class="button button-pill button-ai" href={project.data.demo} target="_blank" rel="noopener noreferrer">Open live site <span aria-hidden="true">↗</span></a>
-                : <a class="button button-pill button-ai" href={project.data.repo} target="_blank" rel="noopener noreferrer">View code <span aria-hidden="true">↗</span></a>}
-              {project.data.demo && <a class="button button-pill button-outline" href={project.data.repo} target="_blank" rel="noopener noreferrer">View code <span aria-hidden="true">↗</span></a>}
+                ? <a class="button button-pill button-ai" href={project.data.demo} target="_blank" rel="noopener noreferrer">Open Live Site <span aria-hidden="true">↗</span></a>
+                : <a class="button button-pill button-ai" href={project.data.repo} target="_blank" rel="noopener noreferrer">View on GitHub <span aria-hidden="true">↗</span></a>}
+              <a class="button button-pill button-outline" href={`/projects/${project.id}/`} target="_blank" rel="noopener">Case Study <span aria-hidden="true">↗</span></a>
             </div>
-            <a class="card-case" href={`/projects/${project.id}/`} target="_blank" rel="noopener">How it's built →</a>
           </div>
         </article>
       </div>

@@ -1,7 +1,7 @@
 ---
 title: Firmware CalGen
 summary: Turn calibration specs into traceable firmware constants with review gates.
-tagline: "Turns calibration specs into firmware constants, with every value traceable and reviewed before it ships."
+tagline: "Turns calibration specs into firmware constants you can trust: every value traces back to its spec and passes human review before it ships, shown on a power-electronics design."
 category: AI-assisted engineering
 stack: [Python, Firmware, Specification workflows]
 repo: https://github.com/timotholt/firmware-calgen

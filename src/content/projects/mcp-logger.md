@@ -1,7 +1,7 @@
 ---
 title: MCP Logger
 summary: Give AI coding tools a way to inspect JavaScript logs while they work.
-tagline: "Lets AI coding tools read an app's logs while they work, so they fix errors instead of guessing."
+tagline: "An MCP server that lets AI coding tools watch an app's JavaScript logs while they work, so they diagnose runtime errors instead of guessing."
 category: AI tooling
 stack: [JavaScript, MCP, Developer tools]
 repo: https://github.com/timotholt/mcp-logger

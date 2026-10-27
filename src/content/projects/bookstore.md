@@ -1,7 +1,7 @@
 ---
 title: Chantel's Corner
 summary: A live online bookstore with 30,000 books, built end to end with AI coding agents, from prototype to deployment.
-tagline: "A real online bookstore with 30,000 books, built end to end with AI coding agents."
+tagline: "A live online bookstore with a 30,000-book catalog, accounts and carts, built end to end with AI coding agents on Rust, HTMX and PostgreSQL."
 category: Full-stack product
 stack: [Rust, Axum, Askama, HTMX, PostgreSQL]
 repo: https://github.com/timotholt/bookstore

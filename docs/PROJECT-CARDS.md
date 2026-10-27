@@ -10,7 +10,7 @@
 ## Layout
 
 - **Laptop (900px+):** screenshot on the left, shown whole at its own shape and as large as the slot allows;
-  a details column on the right: title, a one-line pitch, a short stack line, then the buttons.
+  a details column on the right: title, a short pitch, then the buttons.
 - **Phone (under 900px):** stacked: screenshot (phone crop, capped in height), title, pitch, buttons side by side.
 - The slot centers the card (and, on the first slot, the "Built to work" heading) with even space above and below.
 
@@ -18,15 +18,16 @@
 
 Same pills as the hero (`.button-pill`, shared): rounded, sentence case, bold.
 
-- Primary (filled accent): **Open live site ↗**, or **View code ↗** when there is no live site (MCP Logger).
-- Secondary (outline): **View code ↗** when there is a live site.
-- Case study: a quiet underlined text link below the buttons.
+Two buttons only (Tim, 2026-10-26):
 
-The whole card still opens the primary target (stretched title link); the buttons and case-study link sit above it.
+- **Open Live Site ↗** (filled accent), or **View on GitHub ↗** when there is no live site (MCP Logger).
+- **Case Study ↗** (outline).
+
+The whole card still opens the primary target (stretched title link); the buttons sit above it.
 
 ## Copy
 
-New optional `tagline` in the project schema: one plain sentence for the card. `summary` stays for the case-study
+New optional `tagline` in the project schema: one or two sentences that say why the project matters. `summary` stays for the case-study
 page. The card's stack line shows at most three items.
 
 ## Verify
