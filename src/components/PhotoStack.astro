@@ -1,18 +1,27 @@
 ---
-// A row of overlapping round photo thumbnails with a label, all one link: shows there are real photos behind it
-// before anyone clicks. Thumbnails are decorative; the link's accessible name says what it opens.
+// A row of overlapping round photo thumbnails with a short label, all one link: shows there are real photos behind it
+// before anyone clicks. With a mouse, hovering a circle pops up a larger preview of that photo.
+// Thumbnails and previews are decorative; `name` is the link's accessible name.
+interface Photo {
+  thumb: string;
+  preview: string;
+}
 interface Props {
   href: string;
   label: string;
-  photos: string[];
+  name: string;
+  photos: Photo[];
   total?: number;
 }
-const { href, label, photos, total = photos.length } = Astro.props;
+const { href, label, name, photos, total = photos.length } = Astro.props;
 const more = total - photos.length;
 ---
-<a class="photo-stack" href={href} target="_blank" rel="noopener" aria-label={`${label}, ${total} photos`}>
+<a class="photo-stack" href={href} target="_blank" rel="noopener" aria-label={`${name}, ${total} photos`}>
   <span class="photo-stack-faces" aria-hidden="true">
-    {photos.map(src => <img class="photo-stack-face" src={src} alt="" width="160" height="160" loading="lazy" decoding="async" />)}
+    {photos.map(photo => <span class="photo-stack-face">
+      <img class="photo-stack-thumb" src={photo.thumb} alt="" width="160" height="160" loading="lazy" decoding="async" />
+      <img class="photo-stack-preview" src={photo.preview} alt="" width="480" height="640" loading="lazy" decoding="async" />
+    </span>)}
     {more > 0 && <span class="photo-stack-face photo-stack-more label">+{more}</span>}
   </span>
   <span class="photo-stack-label label">{label} <span aria-hidden="true">↗</span></span>

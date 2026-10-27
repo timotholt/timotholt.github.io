@@ -20,7 +20,7 @@ import PhotoStack from '../PhotoStack.astro';
           <span class="proof-value h2" data-count={proof.count}>{proof.value}</span>
           <span class="proof-label">{proof.label}</span>
           <small class="label">{proof.detail}</small>
-          {proof.photos && <PhotoStack href={proof.photos.href} label={proof.photos.label} photos={proof.photos.thumbs} total={proof.photos.total} />}
+          {proof.photos && <PhotoStack href={proof.photos.href} label={proof.photos.label} name={proof.photos.name} photos={proof.photos.photos} total={proof.photos.total} />}
         </li>)}</ul>
     </div>
   </div>

@@ -228,13 +228,28 @@ test('the field photo stack is one named link to the PDF and every thumbnail loa
   const stack = page.locator('.photo-stack');
   await expect(stack).toHaveCount(1);
   await expect(stack).toHaveAttribute('href', '/Timothy_Otholt_Cabling_Work.pdf');
-  await expect(stack).toHaveAccessibleName('Field photos, 9 photos');
+  await expect(stack).toHaveAccessibleName('Field photos (PDF), 9 photos');
   await expect(stack.locator('.photo-stack-more')).toHaveText('+5');
-  const faces = stack.locator('img.photo-stack-face');
-  await expect(faces).toHaveCount(4);
+  const faces = stack.locator('img.photo-stack-thumb, img.photo-stack-preview');
+  await expect(faces).toHaveCount(8);
   for (const img of await faces.all()) {
     await img.scrollIntoViewIfNeeded();
     await expect.poll(() => img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth)).toBeGreaterThan(0);
   }
   expect((await page.request.get('/Timothy_Otholt_Cabling_Work.pdf')).ok()).toBe(true);
+});
+
+test('hovering a photo circle shows its preview, and moving off hides it', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.evaluate(() => scrollTo(0, document.querySelector('.hl-proofs')!.getBoundingClientRect().top + scrollY));
+  await page.waitForTimeout(2500);
+  const face = page.locator('.photo-stack-face').nth(2);
+  const preview = face.locator('.photo-stack-preview');
+  await expect(preview).toBeHidden();
+  await face.hover();
+  await expect(preview).toBeVisible();
+  await expect.poll(() => preview.evaluate(el => getComputedStyle(el).opacity)).toBe('1');
+  await page.mouse.move(5, 5);
+  await expect(preview).toBeHidden();
 });
