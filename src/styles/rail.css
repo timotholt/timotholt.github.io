@@ -205,17 +205,11 @@
   opacity: 0.75;
 }
 
+/* Phones: no readout. The content runs up to the rail, so the bubble could only sit on top of it; the coloured bands
+   and the filled current dot already show where you are. */
 @media (max-width: 899px) {
-  .rail-readout {
-    right: 13px;
-  }
   .progress-rail .rail-readout {
-    opacity: 0;
-    transition: opacity 0.25s;
-  }
-
-  .progress-rail.is-scrolling .rail-readout {
-    opacity: 1;
+    display: none;
   }
 }
 

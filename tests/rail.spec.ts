@@ -24,7 +24,9 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 
     });
     expect(geometry.widths[0]).toBeLessThanOrEqual(geometry.widths[1]);
     expect(viewport.width - geometry.railRight).toBeGreaterThanOrEqual(14);
-    expect(geometry.readout.left >= geometry.logo.right || geometry.readout.top >= geometry.logo.bottom).toBeTruthy();
+    // Phones have no readout (it would cover content); on laptops it stays clear of the menu.
+    if (geometry.readout.width) expect(geometry.readout.left >= geometry.logo.right || geometry.readout.top >= geometry.logo.bottom).toBeTruthy();
+    else expect(viewport.width).toBeLessThan(900);
     geometry.heights.forEach(h => expect(Math.abs(h - geometry.heights[0])).toBeLessThanOrEqual(1));
     const step = geometry.centers[1] - geometry.centers[0];
     geometry.centers.forEach((c, i) => expect(Math.abs(c - geometry.centers[0] - step * i)).toBeLessThanOrEqual(1));
@@ -295,4 +297,13 @@ test('each dot tooltip names the same place the readout shows when you land ther
     await expect(page.locator('#rail-section')).toHaveText(titles[i]!);
   }
   for (const title of titles) expect(title, 'tooltips use short names').not.toMatch(/·/);
+});
+
+// The phone readout bubble used to sit on top of headings and screenshots while scrolling.
+test('phones never show the readout over the content, even while scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await ready(page);
+  // The rail marks itself as scrolling while the page moves; hold that state so the check doesn't race its timer.
+  await page.evaluate(() => document.querySelector('.progress-rail')!.classList.add('is-scrolling'));
+  await expect(page.locator('.rail-readout')).toBeHidden();
 });

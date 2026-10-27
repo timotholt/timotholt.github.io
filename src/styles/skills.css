@@ -133,7 +133,7 @@
   }
 
   .skill-tags {
-    gap: calc(0.6 * var(--u));
+    gap: max(6px, calc(0.6 * var(--u)));
   }
 
   .skill-tags li {
