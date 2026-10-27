@@ -202,8 +202,23 @@ test('highlight numbers finish counting after the window crosses the phone/lapto
   await expect.poll(values).toEqual(final);
   for (const width of [800, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    // Let the scenes rebuild and the reader settle back on the slot before reading the numbers.
-    await page.waitForTimeout(2000);
-    expect(await values()).toEqual(final);
+    // Let the scenes rebuild and the reader settle back on the slot, then the numbers must reach their final values.
+    await page.waitForTimeout(800);
+    await expect.poll(values, { timeout: 4000 }).toEqual(final);
   }
+});
+
+test('highlight numbers visibly count up after their cards land', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.evaluate(() => scrollTo(0, document.querySelector('.hl-proofs')!.getBoundingClientRect().top + scrollY));
+  // Sample the 30,000 card while it counts: it must pass through values in between, not jump to the end.
+  const seen = new Set<number>();
+  for (let t = 0; t < 30; t++) {
+    const text = await page.locator('.proof-value').nth(2).textContent();
+    seen.add(Number(text!.replace(/,/g, '')));
+    await page.waitForTimeout(50);
+  }
+  expect([...seen].filter(v => v > 0 && v < 30000).length).toBeGreaterThan(5);
+  await expect.poll(() => page.locator('.proof-value').nth(2).textContent()).toBe('30,000');
 });

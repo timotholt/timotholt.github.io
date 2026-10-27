@@ -87,7 +87,7 @@ function profileScene(mobile: boolean) {
       scrub: 0.6,
     },
   });
-  // Proof cards fly in from alternating sides and settle as their slot lands; numbers count up on the way.
+  // Proof cards fly in from alternating sides and settle as their slot lands; then their numbers count up.
   document.querySelectorAll<HTMLElement>(".proof-card").forEach((card, i) => {
     const slot = card.closest(".feature-slot") || card;
     gsap.from(card, {
@@ -106,20 +106,32 @@ function profileScene(mobile: boolean) {
     if (!el) return;
     const target = Number(el.dataset.count);
     const decimal = el.dataset.count?.includes(".") ? 1 : 0;
-    // Driven straight from scroll progress, not a scrubbed tween: a breakpoint change rebuilds the scenes,
-    // and a rebuilt tween sat at 0 until the next scroll, leaving the numbers stuck part-way.
-    const render = (progress: number) => {
-      el.textContent = (target * progress).toLocaleString("en-US", {
-        minimumFractionDigits: decimal,
-        maximumFractionDigits: decimal,
-      });
-    };
+    // Timed, not scroll-scrubbed: the rail snaps a page in a fraction of a second, too fast to see a scrubbed count.
+    // It plays once the slot lands and resets when the reader scrolls back above it.
+    const counter = { value: 0 };
+    const count = gsap.to(counter, {
+      value: target,
+      duration: 1.6,
+      delay: i * 0.12,
+      ease: "power2.out",
+      paused: true,
+      onUpdate: () => {
+        el.textContent = counter.value.toLocaleString("en-US", {
+          minimumFractionDigits: decimal,
+          maximumFractionDigits: decimal,
+        });
+      },
+    });
     ScrollTrigger.create({
       trigger: slot,
-      start: "top 95%",
-      end: "top 35%",
-      onUpdate: (self) => render(self.progress),
-      onRefresh: (self) => render(self.progress),
+      start: "top 40%",
+      onEnter: () => count.restart(true),
+      onLeaveBack: () => count.pause().progress(0),
+      // A breakpoint change rebuilds the scenes: show the finished number if the reader is already past the slot.
+      onRefresh: (self) => {
+        if (self.progress > 0) count.isActive() || count.progress(1);
+        else count.pause().progress(0);
+      },
     });
   });
 }
