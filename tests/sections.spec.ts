@@ -213,6 +213,23 @@ test('on a phone the Menu button opens the section list, and picking one goes th
   await expect.poll(() => page.locator('#awards').evaluate(s => Math.round(s.getBoundingClientRect().top)), { timeout: 10_000 }).toBe(0);
 });
 
+for (const [width, height, control] of [[390, 844, '.nav-toggle'], [1440, 900, '.site-header nav']] as const) {
+  test(`the menu stays pinned at the top while the page scrolls at ${width}`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await page.goto('/');
+    const top = () => page.locator(control).evaluate(e => Math.round(e.getBoundingClientRect().top));
+    const start = await top();
+    if (width < 900) expect(await page.locator(control).evaluate(e => e.getBoundingClientRect().left)).toBeLessThan(16);
+    for (const id of ['#projects', '#awards']) {
+      await page.locator(id).evaluate(s => scrollTo({ top: s.getBoundingClientRect().top + scrollY, behavior: 'instant' }));
+      await expect(page.locator(control)).toBeVisible();
+      expect(await top()).toBe(start);
+    }
+    // On the gold Awards screen the menu has taken that section's colors.
+    await expect.poll(() => page.locator('.site-header').evaluate(h => getComputedStyle(h).color)).toBe('rgb(20, 17, 15)');
+  });
+}
+
 // With site-wide hard snap, a case study's only snap point was the footer, so it opened scrolled to the bottom.
 test('a case-study page opens at the top and scrolls freely', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });

@@ -6,20 +6,27 @@
   text-transform: uppercase;
 }
 
-/* Phones open the section list from a Menu button; laptops show the list across the top. */
+/* Phones open the section list from a hamburger button; laptops show the list across the top. */
 .nav-toggle {
-  font-family: "JetBrains Mono", monospace;
-  text-transform: uppercase;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
   color: inherit;
-  background: transparent;
+  background: var(--nav-bg, var(--home-bg));
   border: 1px solid currentColor;
-  border-radius: 999px;
-  padding: 8px 14px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
+.nav-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
 .nav-toggle:hover {
-  color: var(--home-accent);
+  color: var(--nav-accent, var(--home-accent));
 }
 
 .site-header nav a:hover {
@@ -39,12 +46,12 @@
 }
 
 body:has(.color-section) .site-header {
-  color: var(--home-fg);
-  border-color: var(--home-fg);
+  color: var(--nav-fg, var(--home-fg));
+  border-color: var(--nav-fg, var(--home-fg));
 }
 
 body:has(.color-section) .site-header nav a:hover {
-  color: var(--home-accent);
+  color: var(--nav-accent, var(--home-accent));
 }
 
 /* Hero cleanup: no header mark, plain rounded photo, readable contact info, one alignment. */
@@ -82,22 +89,22 @@ body:has(.color-section) .site-header nav a:hover {
     margin-left: 18px;
     margin-right: 100px;
   }
-  /* Phone header: a Menu button at the top right, in the space beside the photo and short of the rail, overlaying
-     the hero so nothing below it moves; the list opens under it. */
+  /* Phone header: the hamburger is pinned to the top-left corner, in the margin left of every screen's content,
+     and stays there while the page scrolls; the list opens under it. */
   body > .site-header,
   body > .site-header.wrap {
-    position: absolute;
-    top: 0;
-    left: auto;
-    right: 64px;
-    z-index: 20;
+    position: fixed;
+    top: 8px;
+    left: 4px;
+    right: auto;
+    z-index: 40;
     width: auto;
     height: auto;
     margin: 0;
-    padding: 10px 0 0;
+    padding: 0;
     border: 0;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: 8px;
   }
 
@@ -108,10 +115,12 @@ body:has(.color-section) .site-header nav a:hover {
     gap: 0;
     min-width: 200px;
     padding: 6px 0;
-    background: var(--home-bg);
-    border: 1px solid var(--home-fg);
+    background: var(--nav-bg, var(--home-bg));
+    border: 1px solid var(--nav-fg, var(--home-fg));
     border-radius: 12px;
     box-shadow: 0 12px 32px rgb(0 0 0 / 0.35);
+    max-height: calc(100svh - 64px);
+    overflow-y: auto;
   }
 
   .site-header.nav-open nav {
@@ -128,12 +137,15 @@ body:has(.color-section) .site-header nav a:hover {
     display: none;
   }
 
-  /* The header overlays the hero instead of pushing the page down, so every page starts on a whole pixel (snap + rail landing agree). */
+  /* The header overlays the page instead of pushing it down, so every page starts on a whole pixel (snap + rail landing agree). */
   /* Header rule: spans the content column and always stops short of the rail and its readout. */
+  /* The header is pinned: it stays at the top while the page scrolls, on the current section's color. The top of
+     every laptop screen is empty, so it never covers content. */
   body > .site-header {
-    position: absolute;
+    position: fixed;
     top: 0;
-    z-index: 5;
+    z-index: 40;
+    background: var(--nav-bg, var(--home-bg));
     margin-inline: auto;
     width: auto;
     margin: 0;
@@ -155,10 +167,10 @@ body:has(.color-section) .site-header nav a:hover {
     height: auto;
     padding-block: clamp(8px, 2svh, 22px);
     justify-content: flex-start;
-    border-bottom: 1px solid var(--home-fg);
+    border-bottom: 1px solid var(--nav-fg, var(--home-fg));
   }
 
   body:has(.color-section) .site-header {
-    border-bottom: 1px solid var(--home-fg);
+    border-bottom: 1px solid var(--nav-fg, var(--home-fg));
   }
 }
