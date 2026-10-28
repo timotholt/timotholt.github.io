@@ -1,8 +1,25 @@
 .site-header nav {
   font-family: "JetBrains Mono", monospace;
   display: flex;
-  gap: clamp(12px, 2.4vw, 34px);
+  flex-wrap: wrap;
+  gap: 6px clamp(12px, 1.6vw, 28px);
   text-transform: uppercase;
+}
+
+/* Phones open the section list from a Menu button; laptops show the list across the top. */
+.nav-toggle {
+  font-family: "JetBrains Mono", monospace;
+  text-transform: uppercase;
+  color: inherit;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.nav-toggle:hover {
+  color: var(--home-accent);
 }
 
 .site-header nav a:hover {
@@ -65,12 +82,50 @@ body:has(.color-section) .site-header nav a:hover {
     margin-left: 18px;
     margin-right: 100px;
   }
-  .site-header {
+  /* Phone header: a Menu button in the strip above the photo, overlaying the hero so nothing below it moves. */
+  body > .site-header,
+  body > .site-header.wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 10px 0 0 18px;
+    border: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .site-header nav {
     display: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0;
+    min-width: 200px;
+    padding: 6px 0;
+    background: var(--home-bg);
+    border: 1px solid var(--home-fg);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgb(0 0 0 / 0.35);
+  }
+
+  .site-header.nav-open nav {
+    display: flex;
+  }
+
+  .site-header nav a {
+    padding: 10px 16px;
   }
 }
 
 @media (min-width: 900px) {
+  .nav-toggle {
+    display: none;
+  }
+
   /* The header overlays the hero instead of pushing the page down, so every page starts on a whole pixel (snap + rail landing agree). */
   /* Header rule: spans the content column and always stops short of the rail and its readout. */
   body > .site-header {

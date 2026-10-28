@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import { contact } from '../data/contact';
-import { sectionByKey } from '../data/sections';
+import { navLinks, sectionByKey } from '../data/sections';
 interface Props { title: string; description: string; image?: string }
 const { title, description, image = '/og-image.svg' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -38,11 +38,12 @@ const person = {
     <canvas class="grid-glow" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header wrap">
-      
-      <nav aria-label="Main navigation"><a href="/#projects">Projects</a><a href="/#skills">Skills</a><a href="/#experience">Experience</a><a href="/#contact">Contact</a></nav>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav id="site-nav" aria-label="Main navigation">{navLinks.map(link => <a href={`/#${link.id}`}>{link.label}</a>)}</nav>
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer wrap"><span>© {new Date().getFullYear()} {contact.name}</span><a href={contact.emailHref}>{contact.email}</a><a href={contact.phoneHref}>{contact.phone}</a></footer>
     <script src="../scripts/grid.ts"></script>
+    <script src="../scripts/nav.ts"></script>
   </body>
 </html>

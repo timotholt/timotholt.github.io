@@ -15,3 +15,10 @@ export const sectionStyle = (key: SectionKey) => {
   const { bg, fg, accent } = sectionByKey[key];
   return `--sec-bg:${bg};--sec-fg:${fg};--section-accent:${accent}`;
 };
+
+// The top menu lists the same screens as the scroll rail, in page order, under the rail's short names.
+export const navLinks = [
+  { id: 'home', label: 'Home' },
+  ...(['highlights', 'projects', 'process', 'skills', 'jobs', 'education', 'awards'] as const).map(key => ({ id: key === 'jobs' ? 'experience' : key, label: sectionByKey[key].label })),
+  { id: 'contact', label: 'Contact' },
+];

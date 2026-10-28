@@ -168,8 +168,8 @@ test('on a short phone no screen clips its content; a screen grows instead', asy
   expect(clipped).toEqual([]);
 });
 
-// One layout switch at 900px: below it the phone layout (no header, photo above the name), from 900 the laptop layout.
-// (Replaces a 768–899px header-clearance test: that hybrid band no longer exists.)
+// One layout switch at 900px: below it the phone layout (Menu button, photo above the name), from 900 the laptop layout
+// (section list across the top). (Replaces a 768–899px header-clearance test: that hybrid band no longer exists.)
 for (const [width, laptop] of [[899, false], [900, true]] as const) {
   test(`${width}px uses the ${laptop ? 'laptop' : 'phone'} layout`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -178,11 +178,40 @@ for (const [width, laptop] of [[899, false], [900, true]] as const) {
     const g = await page.evaluate(() => {
       const photo = document.querySelector('.hero .portrait-unit')!.getBoundingClientRect();
       const name = document.querySelector('.hero h1')!.getBoundingClientRect();
-      return { header: getComputedStyle(document.querySelector('.site-header')!).display !== 'none', beside: name.left >= photo.right - 1 };
+      const shown = (sel: string) => getComputedStyle(document.querySelector(sel)!).display !== 'none';
+      return { menuRow: shown('.site-header nav'), menuButton: shown('.nav-toggle'), beside: name.left >= photo.right - 1 };
     });
-    expect(g).toEqual({ header: laptop, beside: laptop });
+    expect(g).toEqual({ menuRow: laptop, menuButton: !laptop, beside: laptop });
   });
 }
+
+test('the top menu lists the same sections as the scroll rail, in order', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  const railSections = await page.locator('.rail-dot').evaluateAll(dots => dots.map(d => d.getAttribute('data-title')).filter((t, i, all) => t !== all[i - 1]));
+  await expect(page.locator('.site-header nav a')).toHaveText(railSections as string[]);
+  for (const href of await page.locator('.site-header nav a').evaluateAll(as => as.map(a => (a as HTMLAnchorElement).hash))) {
+    await expect(page.locator(href), `${href} exists`).toHaveCount(1);
+  }
+});
+
+test('on a phone the Menu button opens the section list, and picking one goes there and closes it', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const toggle = page.getByRole('button', { name: 'Menu' });
+  const nav = page.getByRole('navigation', { name: 'Main navigation' });
+  await expect(nav).toBeHidden();
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(nav).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(nav).toBeHidden();
+  await toggle.click();
+  await nav.getByRole('link', { name: 'Awards', exact: true }).click();
+  await expect(nav).toBeHidden();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect.poll(() => page.locator('#awards').evaluate(s => Math.round(s.getBoundingClientRect().top)), { timeout: 10_000 }).toBe(0);
+});
 
 // With site-wide hard snap, a case study's only snap point was the footer, so it opened scrolled to the bottom.
 test('a case-study page opens at the top and scrolls freely', async ({ page }) => {

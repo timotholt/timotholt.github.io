@@ -176,7 +176,8 @@ let urlLive = false;
 let lastHash = location.hash;
 function updateUrl(section: Element | null | undefined) {
   if (!urlLive) return;
-  const hash = section?.id ? `#${section.id}` : "";
+  // The hero has an id only so the Home menu link can glide to it; the bare address still stands for it.
+  const hash = section?.id && !section.matches(".hero") ? `#${section.id}` : "";
   if (hash === lastHash) return;
   lastHash = hash;
   history.replaceState(history.state, "", hash || location.pathname + location.search);
