@@ -239,6 +239,22 @@ test('the field photo stack is one named link to the PDF and every thumbnail loa
   expect((await page.request.get('/Timothy_Otholt_Cabling_Work.pdf')).ok()).toBe(true);
 });
 
+test('the Per Scholas education and award rows link to their certificates', async ({ page }) => {
+  await page.goto('/');
+  for (const [section, href] of [
+    ['#education', '/certificates/Per_Scholas_Certificate_of_Completion.png'],
+    ['#awards', '/certificates/Per_Scholas_Core_Values_Award.png'],
+  ]) {
+    const link = page.locator(`${section} .cred-link`);
+    await expect(link).toHaveCount(1);
+    await expect(link).toHaveAttribute('href', href);
+    await expect(link).toHaveText(/Certificate/);
+    const res = await page.request.get(href);
+    expect(res.ok()).toBe(true);
+    expect(res.headers()['content-type']).toContain('image/png');
+  }
+});
+
 test('hovering a photo circle shows its preview, and moving off hides it', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
