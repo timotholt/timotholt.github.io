@@ -82,20 +82,22 @@ body:has(.color-section) .site-header nav a:hover {
     margin-left: 18px;
     margin-right: 100px;
   }
-  /* Phone header: a Menu button in the strip above the photo, overlaying the hero so nothing below it moves. */
+  /* Phone header: a Menu button at the top right, in the space beside the photo and short of the rail, overlaying
+     the hero so nothing below it moves; the list opens under it. */
   body > .site-header,
   body > .site-header.wrap {
     position: absolute;
     top: 0;
-    left: 0;
+    left: auto;
+    right: 64px;
     z-index: 20;
     width: auto;
     height: auto;
     margin: 0;
-    padding: 10px 0 0 18px;
+    padding: 10px 0 0;
     border: 0;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-end;
     gap: 8px;
   }
 
