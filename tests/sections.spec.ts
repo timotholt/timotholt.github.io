@@ -239,16 +239,22 @@ test('the field photo stack is one named link to the PDF and every thumbnail loa
   expect((await page.request.get('/Timothy_Otholt_Cabling_Work.pdf')).ok()).toBe(true);
 });
 
-test('the Per Scholas education and award rows link to their certificates', async ({ page }) => {
+test('education and award rows link to their proof with a named arrow', async ({ page }) => {
   await page.goto('/');
-  for (const [section, href] of [
-    ['#education', '/certificates/Per_Scholas_Certificate_of_Completion.png'],
-    ['#awards', '/certificates/Per_Scholas_Core_Values_Award.png'],
+  const local = '/certificates/Per_Scholas_Certificate_of_Completion.png';
+  const award = '/certificates/Per_Scholas_Core_Values_Award.png';
+  for (const [section, name, href] of [
+    ['#education', 'Certificate', local],
+    ['#awards', 'Certificate', award],
+    ['#awards', '168 Film Festival 2006 results', 'https://www.168film.com/film-festival/nominations-awards/2006'],
+    ['#awards', 'IGN article', 'https://www.ign.com/articles/1997/04/23/psxpower-yaroze-contest-winner'],
   ]) {
-    const link = page.locator(`${section} .cred-link`);
+    const link = page.locator(section).getByRole('link', { name, exact: true });
     await expect(link).toHaveCount(1);
     await expect(link).toHaveAttribute('href', href);
-    await expect(link).toHaveText(/Certificate/);
+    await expect(link).toHaveText('↗');
+  }
+  for (const href of [local, award]) {
     const res = await page.request.get(href);
     expect(res.ok()).toBe(true);
     expect(res.headers()['content-type']).toContain('image/png');
