@@ -23,15 +23,16 @@ for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 
       return { widths: [document.documentElement.scrollWidth, innerWidth], heights: slots.map(s => s.getBoundingClientRect().height), centers: dots.map(d => d.getBoundingClientRect().top + 12), railRight: document.querySelector('.progress-rail')!.getBoundingClientRect().right, logo: (document.querySelector('.site-header nav') ?? document.body).getBoundingClientRect().toJSON(), readout: document.querySelector('.rail-readout')!.getBoundingClientRect().toJSON() };
     });
     expect(geometry.widths[0]).toBeLessThanOrEqual(geometry.widths[1]);
-    expect(viewport.width - geometry.railRight).toBeGreaterThanOrEqual(14);
-    // Phones have no readout (it would cover content); on laptops it stays clear of the menu.
-    if (geometry.readout.width) expect(geometry.readout.left >= geometry.logo.right || geometry.readout.top >= geometry.logo.bottom).toBeTruthy();
-    else expect(viewport.width).toBeLessThan(900);
+    // Like a native scrollbar, the rail sits on the right edge; its popup readout stays clear of the menu.
+    expect(Math.abs(viewport.width - geometry.railRight)).toBeLessThanOrEqual(1);
+    expect(geometry.readout.left >= geometry.logo.right || geometry.readout.top >= geometry.logo.bottom).toBeTruthy();
     geometry.heights.forEach(h => expect(Math.abs(h - geometry.heights[0])).toBeLessThanOrEqual(1));
     const step = geometry.centers[1] - geometry.centers[0];
     geometry.centers.forEach((c, i) => expect(Math.abs(c - geometry.centers[0] - step * i)).toBeLessThanOrEqual(1));
     for (let i = 0; i < await dots.count(); i++) {
-      await dots.nth(i).click();
+      // Click where the tick is, as a person would: the thumb may lie over it.
+      const tick = (await dots.nth(i).boundingBox())!;
+      await page.mouse.click(tick.x + tick.width / 2, tick.y + tick.height / 2);
       await expect.poll(() => page.evaluate(index => Math.abs(document.querySelectorAll('.milestone-anchor')[index].getBoundingClientRect().top), i), { timeout: 10_000 }).toBeLessThanOrEqual(1);
       await expect(page.locator('.rail-dot.current')).toHaveCount(1);
       await expect(dots.nth(i)).toHaveClass(/current/);
@@ -121,19 +122,21 @@ test('stopping near the top of a page snaps onto it', async ({ page }) => {
 });
 
 for (const viewport of [{ width: 1440, height: 900 }, { width: 1000, height: 560 }]) {
-  test(`the readout rides the fill tip from the first dot to the last at ${viewport.width}`, async ({ page }) => {
+  test(`the thumb runs the full track and the readout rides it at ${viewport.width}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto('/');
     await page.waitForTimeout(800);
     const measure = () => page.evaluate(() => {
       const rail = document.querySelector('.progress-rail .rail-track')!.getBoundingClientRect();
-      const tip = rail.top + rail.height * Number(getComputedStyle(document.querySelector('.rail-fill')!).transform.split(',')[3] ?? 0);
+      const t = document.querySelector('.rail-thumb')!.getBoundingClientRect();
       const r = document.querySelector('.rail-readout')!.getBoundingClientRect();
-      return { railTop: rail.top, railBottom: rail.bottom, tip, top: r.top, bottom: r.bottom, center: (r.top + r.bottom) / 2 };
+      return { railTop: rail.top, railBottom: rail.bottom, thumbTop: t.top, thumbBottom: t.bottom, tip: (t.top + t.bottom) / 2, center: (r.top + r.bottom) / 2 };
     });
     const dotCenter = (i: number) => page.evaluate(k => { const d = [...document.querySelectorAll('.rail-dot')].at(k)!.getBoundingClientRect(); return (d.top + d.bottom) / 2; }, i);
     const atTop = await measure();
     expect(Math.abs(atTop.center - await dotCenter(0))).toBeLessThanOrEqual(2);
+    expect(Math.abs(atTop.tip - await dotCenter(0))).toBeLessThanOrEqual(2);
+    expect(Math.abs(atTop.thumbTop - atTop.railTop)).toBeLessThanOrEqual(1);
     const mid = await page.evaluate(() => document.documentElement.scrollHeight / 2);
     await page.evaluate(y => window.scrollTo({ top: y, behavior: 'instant' }), mid);
     await page.waitForTimeout(600);
@@ -143,6 +146,8 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1000, height: 560
     await page.waitForTimeout(600);
     const atBottom = await measure();
     expect(Math.abs(atBottom.center - await dotCenter(-1))).toBeLessThanOrEqual(2);
+    expect(Math.abs(atBottom.tip - await dotCenter(-1))).toBeLessThanOrEqual(2);
+    expect(Math.abs(atBottom.thumbBottom - atBottom.railBottom)).toBeLessThanOrEqual(1);
   });
 }
 
@@ -168,14 +173,16 @@ test('the footer is still reachable with hard snap', async ({ page }) => {
   expect(footer!.y + footer!.height).toBeLessThanOrEqual(900 + 1);
 });
 
-test('every section band, including the first and last, fits inside the rail', async ({ page }) => {
+// The thumb is as long as the share of the page on screen, like a native scrollbar's.
+test('the thumb length is the share of the page on screen', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
-  const fit = await page.evaluate(() => {
-    const rail = document.querySelector('.progress-rail')!.getBoundingClientRect();
-    return [...document.querySelectorAll('.rail-band')].map(b => { const r = b.getBoundingClientRect(); return r.top >= rail.top - 1 && r.bottom <= rail.bottom + 1; });
-  });
-  expect(fit.every(Boolean)).toBeTruthy();
+  const g = await page.evaluate(() => ({
+    thumb: document.querySelector('.rail-thumb')!.getBoundingClientRect().height,
+    rail: document.querySelector('.progress-rail')!.getBoundingClientRect().height,
+    pages: document.querySelectorAll('.feature-slot').length,
+  }));
+  expect(Math.abs(g.thumb - g.rail / g.pages)).toBeLessThanOrEqual(1);
 });
 
 test('arrow keys move exactly one page, smoothly, without stutter', async ({ page }) => {
@@ -229,22 +236,48 @@ for (const viewport of [{ width: 1000, height: 560 }, { width: 1280, height: 720
   });
 }
 
-test('on laptops the rail is the scrollbar: native bar hidden, dragging the rail scrolls', async ({ page }) => {
+for (const viewport of [{ width: 1440, height: 900 }, { width: 375, height: 812 }]) {
+  test(`the rail is the scrollbar at ${viewport.width}: native bar hidden, track press jumps, thumb drags from where it is held`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    await page.waitForTimeout(800);
+    // The native scrollbar takes no space.
+    expect(await page.evaluate(() => innerWidth - document.documentElement.clientWidth)).toBe(0);
+    const rail = (await page.locator('.progress-rail').boundingBox())!;
+    const x = rail.x + rail.width / 2;
+    // Pressing the middle of the track (below the thumb, on the middle tick) goes to the middle of the page.
+    await page.mouse.move(x, rail.y + rail.height / 2);
+    await page.mouse.down();
+    await page.mouse.up();
+    const percent = () => page.evaluate(() => Number(document.querySelector('#scroll-percent')!.textContent!.replace('%', '')));
+    await expect.poll(async () => Math.abs(await percent() - 50), SETTLE).toBeLessThanOrEqual(5);
+    await expect.poll(() => page.evaluate(() => new Promise(r => { const y = scrollY; setTimeout(() => r(scrollY === y), 200); })), SETTLE).toBe(true);
+    // Grabbing the thumb off-center and dragging moves it by exactly the drag, without first jumping.
+    const thumbCenter = async () => { const t = (await page.locator('.rail-thumb').boundingBox())!; return t.y + t.height / 2; };
+    const before = await thumbCenter();
+    await page.mouse.move(x, before + 8);
+    await page.mouse.down();
+    await page.mouse.move(x, before + 8 + 120, { steps: 8 });
+    // The readout pops up beside the thumb while dragging, on phones too.
+    await expect(page.locator('.rail-readout')).toBeVisible();
+    // Measured before release: on release, snapping settles onto the nearest page.
+    expect(Math.abs(await thumbCenter() - (before + 120))).toBeLessThanOrEqual(2);
+    await page.mouse.up();
+  });
+}
+
+test('hovering the track names the page that spot leads to', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/');
-  await page.waitForTimeout(800);
-  // The native scrollbar takes no space.
-  expect(await page.evaluate(() => innerWidth - document.documentElement.clientWidth)).toBe(0);
+  await ready(page);
+  const titles = await page.locator('.rail-dot').evaluateAll(d => d.map(x => x.getAttribute('data-title')));
   const rail = (await page.locator('.progress-rail').boundingBox())!;
-  const x = rail.x + rail.width / 2 + 10; // beside the line, inside the grab zone, away from the dots' centers
-  await page.mouse.move(x, rail.y + 4);
-  await page.mouse.down();
-  await page.mouse.move(x, rail.y + rail.height / 2, { steps: 8 });
-  await page.mouse.up();
-  await page.waitForTimeout(400);
-  const percent = await page.locator('#scroll-percent').textContent();
-  expect(Number(percent!.replace('%', ''))).toBeGreaterThanOrEqual(45);
-  expect(Number(percent!.replace('%', ''))).toBeLessThanOrEqual(55);
+  const last = titles.length - 1;
+  // A little below the last tick's center, still closest to it.
+  await page.mouse.move(rail.x + rail.width / 2, rail.y + rail.height * (last + 0.3) / titles.length);
+  await expect(page.locator('.rail-hint')).toBeVisible();
+  await expect(page.locator('.rail-hint')).toHaveText(titles[last]!);
+  await page.mouse.move(700, 450);
+  await expect(page.locator('.rail-hint')).toBeHidden();
 });
 
 test('menu links glide to their section instead of jumping', async ({ page }) => {

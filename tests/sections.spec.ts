@@ -14,20 +14,18 @@ const contrast = (a: number[], b: number[]) => {
   return (hi + 0.05) / (lo + 0.05);
 };
 
-test('section backgrounds, rail bands, and text contrast follow one palette', async ({ page }) => {
+test('section backgrounds and text contrast follow one palette; each section starts with a long rail tick', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.rail-band')).toHaveCount(order.length);
+  // The rail is gray now (docs/SCROLLBAR.md): sections are marked by a longer tick, not a colored band.
+  await expect(page.locator('.rail-dot.major')).toHaveCount(order.length);
   await expect(page.locator('#theme-toggle')).toHaveCount(0);
   const actual = await page.evaluate(() => {
     const nodes = [...document.querySelectorAll<HTMLElement>('main section[data-section-key]')];
-    const bands = [...document.querySelectorAll<HTMLElement>('.rail-band')].sort((a, b) => Number(a.dataset.first) - Number(b.dataset.first));
     return nodes.map((node, i) => ({
       key: node.dataset.sectionKey,
       bg: getComputedStyle(node).backgroundColor,
       fg: getComputedStyle(node).color,
       accent: getComputedStyle(node).getPropertyValue('--section-accent').trim(),
-      bandBg: getComputedStyle(bands[i]).backgroundColor,
-      bandKey: bands[i].dataset.sectionKey,
     }));
   });
   expect(actual.map(item => item.key)).toEqual(order);
@@ -35,9 +33,6 @@ test('section backgrounds, rail bands, and text contrast follow one palette', as
   expect(actual[0].bg).toBe(actual.at(-1)?.bg);
   for (let i = 0; i < actual.length; i++) {
     const item = actual[i];
-    expect(item.bandKey).toBe(item.key);
-    expect(item.bg).toBe(item.bandBg);
-    expect(item.bandBg).toMatch(/^rgb\(\d+, \d+, \d+\)$/);
     const palette = sections.find(section => section.key === item.key)!;
     expect(rgb(item.bg)).toEqual(hexRgb(palette.bg));
     expect(rgb(item.fg)).toEqual(hexRgb(palette.fg));

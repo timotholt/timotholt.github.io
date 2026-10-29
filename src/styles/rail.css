@@ -1,19 +1,11 @@
-.rail-track {
-  position: absolute;
-  inset: 0;
-  background: color-mix(in srgb, var(--accent) 18%, transparent);
+/* The rail is the page's scrollbar on every device, drawn like the macOS one (docs/SCROLLBAR.md): a light gray
+   track on the right edge, a gray pill thumb, and a tick per page. The native scrollbar is hidden. */
+html {
+  scrollbar-width: none;
 }
 
-.rail-fill {
-  position: absolute;
-  inset: 0;
-  background: var(--accent);
-  transform: scaleY(0);
-  transform-origin: top;
-}
-
-#rail-section {
-  color: var(--ink);
+html::-webkit-scrollbar {
+  display: none;
 }
 
 .milestone-anchor {
@@ -26,222 +18,164 @@
 }
 
 .progress-rail {
+  --rail-w: 15px;
   position: fixed;
   z-index: 50;
-  left: auto;
-  right: 1.75rem;
-  top: 12px;
-  height: calc(100svh - 24px);
-  width: 2px;
-  pointer-events: none;
+  top: 0;
+  right: 0;
+  width: var(--rail-w);
+  height: 100svh;
+  cursor: default;
+  touch-action: none;
+}
+
+.rail-track {
+  position: absolute;
+  inset: 0;
+  background: #fafafa;
+  border-left: 1px solid #e3e3e3;
 }
 
 .rail-dots {
   position: absolute;
   inset: 0;
-  overflow: visible;
 }
 
+/* A tick: a short gray line, centered in a button that is easy to hit. */
 .rail-dot {
-  border-radius: 50%;
   position: absolute;
-  left: 50%;
-  width: 24px;
-  height: 24px;
+  left: 0;
+  width: 100%;
+  height: 16px;
   padding: 0;
   border: 0;
   background: transparent;
-  transform: translate(-50%, -50%);
-  pointer-events: auto;
+  transform: translateY(-50%);
   cursor: pointer;
-  color: var(--ink);
 }
 
-.rail-dot:before {
+.rail-dot::before {
   content: "";
   position: absolute;
   top: 50%;
-  left: 50%;
-  box-sizing: border-box;
-  width: 11px;
-  height: 11px;
-  transform: translate(-50%, -50%);
-  border: 1.5px solid var(--ink);
-  border-radius: 50%;
-  background: var(--paper);
+  right: 4px;
+  width: 4px;
+  height: 1px;
+  background: #b4b4b4;
 }
 
-.rail-dot.current:before {
-  background: var(--accent);
-  border-color: var(--accent);
+/* The first page of each section. */
+.rail-dot.major::before {
+  right: 2px;
+  width: calc(var(--rail-w) - 5px);
+  background: #9a9a9a;
 }
 
-.rail-dot:hover:after {
+.rail-dot:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
+}
+
+.rail-thumb {
+  position: absolute;
+  right: 3px;
+  width: 8px;
+  min-height: 24px;
+  border-radius: 999px;
+  background: #c1c1c1;
+  transition: background 0.15s;
+  cursor: default;
+}
+
+.progress-rail:hover .rail-thumb,
+html.rail-dragging .rail-thumb {
+  background: #7d7d7d;
+}
+
+/* The dark popups: the page a spot on the track leads to (hint), and where you are while scrolling (readout). */
+.rail-hint,
+.rail-readout {
+  position: absolute;
+  right: calc(var(--rail-w) + 8px);
+  transform: translateY(-50%);
+  white-space: nowrap;
+  pointer-events: none;
+  background: #14110f;
+  border: 1px solid #f4f1ea;
+  border-radius: 999px;
+  padding: 4px 10px;
+  color: #f4f1ea;
+  line-height: 1.2;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+.rail-hint {
+  font-family: Archivo, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.rail-hint.shown {
   opacity: 1;
-}
-
-.rail-dot:focus-visible:after {
-  opacity: 1;
+  visibility: visible;
 }
 
 .rail-readout {
-  position: absolute;
   display: flex;
-  gap: 9px;
-  align-items: center;
-  white-space: nowrap;
-  padding: 3px 5px;
-  background: var(--paper);
-  color: var(--accent);
-  font-weight: 500;
-  font-family: "JetBrains Mono", monospace;
-  transform: translateY(-50%);
-  border: 1px solid var(--rule);
-  left: auto;
-  right: 13px;
-  text-align: right;
-  justify-content: flex-end;
-}
-
-.rail-band {
-  position: absolute;
-  left: 50%;
-  width: 22px;
-  transform: translateX(-50%);
-  background: color-mix(in srgb, var(--band) 80%, transparent);
-  pointer-events: none;
-  transition: background 0.25s;
-}
-
-.rail-band.current {
-  background: var(--band);
-}
-
-.progress-rail .rail-fill {
-  background: #14110f;
-}
-
-.progress-rail .rail-band.current {
-  width: 22px;
-  background: var(--band);
-  outline: 1px solid #14110f;
-}
-
-.progress-rail .rail-dot {
-  color: var(--dot-fg);
-}
-
-.progress-rail .rail-dot::before {
-  background: transparent;
-  border-color: var(--dot-fg);
-}
-
-.progress-rail .rail-dot.current::before {
-  background: var(--dot-fg);
-  border-color: var(--dot-fg);
-}
-
-.progress-rail .rail-track {
-  background: #f4f1ea;
-  outline: 1px solid #14110f;
-  border-radius: 999px;
-}
-
-.progress-rail .rail-band {
-  width: 18px;
-  background: var(--band);
-  transition: width 0.25s;
-  outline: none;
-  border-radius: 999px;
-  border-block: 2px solid transparent;
-  background-clip: padding-box;
-}
-
-.rail-dot:after {
-  content: attr(data-title);
-  position: absolute;
-  right: 29px;
-  top: 50%;
-  transform: translateY(-50%);
-  white-space: nowrap;
-  /* Same pill as the current-place readout, so hovering a dot previews the label it will show. */
-  background: #14110f;
-  border: 1px solid #f4f1ea;
-  color: #f4f1ea;
-  font-weight: 700;
-  line-height: 1.2;
-  font-family: Archivo, sans-serif;
-  letter-spacing: -0.01em;
-  opacity: 0;
-  pointer-events: none;
-  border-radius: 999px;
-  padding: 4px 10px;
-}
-
-/* Rail readout hierarchy: the section name leads and is large; the percentage is a small secondary note. */
-.progress-rail .rail-readout {
-  background: #14110f;
-  color: #f4f1ea;
-  border-color: #f4f1ea;
-  border-radius: 999px;
-  padding: 4px 10px;
   gap: 8px;
   align-items: baseline;
 }
 
-.progress-rail .rail-readout #rail-section {
-  color: #f4f1ea;
+#rail-section {
   order: -1;
-  font-weight: 700;
-  line-height: 1.2;
   font-family: Archivo, sans-serif;
+  font-weight: 700;
   letter-spacing: -0.01em;
 }
 
-.progress-rail .rail-readout #scroll-percent {
-  font-weight: 500;
-  line-height: 1.2;
+#scroll-percent {
   font-family: "JetBrains Mono", monospace;
+  font-weight: 500;
   opacity: 0.75;
 }
 
-/* Phones: no readout. The content runs up to the rail, so the bubble could only sit on top of it; the coloured bands
-   and the filled current dot already show where you are. */
-@media (max-width: 899px) {
-  .progress-rail .rail-readout {
-    display: none;
-  }
+/* The readout shows while the page moves (and while dragging), unless the hover hint already names the spot. */
+.progress-rail.is-scrolling .rail-readout,
+html.rail-dragging .rail-readout {
+  opacity: 1;
+  visibility: visible;
 }
 
-/* Laptop/desktop with a mouse or trackpad: the rail replaces the native scrollbar (see rail-drag.ts). */
-@media (min-width: 900px) and (pointer: fine) {
-  html {
-    scrollbar-width: none;
-  }
+.progress-rail:has(.rail-hint.shown) .rail-readout {
+  opacity: 0;
+  visibility: hidden;
+}
 
-  html::-webkit-scrollbar {
-    display: none;
-  }
+html.rail-dragging {
+  scroll-snap-type: none;
+  user-select: none;
+}
 
+/* Phones: a slimmer track, and the readout only while the thumb is dragged (it would otherwise cover content). */
+@media (max-width: 899px) {
   .progress-rail {
-    pointer-events: auto;
-    cursor: grab;
-    touch-action: none;
+    --rail-w: 11px;
   }
 
-  /* A wider invisible grab zone around the 2px line. */
-  .progress-rail::before {
-    content: "";
-    position: absolute;
-    inset: 0 -16px;
+  .rail-thumb {
+    right: 2px;
+    width: 6px;
   }
 
-  html.rail-dragging {
-    scroll-snap-type: none;
-    user-select: none;
+  .progress-rail.is-scrolling .rail-readout {
+    opacity: 0;
+    visibility: hidden;
   }
 
-  html.rail-dragging .progress-rail {
-    cursor: grabbing;
+  html.rail-dragging .progress-rail .rail-readout {
+    opacity: 1;
+    visibility: visible;
   }
 }

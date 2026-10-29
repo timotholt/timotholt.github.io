@@ -1,4 +1,3 @@
-import { sectionByKey, type SectionKey } from "../data/sections";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -25,11 +24,12 @@ const railLabels = slots.map(
     slot.closest("section")?.getAttribute("data-section-label") ||
     "",
 );
-const railFill = document.querySelector<HTMLElement>(".rail-fill");
+const thumb = document.querySelector<HTMLElement>(".rail-thumb");
 const railDots = document.querySelector<HTMLElement>(".rail-dots");
 const percent = document.querySelector<HTMLElement>("#scroll-percent");
 const railLabel = document.querySelector<HTMLElement>("#rail-section");
 const readout = document.querySelector<HTMLElement>(".rail-readout");
+const rail = document.querySelector<HTMLElement>(".progress-rail");
 const anchors = slots.map((slot) => {
   const anchor = document.createElement("span");
   anchor.className = "milestone-anchor";
@@ -37,11 +37,14 @@ const anchors = slots.map((slot) => {
   slot.prepend(anchor);
   return anchor;
 });
+const slotSections = slots.map((slot) => slot.closest("section"));
+// One tick per page (a button: click or Enter jumps there); the first page of each section gets a longer tick.
 const dots = slots.map((slot, i) => {
   const dot = document.createElement("button");
   dot.type = "button";
   dot.className = "rail-dot";
-  // Dots are centered in equal cells (half a step of inset at each end), so the first and last sections' bands fit whole.
+  if (i === 0 || slotSections[i] !== slotSections[i - 1]) dot.classList.add("major");
+  // Ticks are centered in equal cells (half a step of inset at each end), the thumb's centers from top to bottom.
   dot.style.top = `${((i + 0.5) / slots.length) * 100}%`;
   dot.setAttribute(
     "aria-label",
@@ -49,37 +52,8 @@ const dots = slots.map((slot, i) => {
   );
   dot.dataset.title = railLabels[i];
   dot.dataset.index = String(i);
-  const key = slot
-    .closest("section")
-    ?.getAttribute("data-section-key") as SectionKey | null;
-  if (key && sectionByKey[key])
-    dot.style.setProperty("--dot-fg", sectionByKey[key].fg);
   railDots?.append(dot);
   return dot;
-});
-// One solid band per page section behind its dots, so groups read at a glance.
-const slotSections = slots.map((slot) => slot.closest("section"));
-const bands: HTMLElement[] = [];
-slotSections.forEach((section, i) => {
-  if (i > 0 && section === slotSections[i - 1]) return;
-  let last = i;
-  while (last + 1 < slots.length && slotSections[last + 1] === section) last++;
-  const step = 100 / slots.length;
-  const band = document.createElement("span");
-  band.className = "rail-band";
-  const key = section?.getAttribute("data-section-key") as SectionKey | null;
-  if (key && sectionByKey[key]) {
-    band.style.setProperty("--band", sectionByKey[key].bg);
-    band.style.setProperty("--band-fg", sectionByKey[key].fg);
-    band.dataset.sectionKey = key;
-  }
-  band.setAttribute("aria-hidden", "true");
-  band.dataset.first = String(i);
-  band.dataset.last = String(last);
-  band.style.top = `calc(${i * step}% + 2px)`;
-  band.style.height = `calc(${(last - i + 1) * step}% - 4px)`;
-  railDots?.prepend(band);
-  bands.push(band);
 });
 let chosen = -1;
 let scrollTimer = 0;
@@ -119,9 +93,14 @@ export function updateRail() {
             (seg + (scrollY - targets[seg]) / span) /
               Math.max(1, targets.length - 1),
           );
-  // The fill tip sits on the dot cell centers: first dot at 0%, last dot at 100%.
+  // The thumb's center sits on the tick cell centers: first tick at 0%, last tick at 100%. Every page is one screen
+  // tall, so one cell is the share of the page on screen, like a native thumb.
   const tip = (0.5 + progress * (slots.length - 1)) / slots.length;
-  if (railFill) railFill.style.transform = `scaleY(${tip})`;
+  const railH = rail?.clientHeight || innerHeight;
+  if (thumb) {
+    thumb.style.height = `${railH / slots.length}px`;
+    thumb.style.top = `${tip * railH - railH / slots.length / 2}px`;
+  }
   if (percent) percent.textContent = `${Math.round(progress * 100)}%`;
   let current = 0;
   targets.forEach((target, i) => {
@@ -130,20 +109,12 @@ export function updateRail() {
   if (chosen >= 0 && Math.abs(scrollY - targets[chosen]) <= 2) current = chosen;
   setRailCurrent(current);
   dots.forEach((dot, i) => dot.classList.toggle("current", i === current));
-  bands.forEach((band) =>
-    band.classList.toggle(
-      "current",
-      current >= Number(band.dataset.first) &&
-        current <= Number(band.dataset.last),
-    ),
-  );
   if (railLabel)
     railLabel.textContent = railLabels[current];
   updateChrome(slotSections[current]);
   updateUrl(slotSections[current]);
-  // The readout rides the fill tip (the 'thumb'), held just inside the rail's ends so it is never clipped.
-  if (readout && railFill) {
-    const railH = railFill.parentElement?.clientHeight || innerHeight;
+  // The readout rides beside the thumb, held just inside the rail's ends so it is never clipped.
+  if (readout) {
     const half = readout.offsetHeight / 2;
     readout.style.top = `${Math.max(half, Math.min(railH - half, tip * railH))}px`;
   }
@@ -182,8 +153,7 @@ function updateUrl(section: Element | null | undefined) {
   lastHash = hash;
   history.replaceState(history.state, "", hash || location.pathname + location.search);
 }
-// Phones: the readout overlaps text, so it shows only while scrolling.
-const rail = document.querySelector<HTMLElement>(".progress-rail");
+// The readout pops up while the page moves and fades once it stops (rail.css).
 let idleTimer = 0;
 addEventListener(
   "scroll",
