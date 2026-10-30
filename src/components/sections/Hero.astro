@@ -15,7 +15,7 @@ import ContactList from '../ContactList.astro';
     </h1>
     <p class="hero-title h3">{contact.title}</p>
     <p class="hero-mantra lead">{contact.mantra}</p>
-    <p class="hero-pitch">{contact.whyHire}</p>
+    <p class="hero-pitch">{contact.whyHire.map((line, i) => <>{i > 0 && <br />}{line}</>)}</p>
     <ContactList />
     <div class="hero-actions">
       <button class="button button-pill button-ai" type="button" data-open-chat aria-haspopup="dialog" aria-controls="ask-ai">

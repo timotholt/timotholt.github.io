@@ -1,10 +1,10 @@
 // Three colors repeat down the page in order: blue, yellow, green.
 export const sections = [
   { key: 'contact', label: 'Home', bg: '#123A6B', fg: '#F4F1EA', accent: '#A9CBF2' },
-  { key: 'projects', label: 'Projects', bg: '#C99A2E', fg: '#14110F', accent: '#493008' },
+  { key: 'projects', label: 'Projects', bg: '#E3BF5C', fg: '#14110F', accent: '#493008' },
   { key: 'highlights', label: 'Highlights', bg: '#194F32', fg: '#F4F1EA', accent: '#C6E4CA' },
   { key: 'process', label: 'How Tim builds', bg: '#123A6B', fg: '#F4F1EA', accent: '#A9CBF2' },
-  { key: 'skills', label: 'Skills', bg: '#C99A2E', fg: '#14110F', accent: '#493008' },
+  { key: 'skills', label: 'Skills', bg: '#E3BF5C', fg: '#14110F', accent: '#493008' },
   { key: 'jobs', label: 'Work History', bg: '#194F32', fg: '#F4F1EA', accent: '#C6E4CA' },
   { key: 'education', label: 'Education & Awards', bg: '#123A6B', fg: '#F4F1EA', accent: '#A9CBF2' },
 ] as const;
