@@ -180,3 +180,15 @@
     margin-top: calc(1.2 * var(--u));
   }
 }
+
+/* Laptops: the pinned menu (header.css: 2 × clamp(8px, 2svh, 22px) padding around one 15px line) overlays the top of
+   the screen; Education & Awards is tall enough to reach it on short windows, so it centers in the space below. */
+@media (min-width: 900px) {
+  #education {
+    padding-top: calc(2 * clamp(8px, 2svh, 22px) + 20px);
+  }
+
+  #education .cred-list .cred-item {
+    padding-block: calc(0.7 * var(--u));
+  }
+}

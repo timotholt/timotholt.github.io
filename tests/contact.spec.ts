@@ -2,11 +2,11 @@ import { test, expect } from '@playwright/test';
 
 const hrefs = ['tel:+14084061832', 'mailto:timotholt@gmail.com', 'https://www.linkedin.com/in/timotholt', 'https://github.com/timotholt'];
 for (const viewport of [{ width: 375, height: 812 }, { width: 1440, height: 900 }]) {
-  test(`full contact information fits both slots at ${viewport.width}`, async ({ page }) => {
+  test(`full contact information fits the hero at ${viewport.width}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
-    for (const selector of ['.hero', '#contact']) {
+    for (const selector of ['.hero']) {
       const section = page.locator(selector);
       for (const href of hrefs) await expect(section.locator(`a[href="${href}"]`)).toBeVisible();
       const bounds = await section.evaluate(el => {

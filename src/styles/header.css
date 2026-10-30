@@ -1,9 +1,9 @@
 .site-header nav {
-  font-family: "JetBrains Mono", monospace;
+  font-family: Archivo, Arial, sans-serif;
+  font-weight: 600;
   display: flex;
   flex-wrap: wrap;
   gap: 6px clamp(12px, 1.6vw, 28px);
-  text-transform: uppercase;
 }
 
 /* Phones open the section list from a hamburger button; laptops show the list across the top. */

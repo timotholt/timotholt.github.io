@@ -116,7 +116,10 @@ h3,
   font-size: 16px;
 }
 
-.site-header nav,
+.site-header nav {
+  font-size: 15px;
+}
+
 .site-footer {
   font-size: 11px;
 }

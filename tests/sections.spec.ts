@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { sections } from '../src/data/sections';
 
-const order = ['contact', 'highlights', 'projects', 'process', 'skills', 'jobs', 'education', 'awards', 'contact'];
+const order = ['contact', 'projects', 'highlights', 'process', 'skills', 'jobs', 'education'];
 
 const rgb = (css: string) => (css.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
 const hexRgb = (hex: string) => [1, 3, 5].map(offset => parseInt(hex.slice(offset, offset + 2), 16));
@@ -45,14 +45,15 @@ test('section backgrounds and text contrast follow one palette; each section sta
 });
 
 for (const viewport of [{ width: 375, height: 812 }, { width: 1000, height: 560 }, { width: 1280, height: 720 }, { width: 1440, height: 900 }]) {
-  test(`Education and Awards lists fit one slot at ${viewport.width}`, async ({ page }) => {
+  test(`Education & Awards fit one slot at ${viewport.width}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
-    for (const id of ['education', 'awards']) {
+    for (const id of ['education']) {
       const dimensions = await page.locator(`#${id}`).evaluate(section => {
         const box = section.getBoundingClientRect();
-        const panel = section.querySelector('.cred-list')!.getBoundingClientRect();
+        const lists = section.querySelectorAll('.cred-list');
+        const panel = { top: lists[0].getBoundingClientRect().top, bottom: lists[lists.length - 1].getBoundingClientRect().bottom };
         const heading = section.querySelector('h2')!.getBoundingClientRect();
         return { headingTop: heading.top - box.top, slots: section.matches('.feature-slot') ? 1 : section.querySelectorAll('.feature-slot').length, sectionHeight: box.height, panelTop: panel.top - box.top, panelBottom: box.bottom - panel.bottom };
       });
@@ -202,10 +203,10 @@ test('on a phone the Menu button opens the section list, and picking one goes th
   await page.keyboard.press('Escape');
   await expect(nav).toBeHidden();
   await toggle.click();
-  await nav.getByRole('link', { name: 'Awards', exact: true }).click();
+  await nav.getByRole('link', { name: 'Education & Awards', exact: true }).click();
   await expect(nav).toBeHidden();
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
-  await expect.poll(() => page.locator('#awards').evaluate(s => Math.round(s.getBoundingClientRect().top)), { timeout: 10_000 }).toBe(0);
+  await expect.poll(() => page.locator('#education').evaluate(s => Math.round(s.getBoundingClientRect().top)), { timeout: 10_000 }).toBe(0);
 });
 
 for (const [width, height, control] of [[390, 844, '.nav-toggle'], [1440, 900, '.site-header nav']] as const) {
@@ -215,12 +216,12 @@ for (const [width, height, control] of [[390, 844, '.nav-toggle'], [1440, 900, '
     const top = () => page.locator(control).evaluate(e => Math.round(e.getBoundingClientRect().top));
     const start = await top();
     if (width < 900) expect(await page.locator(control).evaluate(e => e.getBoundingClientRect().left)).toBeLessThan(16);
-    for (const id of ['#projects', '#awards']) {
+    for (const id of ['#projects', '#skills']) {
       await page.locator(id).evaluate(s => scrollTo({ top: s.getBoundingClientRect().top + scrollY, behavior: 'instant' }));
       await expect(page.locator(control)).toBeVisible();
       expect(await top()).toBe(start);
     }
-    // On the gold Awards screen the menu has taken that section's colors.
+    // On the yellow Skills screen the menu has taken that section's colors.
     await expect.poll(() => page.locator('.site-header').evaluate(h => getComputedStyle(h).color)).toBe('rgb(20, 17, 15)');
   });
 }
@@ -284,13 +285,10 @@ test('education and award rows end with a named arrow linking to their proof', a
   await page.goto('/');
   const local = '/certificates/Per_Scholas_Certificate_of_Completion.png';
   const award = '/certificates/Per_Scholas_Core_Values_Award.png';
-  for (const [section, name, href] of [
-    ['#education', 'Certificate', local],
-    ['#awards', 'Certificate', award],
-    ['#awards', '168 Film Festival 2006 results', 'https://www.168film.com/film-festival/nominations-awards/2006'],
-    ['#awards', 'IGN article', 'https://www.ign.com/articles/1997/04/23/psxpower-yaroze-contest-winner'],
-  ]) {
-    const link = page.locator(`${section} .cred-meta`).getByRole('link', { name, exact: true });
+  // Education and Awards share one screen, so each proof link is found by where it points.
+  for (const [name, href] of [['Certificate', local], ['Certificate', award]]) {
+    const link = page.locator(`#education .cred-meta a[href="${href}"]`);
+    await expect(link).toHaveAccessibleName(name);
     await expect(link).toHaveCount(1);
     await expect(link).toHaveAttribute('href', href);
     await expect(link).toHaveText('↗');

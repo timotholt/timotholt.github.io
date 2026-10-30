@@ -198,7 +198,8 @@
   overflow: clip;
   border: 1px solid var(--section-accent);
   border-radius: 16px;
-  background: #0b3e4b;
+  /* A shade darker than the section, so the card reads on any section color. */
+  background: color-mix(in srgb, var(--sec-bg) 88%, #000);
   color: var(--sec-fg);
   transform-style: preserve-3d;
   backface-visibility: hidden;
@@ -213,7 +214,7 @@
 #projects .project-card .project-media {
   aspect-ratio: auto;
   border: 0;
-  background: #08333e;
+  background: color-mix(in srgb, var(--sec-bg) 78%, #000);
 }
 
 #projects .project-card .project-media:not(.has-shot) {

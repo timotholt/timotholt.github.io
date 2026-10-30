@@ -301,7 +301,7 @@ test('the address bar follows the section being read, and deep links still work'
   await page.goto('/');
   await page.waitForTimeout(600);
   const historyLength = await page.evaluate(() => history.length);
-  for (const [id, hash] of [['projects', '#projects'], ['education', '#education'], ['contact', '#contact']]) {
+  for (const [id, hash] of [['projects', '#projects'], ['skills', '#skills'], ['education', '#education']]) {
     await page.evaluate(i => window.scrollTo({ top: document.getElementById(i)!.getBoundingClientRect().top + scrollY, behavior: 'instant' }), id);
     await expect.poll(() => page.evaluate(() => location.hash), { timeout: 2000 }).toBe(hash);
   }
@@ -310,10 +310,10 @@ test('the address bar follows the section being read, and deep links still work'
   // replaceState: scrolling never piles up history entries.
   expect(await page.evaluate(() => history.length)).toBe(historyLength);
   // A deep link lands on its section and keeps its hash.
-  await page.goto('/#awards');
+  await page.goto('/#skills');
   await page.waitForTimeout(1200);
-  expect(await page.evaluate(() => location.hash)).toBe('#awards');
-  const top = await page.locator('#awards').evaluate(s => Math.round(s.getBoundingClientRect().top));
+  expect(await page.evaluate(() => location.hash)).toBe('#skills');
+  const top = await page.locator('#skills').evaluate(s => Math.round(s.getBoundingClientRect().top));
   expect(Math.abs(top)).toBeLessThanOrEqual(2);
 });
 

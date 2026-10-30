@@ -1,4 +1,4 @@
-/* "Ask my AI" chat panel: contact-section palette, docked bottom-right on laptops, full screen on phones.
+/* "Ask my AI" chat panel: home palette, docked bottom-right on laptops, full screen on phones.
    Hover and focus change color/outline only, never size or position. */
 .chat[open] {
   display: flex;

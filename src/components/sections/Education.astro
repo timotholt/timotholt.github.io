@@ -2,15 +2,19 @@
 import { sectionByKey, sectionStyle } from '../../data/sections';
 import CredentialItem from '../CredentialItem.astro';
 import { education } from '../../data/education';
+import { awards } from '../../data/awards';
+
+// One list, newest first: an award sits next to the schooling it came from.
+const credentials = [...education, ...awards].sort((a, b) => parseInt(b.year) - parseInt(a.year));
 ---
-<section id="education" class="section band trace-section feature-slot color-section cred-section" data-section-key="education" data-section-label={sectionByKey.education.label} style={sectionStyle('education')} data-milestone="Education">
+<section id="education" class="section band trace-section feature-slot color-section cred-section" data-section-key="education" data-section-label={sectionByKey.education.label} style={sectionStyle('education')} data-milestone="Education & Awards">
   <span class="trace-via" aria-hidden="true"></span>
   <div class="wrap">
     <div class="section-heading">
-      <h2>Education</h2>
+      <h2>Education &amp; Awards</h2>
     </div>
     <ul class="cred-list">
-      {education.map(item => <CredentialItem {...item} />)}
+      {credentials.map(item => <CredentialItem {...item} />)}
     </ul>
   </div>
 </section>

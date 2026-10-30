@@ -75,46 +75,6 @@
   min-width: 0;
 }
 
-.contact-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-bottom: 0;
-  padding-block: 12px;
-  gap: 0;
-}
-
-.contact-section .wrap > p {
-  color: var(--muted);
-  margin-top: 25px;
-  margin: 14px 0 16px;
-  line-height: 1.35;
-}
-
-.contact-identity {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 4px 16px;
-  margin-bottom: 10px;
-}
-
-.contact-identity strong {
-  letter-spacing: -0.05em;
-}
-
-.contact-identity > span {
-  color: var(--muted);
-}
-
-.contact-section .contact-list a {
-  min-height: 56px;
-}
-
-.contact-section .contact-list .contact-item {
-  min-height: 56px;
-}
-
 .button-primary {
   background: var(--accent);
   border-color: var(--accent);
@@ -126,10 +86,6 @@
   border-color: var(--accent);
   color: var(--ink);
   filter: brightness(1.08);
-}
-
-.color-section .contact-identity > span {
-  color: var(--sec-fg);
 }
 
 .color-section .contact-list a:hover {
@@ -161,33 +117,6 @@
   font-weight: 500;
 }
 
-.contact-section .contact-list {
-  gap: 4px 22px;
-}
-
-@media (max-width: 899px) {
-  .contact-section .contact-list {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  .contact-section .contact-list a {
-    min-height: 44px;
-  }
-
-  .contact-section .contact-list .contact-item {
-    min-height: 44px;
-  }
-
-  .contact-identity {
-    margin-bottom: 5px;
-  }
-}
-
-.contact-actions {
-  margin-top: 18px;
-}
-
 @media (min-width: 900px) {
   /* Contact rows never break mid-address; icons and gaps follow the row's type size. */
   .contact-list a,
@@ -199,22 +128,5 @@
   .contact-list svg {
     width: 0.95em;
     height: 0.95em;
-  }
-
-  .contact-section .wrap > p {
-    margin: calc(1.4 * var(--u)) 0 calc(1.6 * var(--u));
-  }
-
-  .contact-section .contact-list {
-    gap: calc(0.4 * var(--u)) calc(2.2 * var(--u));
-  }
-
-  .contact-section .contact-list a,
-  .contact-section .contact-list .contact-item {
-    min-height: calc(5.6 * var(--u));
-  }
-
-  .contact-actions {
-    margin-top: calc(1.8 * var(--u));
   }
 }
