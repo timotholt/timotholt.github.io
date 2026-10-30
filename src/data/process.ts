@@ -1,4 +1,4 @@
-// "How Tim builds with AI": the working method, each step backed by something checkable on this site.
+// "Building With AI": the working method, each step backed by something checkable on this site.
 export const processSteps = [
   {
     title: 'Spec first',
