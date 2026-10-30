@@ -139,8 +139,8 @@ body:has(.color-section) .site-header nav a:hover {
 
   /* The header overlays the page instead of pushing it down, so every page starts on a whole pixel (snap + rail landing agree). */
   /* Header rule: spans the content column and always stops short of the rail and its readout. */
-  /* The header is pinned: it stays at the top while the page scrolls, on the current section's color. The top of
-     every laptop screen is empty, so it never covers content. */
+  /* The header is pinned: it stays at the top while the page scrolls, on the current section's color. Every page
+     keeps the band under it clear (layout.css), so it never covers content. */
   body > .site-header {
     position: fixed;
     top: 0;
@@ -161,10 +161,16 @@ body:has(.color-section) .site-header nav a:hover {
     right: max(190px, calc((100% - 1000px) / 2));
   }
 
+  /* The pinned menu's height, shared with the pages (layout.css) so every page keeps this band clear: its padding
+     around one line of links. */
+  :root {
+    --menu-h: calc(2 * clamp(8px, 2svh, 22px) + 25px);
+  }
+
   /* Laptop header: with no logo mark, the menu sits at the left so it never meets the rail readout at the top right. */
   .site-header {
     min-height: 0;
-    height: auto;
+    height: var(--menu-h);
     padding-block: clamp(8px, 2svh, 22px);
     justify-content: flex-start;
     border-bottom: 1px solid var(--nav-fg, var(--home-fg));

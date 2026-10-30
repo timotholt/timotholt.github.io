@@ -93,5 +93,23 @@ for (const [width, height] of viewports) {
       return [...new Set(out)];
     });
     expect(issues, issues.slice(0, 25).join('\n')).toEqual([]);
+
+    // 7. The pinned menu (laptops) or menu button (phones) never covers a page's content when you land on it.
+    const covered: string[] = [];
+    const slots = await page.locator('.feature-slot').count();
+    for (let i = 0; i < slots; i++) {
+      covered.push(...await page.evaluate(async k => {
+        const slot = document.querySelectorAll<HTMLElement>('.feature-slot')[k];
+        scrollTo({ top: slot.getBoundingClientRect().top + scrollY, behavior: 'instant' });
+        await new Promise(requestAnimationFrame);
+        const menu = document.querySelector(innerWidth < 900 ? '.nav-toggle' : '.site-header')!.getBoundingClientRect();
+        const content = [...slot.querySelectorAll('*')].filter(e => (e.matches('img, svg, .project-card, .proof-card, .skill-card') || [...e.childNodes].some(n => n.nodeType === 3 && n.textContent!.trim())) && !e.closest('[aria-hidden="true"]'));
+        return content.filter(e => {
+          const r = e.getBoundingClientRect();
+          return r.width > 0 && r.height > 0 && getComputedStyle(e).visibility !== 'hidden' && r.top < menu.bottom && r.bottom > menu.top && r.left < menu.right && r.right > menu.left;
+        }).slice(0, 1).map(e => `under the menu: ${slot.dataset.milestone} › ${e.tagName.toLowerCase()}.${[...e.classList].join('.')}`);
+      }, i));
+    }
+    expect(covered, covered.join('\n')).toEqual([]);
   });
 }

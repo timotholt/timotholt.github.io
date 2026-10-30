@@ -198,8 +198,8 @@
   overflow: clip;
   border: 1px solid var(--section-accent);
   border-radius: 16px;
-  /* A shade darker than the section, so the card reads on any section color. */
-  background: color-mix(in srgb, var(--sec-bg) 88%, #000);
+  /* No fill of its own: text sits on the section color at full contrast. */
+  background: transparent;
   color: var(--sec-fg);
   transform-style: preserve-3d;
   backface-visibility: hidden;
@@ -214,7 +214,7 @@
 #projects .project-card .project-media {
   aspect-ratio: auto;
   border: 0;
-  background: color-mix(in srgb, var(--sec-bg) 78%, #000);
+  background: transparent;
 }
 
 #projects .project-card .project-media:not(.has-shot) {
@@ -319,13 +319,18 @@
     min-height: 100%;
   }
 
-  /* The screenshot is as tall as the screen allows; the first slot also holds the section heading. */
+  /* The card starts below the pinned menu (header.css). */
+  #projects .project-slot {
+    padding-top: calc(var(--menu-h) + 0.75rem);
+  }
+
+  /* The screenshot is as tall as the screen allows below the menu; the first slot also holds the section heading. */
   #projects .project-card .project-media.has-shot img {
-    max-height: calc(100svh - 9rem);
+    max-height: calc(100svh - 8.5rem - var(--menu-h));
   }
 
   #projects .project-slot:first-child .project-media.has-shot img {
-    max-height: calc(100svh - 17rem);
+    max-height: calc(100svh - 16.5rem - var(--menu-h));
   }
 
   #projects .card-info {

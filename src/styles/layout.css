@@ -162,6 +162,11 @@ main {
 }
 
 @media (min-width: 900px) {
+  /* The pinned menu overlays the top of the screen: every page below the hero centers its content under it. */
+  .feature-slot:not(.hero) {
+    padding-top: var(--menu-h);
+  }
+
   /* Every section column follows the same rule as the root type size (type.css): short windows narrow it so a slot still fits. */
   .color-section > .wrap {
     width: min(

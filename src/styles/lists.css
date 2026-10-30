@@ -181,14 +181,30 @@
   }
 }
 
-/* Laptops: the pinned menu (header.css: 2 × clamp(8px, 2svh, 22px) padding around one 15px line) overlays the top of
-   the screen; Education & Awards is tall enough to reach it on short windows, so it centers in the space below. */
-@media (min-width: 900px) {
-  #education {
-    padding-top: calc(2 * clamp(8px, 2svh, 22px) + 20px);
+/* Short laptop windows: the lists (Work History, Education & Awards) close up so they fit below the pinned menu. */
+@media (min-width: 900px) and (max-height: 760px) {
+  .cred-list .cred-item {
+    padding-block: calc(0.6 * var(--u));
   }
 
-  #education .cred-list .cred-item {
-    padding-block: calc(0.7 * var(--u));
+  .cred-list .cred-body h3 {
+    margin-bottom: calc(0.3 * var(--u));
+  }
+
+  .cred-list .cred-meta {
+    margin-top: calc(0.3 * var(--u));
+  }
+
+  .cred-what,
+  .cred-meta {
+    line-height: 1.35;
+  }
+
+  .cred-list {
+    margin-top: calc(0.6 * var(--u));
+  }
+
+  :is(.job-page, .cred-section) .section-heading {
+    margin-bottom: calc(0.6 * var(--u));
   }
 }
