@@ -1,11 +1,10 @@
 ---
 import { limits, starters } from '../data/chat';
-import { sectionStyle } from '../data/sections';
 // Both are public. Unset → the panel runs on saved answers only (offline mode).
 const chatUrl = import.meta.env.PUBLIC_CHAT_URL ?? '';
 const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
 ---
-<dialog id="ask-ai" class="chat" aria-labelledby="chat-title" style={sectionStyle('contact')} data-chat-url={chatUrl} data-site-key={siteKey}>
+<dialog id="ask-ai" class="chat" aria-labelledby="chat-title" data-palette="contact" data-chat-url={chatUrl} data-site-key={siteKey}>
   <header class="chat-head">
     <img class="chat-avatar" src="/headshot.jpg" alt="" width="40" height="40" />
     <div class="chat-title-block">

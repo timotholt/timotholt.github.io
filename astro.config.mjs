@@ -1,3 +1,4 @@
 import { defineConfig } from 'astro/config';
-// assetsInlineLimit 0: never inline scripts, so the Content-Security-Policy set at Cloudflare can use script-src 'self'.
-export default defineConfig({ site: 'https://timotholt.com', output: 'static', vite: { build: { assetsInlineLimit: 0 } } });
+// Never inline scripts (assetsInlineLimit 0) or stylesheets (inlineStylesheets 'never'), so the
+// Content-Security-Policy set at Cloudflare can use script-src 'self' and style-src 'self'.
+export default defineConfig({ site: 'https://timotholt.com', output: 'static', build: { inlineStylesheets: 'never' }, vite: { build: { assetsInlineLimit: 0 } } });

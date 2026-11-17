@@ -1,11 +1,13 @@
 ---
 import '../styles/global.css';
 import { contact } from '../data/contact';
-import { navLinks, sectionByKey } from '../data/sections';
+import { createHash } from 'node:crypto';
+import { navLinks, sectionByKey, sectionCss } from '../data/sections';
 interface Props { title: string; description: string; image?: string }
 const { title, description, image = '/og-image.svg' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
+const paletteVersion = createHash('sha1').update(sectionCss()).digest('hex').slice(0, 8);
 const person = {
   '@context': 'https://schema.org', '@type': 'Person', name: contact.name,
   jobTitle: contact.title, email: contact.emailHref, telephone: '+14084061832',
@@ -32,9 +34,10 @@ const person = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     <title>{title}</title>
+    <link rel="stylesheet" href={`/section-colors.css?v=${paletteVersion}`} />
     <script type="application/ld+json" set:html={JSON.stringify(person)} />
   </head>
-  <body style={`--home-bg:${sectionByKey.contact.bg};--home-fg:${sectionByKey.contact.fg};--home-accent:${sectionByKey.contact.accent}`}>
+  <body>
     <canvas class="grid-glow" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header wrap">

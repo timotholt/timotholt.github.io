@@ -1,12 +1,12 @@
 ---
-import { sectionByKey, sectionStyle } from '../../data/sections';
+import { sectionByKey } from '../../data/sections';
 import ProjectMedia from '../ProjectMedia.astro';
 import { getCollection } from 'astro:content';
 const projects = (await getCollection('projects')).filter(p => p.data.featured).sort((a,b) => a.data.order - b.data.order);
 // A card opens the real thing: the live site, or the repository when there is none.
 const target = (p: (typeof projects)[number]) => p.data.demo ?? p.data.repo;
 ---
-<section id="projects" class="section trace-section color-section" data-section-key="projects" data-section-label={sectionByKey.projects.label} style={sectionStyle('projects')}>
+<section id="projects" class="section trace-section color-section" data-section-key="projects" data-section-label={sectionByKey.projects.label} data-palette="projects">
   <div class="wrap">
     <span class="trace-via" aria-hidden="true"></span>
     <div class="project-grid">

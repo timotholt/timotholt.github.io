@@ -11,10 +11,12 @@ export const sections = [
 
 export type SectionKey = typeof sections[number]['key'];
 export const sectionByKey = Object.fromEntries(sections.map(section => [section.key, section])) as Record<SectionKey, typeof sections[number]>;
-export const sectionStyle = (key: SectionKey) => {
-  const { bg, fg, accent } = sectionByKey[key];
-  return `--sec-bg:${bg};--sec-fg:${fg};--section-accent:${accent}`;
-};
+// Section colors ship as a stylesheet (/section-colors.css) instead of style="" attributes,
+// so the Content-Security-Policy needs no 'unsafe-inline' for styles. Elements opt in with data-palette="<key>".
+export const sectionCss = () => [
+  `body{--home-bg:${sectionByKey.contact.bg};--home-fg:${sectionByKey.contact.fg};--home-accent:${sectionByKey.contact.accent}}`,
+  ...sections.map(({ key, bg, fg, accent }) => `[data-palette="${key}"]{--sec-bg:${bg};--sec-fg:${fg};--section-accent:${accent}}`),
+].join('\n') + '\n';
 
 // The top menu lists the same screens as the scroll rail, in page order, under the rail's short names.
 export const navLinks = [
