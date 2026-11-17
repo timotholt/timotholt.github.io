@@ -45,3 +45,4 @@ Screenshot URLs carry a content hash, so updated images show immediately.
 - Only two fonts: Archivo and JetBrains Mono.
 - One layout breakpoint: phone layout below 900px, laptop layout from 900px. Size small phones fluidly (`clamp()`), not with extra breakpoints.
 - Never commit secrets; the repo is public.
+- Security headers (CSP, HSTS, X-Frame-Options) are set by a Cloudflare Transform Rule, not GitHub Pages. `security-headers.json` is the source of truth; `tests/csp.spec.ts` runs every page under that CSP. A new external origin or inline script needs the file, the test and the Cloudflare rule updated together.
